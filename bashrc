@@ -43,7 +43,7 @@ esac
 # uncomment for a colored prompt, if the terminal has the capability; turned
 # off by default to not distract the user: the focus in a terminal window
 # should be on the output of commands, not on the prompt
-#force_color_prompt=yes
+force_color_prompt=yes
 
 if [ -n "$force_color_prompt" ]; then
     if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
@@ -56,10 +56,44 @@ if [ -n "$force_color_prompt" ]; then
     fi
 fi
 
+#Term look
+
+scm_prompt() {
+    CHAR=$(scm_char) 
+    if [ $CHAR = $SCM_NONE_CHAR ] 
+        then 
+            return
+        else 
+            echo "[$(scm_char)$(scm_prompt_info)]"
+    fi 
+}
+
+battery_level() {
+    # if [ -d "$/sys/class/power_supply/BAT0" ];
+    # if [[ "$ "&& ! -L "$/sys/class/power_supply/BAT0" ]] ;
+    #     then 
+    #         echo "${bold_red}ᛗ${normal}$(battery_charge)${bold_red}ᛗ${normal}"
+    #     else
+    #         echo "${bold_red}ᛗ${normal}"
+    # fi
+    echo "${bold_red}ᛗ\!ᛗ${normal}"
+}
+
+ps_host="${bold_blue}\h${normal}";
+ps_user="${bold_cyan}\u${normal}";
+ps_user_mark="${bold_cyan} ⥎ ${normal}";
+ps_root="${red}\u${red}";
+ps_root_mark="${red} # ${normal}"
+ps_path="${bold_purple}\w${normal}";
+
 if [ "$color_prompt" = yes ]; then
-    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    # Old bash one
+    # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+    PS1="$(virtualenv_prompt)$(battery_level) $ps_root@$ps_host$(scm_prompt):$ps_path$ps_root_mark";
 else
-    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    # Old bash one
+    # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    PS1="$(virtualenv_prompt)$(battery_level) $ps_user@$ps_host$(scm_prompt):$ps_path$ps_user_mark";
 fi
 unset color_prompt force_color_prompt
 
@@ -102,7 +136,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 
 if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
+    . ~/.aliases
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -115,6 +149,7 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
+
 date >> ~/.terminalLogDate
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
@@ -122,21 +157,3 @@ export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
 export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
-
-
-#perso stuff
-alias upgrade='banner "begin";for x in update upgrade; do sudo apt-get $x -y; done; banner finished'
-# automaticaly connect to Paul's vpn
-alias vpn='sudo openvpn --config /home/tm/hack/vpn/alex.ovpn'
-# auto ssh to home pi
-alias sshpi='banner Connecting; ssh pi@tom.moulard.org'
-# Git
-alias gaa='git add -A'
-alias gcm='git commit -m'
-alias gits='git status'
-alias gp='git push'
-alias gall='/home/tm/workspace/gitHelper/gall.sh'
-# Memory usage
-alias df="df -h"
-# wgetall
-alias wgetall="wget --execute=\"robots = off\" --mirror --convert-links --no-parent --wait=5"
