@@ -57,35 +57,13 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 #Term look
-
-ps_host="${bold_blue}\h${normal}";
-ps_user="${bold_cyan}\u${normal}";
-ps_user_mark="${bold_cyan} ⥎ ${normal}";
-ps_root="${red}\u${red}";
-ps_root_mark="${red} # ${normal}"
-ps_path="${bold_purple}\w${normal}";
-
-if [ "$color_prompt" = yes ]; then
-    # Old bash one
-    # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    # PS1="$(virtualenv_prompt)$(battery_level) $ps_root@$ps_host$(scm_prompt):$ps_path$ps_root_mark";
-    export PS1="\[$(tput bold)\]\[$(tput setaf 2)\][\!]\u@\h:\[$(tput setaf 4)\]\w\\[$(tput setaf 5)\] > \[$(tput sgr0)\]\[$(tput sgr0)\]"
-else
-    # Old bash one
-    # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-    # PS1="$(virtualenv_prompt)$(battery_level) $ps_user@$ps_host$(scm_prompt):$ps_path$ps_user_mark";
-    export PS1="\[$(tput bold)\][\!]\u@\h:\w\ > \[$(tput sgr0)\]\[$(tput sgr0)\]"
+# If id command returns zero, you have root access.
+if [ $(id -u) -eq 0 ];
+then # you are root, set red colour prompt
+    PS1="${debian_chroot:+($debian_chroot)}\[$(tput bold)\]\[$(tput setaf 1)\][\!]\u@\h:\w > \[$(tput sgr0)\]\[$(tput sgr0)\]"
+else # normal
+    PS1="${debian_chroot:+($debian_chroot)}\[$(tput bold)\]\[$(tput setaf 2)\][\!]\u@\h:\[$(tput setaf 4)\]\w \[$(tput setaf 5)\]> \[$(tput sgr0)\]\[$(tput sgr0)\]"
 fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
