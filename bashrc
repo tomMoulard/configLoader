@@ -58,27 +58,6 @@ fi
 
 #Term look
 
-scm_prompt() {
-    CHAR=$(scm_char) 
-    if [ $CHAR = $SCM_NONE_CHAR ] 
-        then 
-            return
-        else 
-            echo "[$(scm_char)$(scm_prompt_info)]"
-    fi 
-}
-
-battery_level() {
-    # if [ -d "$/sys/class/power_supply/BAT0" ];
-    # if [[ "$ "&& ! -L "$/sys/class/power_supply/BAT0" ]] ;
-    #     then 
-    #         echo "${bold_red}ᛗ${normal}$(battery_charge)${bold_red}ᛗ${normal}"
-    #     else
-    #         echo "${bold_red}ᛗ${normal}"
-    # fi
-    echo "${bold_red}ᛗ\!ᛗ${normal}"
-}
-
 ps_host="${bold_blue}\h${normal}";
 ps_user="${bold_cyan}\u${normal}";
 ps_user_mark="${bold_cyan} ⥎ ${normal}";
@@ -89,11 +68,13 @@ ps_path="${bold_purple}\w${normal}";
 if [ "$color_prompt" = yes ]; then
     # Old bash one
     # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    PS1="$(virtualenv_prompt)$(battery_level) $ps_root@$ps_host$(scm_prompt):$ps_path$ps_root_mark";
+    # PS1="$(virtualenv_prompt)$(battery_level) $ps_root@$ps_host$(scm_prompt):$ps_path$ps_root_mark";
+    export PS1="\[$(tput bold)\]\[$(tput setaf 2)\][\!]\u@\h:\[$(tput setaf 4)\]\w\\[$(tput setaf 5)\] > \[$(tput sgr0)\]\[$(tput sgr0)\]"
 else
     # Old bash one
     # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-    PS1="$(virtualenv_prompt)$(battery_level) $ps_user@$ps_host$(scm_prompt):$ps_path$ps_user_mark";
+    # PS1="$(virtualenv_prompt)$(battery_level) $ps_user@$ps_host$(scm_prompt):$ps_path$ps_user_mark";
+    export PS1="\[$(tput bold)\][\!]\u@\h:\w\ > \[$(tput sgr0)\]\[$(tput sgr0)\]"
 fi
 unset color_prompt force_color_prompt
 
@@ -140,9 +121,9 @@ if ! shopt -oq posix; then
 fi
 
 date >> ~/.terminalLogDate
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
+#export PATH="$HOME/.rbenv/bin:$PATH"
+#eval "$(rbenv init -)"
+#export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
+#export PATH="$HOME/.rbenv/bin:$PATH"
+#eval "$(rbenv init -)"
+#export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
