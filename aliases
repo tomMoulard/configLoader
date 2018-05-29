@@ -17,6 +17,7 @@ alias e="xdg-open"
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto' 
 alias fgrep='fgrep --color=auto'
+alias findall='fgrep -rni'
 alias gaa='git add -A'
 alias gcm='git commit -m'
 alias gits='git status'
@@ -59,6 +60,7 @@ alias xt='extract'
 #######
 # Functions
 #######
+# Extract the content of an achive
 function extract {
  if [ -z "$1" ]; then
     # display usage if no parameters given
@@ -94,3 +96,6 @@ function extract {
     done
 fi
 }
+
+# Generate a "password"
+genpwd(){ < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16};echo; }
