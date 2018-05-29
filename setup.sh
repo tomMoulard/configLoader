@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #To use:
-# curl http://tom.moulard.org/setup/setup.sh | bash
+# curl https://tom.moulard.org/setup/setup.sh | bash
 
 #saving the old config (just in case ...)
 cat $HOME/.bashrc >> $HOME/.bashrc.old
