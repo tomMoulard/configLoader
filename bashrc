@@ -16,8 +16,8 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=-1
+HISTFILESIZE=-1
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -57,74 +57,22 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 #Term look
-
-scm_prompt() {
-    CHAR=$(scm_char) 
-    if [ $CHAR = $SCM_NONE_CHAR ] 
-        then 
-            return
-        else 
-            echo "[$(scm_char)$(scm_prompt_info)]"
-    fi 
-}
-
-battery_level() {
-    # if [ -d "$/sys/class/power_supply/BAT0" ];
-    # if [[ "$ "&& ! -L "$/sys/class/power_supply/BAT0" ]] ;
-    #     then 
-    #         echo "${bold_red}ᛗ${normal}$(battery_charge)${bold_red}ᛗ${normal}"
-    #     else
-    #         echo "${bold_red}ᛗ${normal}"
-    # fi
-    echo "${bold_red}ᛗ\!ᛗ${normal}"
-}
-
-ps_host="${bold_blue}\h${normal}";
-ps_user="${bold_cyan}\u${normal}";
-ps_user_mark="${bold_cyan} ⥎ ${normal}";
-ps_root="${red}\u${red}";
-ps_root_mark="${red} # ${normal}"
-ps_path="${bold_purple}\w${normal}";
-
-if [ "$color_prompt" = yes ]; then
-    # Old bash one
-    # PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
-    PS1="$(virtualenv_prompt)$(battery_level) $ps_root@$ps_host$(scm_prompt):$ps_path$ps_root_mark";
-else
-    # Old bash one
-    # PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-    PS1="$(virtualenv_prompt)$(battery_level) $ps_user@$ps_host$(scm_prompt):$ps_path$ps_user_mark";
+# If id command returns zero, you have root access.
+if [ $(id -u) -eq 0 ];
+then # you are root, set red colour prompt
+    PS1="${debian_chroot:+($debian_chroot)}\[$(tput bold)\]\[$(tput setaf 1)\][\!]\u@\h:\w > \[$(tput sgr0)\]\[$(tput sgr0)\]"
+else # normal
+    PS1="${debian_chroot:+($debian_chroot)}\[$(tput bold)\]\[$(tput setaf 2)\][\!]\u@\h:\[$(tput setaf 4)\]\w \[$(tput setaf 5)\]> \[$(tput sgr0)\]\[$(tput sgr0)\]"
 fi
-unset color_prompt force_color_prompt
-
-# If this is an xterm set the title to user@host:dir
-case "$TERM" in
-xterm*|rxvt*)
-    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
-    ;;
-*)
-    ;;
-esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
 fi
 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# some more ls aliases
-alias ll='ls -alFh'
-alias la='ls -A'
-alias l='ls -CF'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -151,12 +99,9 @@ if ! shopt -oq posix; then
 fi
 
 date >> ~/.terminalLogDate
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
-export PATH="$HOME/.rbenv/plugins/ruby-build/bin:$PATH"
 
 #Allow not case sensitive autocompletion
 bind 'set completion-ignore-case on'
+
+export VISUAL=vim
+export EDITOR="$VISUAL"

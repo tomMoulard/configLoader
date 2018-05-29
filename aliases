@@ -1,40 +1,38 @@
-alias upgrade='banner "begin";for x in update upgrade; do sudo apt-get $x -y; done; banner finished'
-# automaticaly connect to Paul's vpn
-alias vpn='sudo openvpn --config /home/tm/hack/vpn/alex.ovpn'
-# auto ssh to home pi
-alias sshpi='banner Connecting; ssh pi@tom.moulard.org'
-# Git
+#######
+# Aliases
+#######
+alias -- -='cd -'
+alias -- -='cd -'
+alias ....='cd ../../..'
+alias ...='cd ../..'
+alias ..='cd ..'
+alias _='sudo'
+alias c='clear'
+alias cd..='cd ..'
+alias cls='clear'
+alias dc="docker-compose"
+alias df='df -h'
+alias dk="docker"
+alias e="xdg-open"
+alias grep='grep --color=auto'
+alias egrep='egrep --color=auto' 
+alias fgrep='fgrep --color=auto'
 alias gaa='git add -A'
 alias gcm='git commit -m'
 alias gits='git status'
 alias gp='git push'
-alias gall='/home/tm/workspace/gitHelper/gall.sh'
-# Memory usage
-alias df="df -h"
-# wgetall
-alias wgetall="wget --execute=\"robots = off\" --mirror --convert-links --no-parent --wait=5"
-
-alias -- -='cd -'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias ....='cd ../../..'
-alias xs='cd'
-alias _='sudo'
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-alias c='clear'
-alias cd..='cd ..'
-alias cls='clear'
-alias df='df -h'
-alias e="xdg-open"
+alias gpu='git pull'
 alias h='history'
 alias ipy='ipython'
 alias irc='irssi'
 alias k='clear'
-alias l='ls -a'
+alias ls='ls --color=auto'
 alias l1='ls -1'
+alias l='ls -a'
 alias la='ls -AF'
 alias ll='ls -al'
 alias md='mkdir -p'
+alias myip="curl http://ipecho.net/plain; echo"
 alias pager=''
 alias pass='passgen'
 alias piano='pianobar'
@@ -42,10 +40,57 @@ alias py='python'
 alias q='exit'
 alias rb='ruby'
 alias rd='rmdir'
+alias root='sudo -i'
 alias reload='source ~/.bashrc'
+alias shit='bash-it'
 alias shttp='python2 -m SimpleHTTPServer'
 alias sl='ls'
+alias sshpi='banner Connecting; ssh pi@tom.moulard.org'
 alias svim='sudo vim'
+alias tor='docker run -it -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY -v /dev/snd:/dev/snd --privileged --name tor-browser jess/tor-browser'
+alias tree='tree -C'
+alias upgrade='banner "begin";for x in update upgrade; do sudo apt-get $x -y; done; banner finished'
 alias vbpf='vim ~/.bash_profile'
 alias vbrc='vim ~/.bashrc'
+alias wgetall="wget --execute=\"robots = off\" --mirror --convert-links --no-parent --wait=5"
+alias xs='cd'
 alias xt='extract'
+
+#######
+# Functions
+#######
+function extract {
+ if [ -z "$1" ]; then
+    # display usage if no parameters given
+    echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
+    echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
+    return 1
+ else
+    for n in $@
+    do
+      if [ -f "$n" ] ; then
+          case "${n%,}" in
+            *.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar) 
+                         tar xvf "$n"       ;;
+            *.lzma)      unlzma ./"$n"      ;;
+            *.bz2)       bunzip2 ./"$n"     ;;
+            *.rar)       unrar x -ad ./"$n" ;;
+            *.gz)        gunzip ./"$n"      ;;
+            *.zip)       unzip ./"$n"       ;;
+            *.z)         uncompress ./"$n"  ;;
+            *.7z|*.arj|*.cab|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.rpm|*.udf|*.wim|*.xar)
+                         7z x ./"$n"        ;;
+            *.xz)        unxz ./"$n"        ;;
+            *.exe)       cabextract ./"$n"  ;;
+            *)
+                         echo "extract: '$n' - unknown archive method"
+                         return 1
+                         ;;
+          esac
+      else
+          echo "'$n' - file does not exist"
+          return 1
+      fi
+    done
+fi
+}
