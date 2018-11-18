@@ -12,9 +12,9 @@ then
     curl https://raw.githubusercontent.com/tomMoulard/configLoader/master/bashrc > $HOME/.bashrc
     echo "Bashrc imported!"
     #put git:alias > .aliases
-    curl https://raw.githubusercontent.com/tomMoulard/configLoader/master/aliases >> $HOME/.bashrc
+    curl https://raw.githubusercontent.com/tomMoulard/configLoader/master/aliases >> $HOME/.bash_aliases
     echo "Aliases imported!"
-    source $HOME/.bashrc
+    . $HOME/.bashrc
     echo Done!
 elif [ "$HOME/.zshrc" ]
 then
