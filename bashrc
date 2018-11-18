@@ -70,7 +70,7 @@ function parse_git_branch() {
     if [[ "$STAT" == "" ]]; then
       printf "$(tput setaf 2)[${BRANCH}]$(tput setaf 0)"
     else
-      echo "$(tput setaf 2)[${BRANCH}${STAT}$(tput setaf 4)]$(tput setaf 0)"
+      echo "$(tput setaf 2)[${BRANCH}${STAT}$(tput setaf 2)]$(tput setaf 0)"
     fi
   else
     echo ""
