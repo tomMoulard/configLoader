@@ -55,14 +55,73 @@ if [ -n "$force_color_prompt" ]; then
 	color_prompt=
     fi
 fi
+function disp_rtval() {
+  RETVAL=$?
+  if [[ $RETVAL -ne 0 ]]; then
+    printf "$(tput setaf 1)$RETVAL$(tput setaf 0) "
+  fi
+}
+
+# get current branch in git repo
+function parse_git_branch() {
+  BRANCH=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+  if [ ! "${BRANCH}" == "" ]; then
+    STAT=`parse_git_dirty`
+    if [[ "$STAT" == "" ]]; then
+      printf "$(tput setaf 4)[${BRANCH}]$(tput setaf 0)"
+    else
+      echo "$(tput setaf 4)[${BRANCH}${STAT}$(tput setaf 4)]$(tput setaf 0)"
+    fi
+  else
+    echo ""
+  fi
+}
+
+# get current status of git repo
+function parse_git_dirty {
+  status=`git status 2>&1 | tee`
+  dirty=`echo -n "${status}" 2> /dev/null | grep "modified:" &> /dev/null; echo "$?"`
+  untracked=`echo -n "${status}" 2> /dev/null | grep "Untracked files" &> /dev/null; echo "$?"`
+  ahead=`echo -n "${status}" 2> /dev/null | grep "Your branch is ahead of" &> /dev/null; echo "$?"`
+  newfile=`echo -n "${status}" 2> /dev/null | grep "new file:" &> /dev/null; echo "$?"`
+  renamed=`echo -n "${status}" 2> /dev/null | grep "renamed:" &> /dev/null; echo "$?"`
+  deleted=`echo -n "${status}" 2> /dev/null | grep "deleted:" &> /dev/null; echo "$?"`
+  bits=''
+  if [ "${renamed}" == "0" ]; then
+    bits="$(tput setaf 4)>${bits}"
+  fi
+  if [ "${ahead}" == "0" ]; then
+    bits="$(tput setaf 4)*${bits}"
+  fi
+  if [ "${newfile}" == "0" ]; then
+    bits="$(tput setaf 2)+${bits}"
+  fi
+  if [ "${untracked}" == "0" ]; then
+    bits="$(tput setaf 2)?${bits}"
+  fi
+  if [ "${deleted}" == "0" ]; then
+    bits="$(tput setaf 1)x${bits}"
+  fi
+  if [ "${dirty}" == "0" ]; then
+    bits="$(tput setaf 1)!${bits}"
+  fi
+  if [ ! "${bits}" == "" ]; then
+    echo " ${bits}"
+  else
+    echo ""
+  fi
+}
 
 #Term look
 # If id command returns zero, you have root access.
 if [ $(id -u) -eq 0 ];
 then # you are root, set red colour prompt
-    PS1="${debian_chroot:+($debian_chroot)}\[$(tput bold)\]\[$(tput setaf 1)\][\!]\u@\h:\w > \[$(tput sgr0)\]\[$(tput sgr0)\]"
+    PS1="${debian_chroot:+($debian_chroot)}\[$(tput bold)\]\[$(tput setaf 1)\]\
+[\!]\u@\h:\W > \[$(tput sgr0)\]"
 else # normal
-    PS1="${debian_chroot:+($debian_chroot)}\[$(tput bold)\]\[$(tput setaf 2)\][\!]\u@\h:\[$(tput setaf 4)\]\w \[$(tput setaf 5)\]> \[$(tput sgr0)\]\[$(tput sgr0)\]"
+    PS1="${debian_chroot:+($debian_chroot)}\`disp_rtval\`\[$(tput bold)\]\
+\`parse_git_branch\`\[$(tput setaf 2)\][\!]\u@\h:\[$(tput setaf 4)\]\W\
+\[$(tput setaf 5)\]> \[$(tput sgr0)\]"
 fi
 
 # enable color support of ls and also add handy aliases
@@ -76,7 +135,7 @@ fi
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
-alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+# alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 # Alias definitions.
 # You may want to put all your additions into a separate file like
