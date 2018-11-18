@@ -68,9 +68,9 @@ function parse_git_branch() {
   if [ ! "${BRANCH}" == "" ]; then
     STAT=`parse_git_dirty`
     if [[ "$STAT" == "" ]]; then
-      printf "$(tput setaf 4)[${BRANCH}]$(tput setaf 0)"
+      printf "$(tput setaf 2)[${BRANCH}]$(tput setaf 0)"
     else
-      echo "$(tput setaf 4)[${BRANCH}${STAT}$(tput setaf 4)]$(tput setaf 0)"
+      echo "$(tput setaf 2)[${BRANCH}${STAT}$(tput setaf 4)]$(tput setaf 0)"
     fi
   else
     echo ""
@@ -88,10 +88,10 @@ function parse_git_dirty {
   deleted=`echo -n "${status}" 2> /dev/null | grep "deleted:" &> /dev/null; echo "$?"`
   bits=''
   if [ "${renamed}" == "0" ]; then
-    bits="$(tput setaf 4)>${bits}"
+    bits="$(tput setaf 2)>${bits}"
   fi
   if [ "${ahead}" == "0" ]; then
-    bits="$(tput setaf 4)*${bits}"
+    bits="$(tput setaf 2)*${bits}"
   fi
   if [ "${newfile}" == "0" ]; then
     bits="$(tput setaf 2)+${bits}"
