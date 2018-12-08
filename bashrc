@@ -119,9 +119,9 @@ then # you are root, set red colour prompt
     PS1="${debian_chroot:+($debian_chroot)}\[$(tput bold)\]\[$(tput setaf 1)\]\
 [\!]\u@\h:\W > \[$(tput sgr0)\]"
 else # normal
-    PS1="$(${debian_chroot:+($debian_chroot)}\`disp_rtval\`\[$(tput bold)\]\
-\`parse_git_branch\`\[$(tput setaf 2)\][\!]\u@\h:\[$(tput setaf 4)\]\W\
-\[$(tput setaf 5)\] > \[$(tput sgr0)\])"
+    PS1="${debian_chroot:+($debian_chroot)}\[\`disp_rtval\`\]\[$(tput bold)\]\
+\[\`parse_git_branch\`\]\[$(tput setaf 2)\][\!]\u@\h:\[$(tput setaf 4)\]\W\
+\[$(tput setaf 5)\] > \[$(tput sgr0)\]"
 fi
 
 # enable color support of ls and also add handy aliases
