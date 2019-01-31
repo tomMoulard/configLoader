@@ -73,12 +73,12 @@ function disp_rtval() {
 # get current branch in git repo
 function parse_git_branch() {
   BRANCH="$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
-  if [ ! "${BRANCH}" == "" ]; then
+  if [ ! "$BRANCH" == "" ]; then
     STAT="$(parse_git_dirty)"
     if [[ "$STAT" == "" ]]; then
-      printf "$(tput setaf 2)[%s]$(tput setaf 0)" "$BRANCH"
+      printf "$(tput setaf 2)[$BRANCH]$(tput setaf 0)"
     else
-      echo "$(tput setaf 2)[%s%s$(tput setaf 2)]$(tput setaf 0)" "$BRANCH" "$STAT"
+      echo "$(tput setaf 2)[$BRANCH$STAT$(tput setaf 2)]$(tput setaf 0)"
     fi
   else
     echo ""
