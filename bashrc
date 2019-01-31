@@ -1,7 +1,13 @@
 #!/bin/bash
+#┌──────────────────┐
+#│┏┓ ┏━┓┏━┓╻ ╻┏━┓┏━╸│
+#│┣┻┓┣━┫┗━┓┣━┫┣┳┛┃  │
+#│┗━┛╹ ╹┗━┛╹ ╹╹┗╸┗━╸│
+#└──────────────────┘
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
+
 
 # If not running interactively, don't do anything
 case $- in
@@ -171,6 +177,16 @@ bind 'set completion-ignore-case on'
 
 export VISUAL=vim
 export EDITOR="$VISUAL"
+export PAGER=less
+
+# Man page color
+export LESS_TERMCAP_mb=$'\E[01;31m'
+export LESS_TERMCAP_md=$'\E[01;31m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;32m'
 
 # Enable to have some scripts in the PATH
 # https://github.com/tomMoulard/scripts
