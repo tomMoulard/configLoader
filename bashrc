@@ -159,8 +159,12 @@ fi
 
 date >> ~/.terminalLogDate
 
-#Allow not case sensitive autocompletion
+# Allow not case sensitive autocompletion
 bind 'set completion-ignore-case on'
 
 export VISUAL=vim
 export EDITOR="$VISUAL"
+
+# Enable to have some scripts in the PATH
+# https://github.com/tomMoulard/scripts
+PATH="$PATH:$HOME/.scripts"
