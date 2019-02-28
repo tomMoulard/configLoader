@@ -1,9 +1,9 @@
-#!/bin/bash
-#┌──────────────────┐
-#│┏┓ ┏━┓┏━┓╻ ╻┏━┓┏━╸│
-#│┣┻┓┣━┫┗━┓┣━┫┣┳┛┃  │
-#│┗━┛╹ ╹┗━┛╹ ╹╹┗╸┗━╸│
-#└──────────────────┘
+# $HOME/.bashrc
+# ┌──────────────────┐
+# │┏┓ ┏━┓┏━┓╻ ╻┏━┓┏━╸│
+# │┣┻┓┣━┫┗━┓┣━┫┣┳┛┃  │
+# │┗━┛╹ ╹┗━┛╹ ╹╹┗╸┗━╸│
+# └──────────────────┘
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -152,11 +152,15 @@ fi
 # export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
 # Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 if [ -f ~/.bash_aliases ]; then
     source "$HOME/.bash_aliases"
+fi
+
+# functions definitions.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+if [ -f ~/.bash_functions]; then
+    source "$HOME/.bash_functions"
 fi
 
 # enable programmable completion features (you don't need to enable
@@ -176,6 +180,7 @@ date >> ~/.terminalLogDate
 bind 'set completion-ignore-case on'
 
 export VISUAL=vim
+export SHELL=bash
 export EDITOR="$VISUAL"
 export PAGER=less
 
