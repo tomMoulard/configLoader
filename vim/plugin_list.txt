@@ -1,0 +1,11 @@
+markdown-preview.vim https://github.com/iamcco/markdown-preview.vim
+neocomplete.vim https://github.com/Shougo/neocomplete.vim
+nerdcommenter https://github.com/scrooloose/nerdcommenter.git
+nerdtree https://github.com/scrooloose/nerdtree
+supertab https://github.com/ervandew/supertab
+ultisnips https://github.com/SirVer/ultisnips
+vim-airline https://github.com/vim-airline/vim-airline
+vim-fugitive https://github.com/tpope/vim-fugitive
+vim-gitgutter https://github.com/airblade/vim-gitgutter
+vim-rails git://github.com/tpope/vim-rails.git
+vim-signature https://github.com/kshenoy/vim-signature
