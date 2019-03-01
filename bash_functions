@@ -45,3 +45,9 @@ fi
 # Generate a "password"
 genpwd(){ < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16};echo; }
 
+# cd into a directory and list its contents
+cdl() {
+    cd "$@"
+    ls
+}
+
