@@ -18,8 +18,17 @@ function createLink() {
 
 # Vim
 createLink vimrc "$HOME/.vimrc"
-# createLink vim "$HOME/.vim"
-# cd vim && ./install.sh && cd ..
+createLink vim "$HOME/.vim"
+cd vim && ./install.sh && cd ..
+
+# SSH
+createLink ssh "$HOME/.ssh"
 
 # Bash
+createLink bashrc "$HOME/.bashrc"
+createLink aliases "$HOME/.bash_aliases"
+createLink bash_functions "$HOME/.bash_functions"
+
 # I3
+createLink i3/i3.conf "$HOME/.config/i3/config"
+createLink i3/i3status.conf "$HOME/.config/i3status/config"
