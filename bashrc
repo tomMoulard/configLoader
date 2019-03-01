@@ -63,13 +63,6 @@ if [ -n "$force_color_prompt" ]; then
   fi
 fi
 
-function disp_rtval() {
-  RETVAL=$?
-  if [[ $RETVAL -ne 0 ]]; then
-    printf "$(tput setaf 1)%s$(tput setaf 0) " "$RETVAL"
-  fi
-}
-
 # get current branch in git repo
 function parse_git_branch() {
   BRANCH="$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
@@ -127,17 +120,26 @@ function parse_git_dirty {
 }
 
 # Term look
-# If id command returns zero, you have root access.
-if [ "$(id -u)" -eq 0 ];
-then # you are root, set red colour prompt
-    PS1="${debian_chroot:+($debian_chroot)}\[$(tput bold)\]\[$(tput setaf 1)\]\
-[\!]\u@\h:\W > \[$(tput sgr0)\]"
-else # normal
-    PS1="${debian_chroot:+($debian_chroot)}\[\`disp_rtval\`\]\[$(tput bold)\]\
-\[\`parse_git_branch\`\]\[$(tput setaf 2)\][\!]\u@\h:\[$(tput setaf 4)\]\W\
-\[$(tput setaf 5)\] > \[$(tput sgr0)\]"
-fi
+PROMPT_COMMAND=prompt
+prompt(){
+  RETVAL=$?
+  if [[ $RETVAL -ne 0 ]]; then
+    RETVAL="$(tput setaf 1)${RETVAL}$(tput setaf 0) "
+  else
+    RETVAL=""
+  fi
 
+  # If id command returns zero, you have root access.
+  if [ "$(id -u)" -eq 0 ];
+  then # you are root, set red colour prompt
+    PS1="${debian_chroot:+($debian_chroot)}\[$(tput bold)\]\[$(tput setaf 1)\]"
+    PS1="${PS1}[\!]\u@\h:\W > \[$(tput sgr0)\]"
+  else # normal
+    PS1="${debian_chroot:+($debian_chroot)}${RETVAL}\[$(tput bold)\]"
+    PS1="${PS1}\[\`parse_git_branch\`\]\[$(tput setaf 2)\][\!]\u@\h:"
+    PS1="${PS1}\[$(tput setaf 4)\]\W\[$(tput setaf 5)\] > \[$(tput sgr0)\]"
+  fi
+}
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     if [ -r "$HOME/.dircolors" ]; then
@@ -159,7 +161,7 @@ fi
 
 # functions definitions.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-if [ -f ~/.bash_functions]; then
+if [ -f ~/.bash_functions ]; then
     source "$HOME/.bash_functions"
 fi
 
