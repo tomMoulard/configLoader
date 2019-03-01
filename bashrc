@@ -194,6 +194,17 @@ export SHELL=bash
 export EDITOR="$VISUAL"
 export PAGER=less
 
+# COLORS
+#   Attributes:   Text color:    Background:
+#   0 reset all   30 black       40 black
+#   1 bright      31 red         41 red
+#   2 dim         32 green       42 green
+#   4 underscore  33 yellow      43 yellow
+#   5 blink       34 blue        44 blue
+#   7 reverse     35 purple      45 purple
+#   8 hidden      36 cyan        46 cyan
+#                 37 white       47 white
+# Separate with ";"
 # Man page color
 export LESS_TERMCAP_mb=$'\E[01;31m'
 export LESS_TERMCAP_md=$'\E[01;31m'
