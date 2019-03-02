@@ -120,6 +120,7 @@ endif
 """" Display
 colorscheme molokai
 let g:molokai_original = 1
+let g:rehash256 = 1
 set laststatus=2
 
 """" Display trailings chars
