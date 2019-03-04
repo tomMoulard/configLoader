@@ -6,5 +6,6 @@ shell script to load my settings directly
 ## Usage
 
 ```bash
-curl https://tom.moulard.org/setup/setup.sh | bash
+$ git clone https://github.com/tomMoulard/configLoader.git $HOME/workspace
+$ cd $HOME/workspace/configLoader && ./install.sh
 ```
