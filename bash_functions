@@ -51,3 +51,20 @@ cdl() {
     ls
 }
 
+_disown(){
+    bash -c "$1" >& /dev/null &
+    disown $!
+}
+
+firefox(){
+    _disown "firefox $@"
+}
+
+chromium(){
+    _disown "chromium $@"
+}
+
+google-chrome(){
+    _disown "google-chrome $@"
+}
+
