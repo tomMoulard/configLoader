@@ -5,7 +5,14 @@ shell script to load my settings directly
 
 ## Usage
 
+via https:
 ```bash
-$ git clone https://github.com/tomMoulard/configLoader.git $HOME/workspace
+$ git clone https://github.com/tomMoulard/configLoader.git $HOME/workspace/configLoader/
+$ cd $HOME/workspace/configLoader && ./install.sh
+```
+
+Or via ssh
+```bash
+$ git clone git@github.com:tomMoulard/configLoader.git $HOME/workspace/configLoader/
 $ cd $HOME/workspace/configLoader && ./install.sh
 ```
