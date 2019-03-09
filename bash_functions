@@ -68,3 +68,7 @@ google-chrome(){
     _disown "google-chrome $@"
 }
 
+thunderbird(){
+    _disown "thunderbird $@"
+}
+
