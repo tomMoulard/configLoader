@@ -128,7 +128,7 @@ highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
 match ExtraWhitespace /\s\+$/
 
 " set 5 lines to the cursor when moving aroung
-set  so=5
+set so=5
 
 " enable undo even when the fileis closed
 set undodir=$HOME/.vim/undodir
