@@ -1,0 +1,132 @@
+!
+! Comments begin with a "!" character.
+!
+
+#define base00 #272822
+#define base01 #383830
+#define base02 #49483e
+#define base03 #75715e
+#define base04 #a59f85
+#define base05 #f8f8f2
+#define base06 #f5f4f1
+#define base07 #f9f8f5
+#define base08 #f92672
+#define base09 #fd971f
+#define base0A #f4bf75
+#define base0B #a6e22e
+#define base0C #a1efe4
+#define base0D #66d9ef
+#define base0E #ae81ff
+#define base0F #cc6633
+
+! Cursor
+
+! Xcursor.theme:
+Xcursor.size:                       16
+
+! Font
+
+Xft.dpi:                            96
+Xft.antialias:                      true
+Xft.hinting:                        true
+Xft.rgba:                           rgb
+Xft.autohint:                       false
+Xft.hintstyle:                      hintslight
+Xft.lcdfilter:                      lcddefault
+
+! Colors based on Base16 Harmonic Dark color scheme
+*cursorColor:  base05
+
+*color0:       base00
+*color1:       base08
+*color2:       base0B
+*color3:       base0A
+*color4:       base0D
+*color5:       base0E
+*color6:       base0C
+*color7:       base05
+
+*color8:       base03
+*color9:       base08
+*color10:      base0B
+*color11:      base0A
+*color12:      base0D
+*color13:      base0E
+*color14:      base0C
+*color15:      base07
+
+! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
+! use 'shell' template to set these if necessary
+*color16:      base09
+*color17:      base0F
+*color18:      base01
+*color19:      base02
+*color20:      base04
+*color21:      base06
+
+! XTerm
+
+XTerm*background:                   base00
+XTerm*foreground:                   base05
+XTerm*cursorColor:                  base05
+! XTerm*faceName:                   Terminus:style=Regular:size=10
+! XTerm*font:                       -*-dina-medium-r-*-*-16-*-*-*-*-*-*-*
+
+XTerm*font:                         terminus-10
+XTerm.termName:                     xterm-256color
+XTerm*dynamicColors:                true
+XTerm*utf8:                         2
+XTerm*eightBitInput:                true
+XTerm*saveLines:                    1024
+XTerm*scrollKey:                    true
+XTerm*scrollTtyOutput:              false
+XTerm*scrollBar:                    false
+XTerm*rightScrollBar:               true
+XTerm*jumpScroll:                   true
+XTerm*multiScroll:                  true
+XTerm*toolBar:                      false
+XTerm*selectToClipboard:            true
+! Xterm*loginShell:                 true
+
+! Urxvt
+URxvt*font:                         xft:Menlo
+! URxvt.bold.font:                  -xos4-terminus-bold-r-normal--16-160-72-72-c-80-iso10646-1
+
+! True transparency
+URxvt.depth:                        32
+URxvt.background:                   [95]base00
+URxvt*scrollBar:                    false
+! URxvt*mouseWheelScrollPage:        false
+URxvt*cursorBlink:                  false
+!URxvt*background:                   base00
+URxvt*foreground:                   base05
+URxvt*saveLines:                    5000
+URxvt*urgentOnBell:                 true
+URxvt.url-launcher:                 /usr/bin/chromium
+URxvt.underlineURLs:                True
+
+! for 'fake' transparency (without Compton) uncomment the following lines
+! URxvt*inheritPixmap:              true
+! URxvt*transparent:                true
+! URxvt*shading:                    50
+! URxvt*tintColor:                  #245b8f
+! URxvt*tintColor:                  base00
+! URxvt*blurRadius:                 20
+! URxvt*fading:                     50
+
+! Normal copy-paste keybindings without perls
+! URxvt.iso14755:                   false
+! URxvt.keysym.Shift-Control-V:     eval:paste_clipboard
+! URxvt.keysym.Shift-Control-C:     eval:selection_to_clipboard
+
+! Arrow keys
+!! Allow to use alt + ->
+URxvt.keysym.M-Down:                \033[1;3B
+URxvt.keysym.M-Up:                  \033[1;3A
+URxvt.keysym.M-Left:                \033[1;3D
+URxvt.keysym.M-Right:               \033[1;3C
+!! Allow to use ctrl + ->
+URxvt.keysym.Control-Up:            \033[1;5A
+URxvt.keysym.Control-Down:          \033[1;5B
+URxvt.keysym.Control-Left:          \033[1;5D
+URxvt.keysym.Control-Right:         \033[1;5C

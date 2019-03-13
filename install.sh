@@ -16,6 +16,12 @@ function createLink() {
     ln -s $PWD/${1} $2
 }
 
+# Xressourses
+createLink Xresources "$HOME/.Xresources"
+
+# Font
+createLink fonts "$HOME/.fonts"
+
 # Vim
 createLink vimrc "$HOME/.vimrc"
 createLink vim "$HOME/.vim"
