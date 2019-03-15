@@ -94,7 +94,7 @@ URxvt*font:                         xft:Menlo
 
 ! True transparency
 URxvt.depth:                        32
-URxvt.background:                   [95]base00
+URxvt.background:                   [90]base00
 URxvt*scrollBar:                    false
 ! URxvt*mouseWheelScrollPage:        false
 URxvt*cursorBlink:                  false
@@ -130,3 +130,7 @@ URxvt.keysym.Control-Up:            \033[1;5A
 URxvt.keysym.Control-Down:          \033[1;5B
 URxvt.keysym.Control-Left:          \033[1;5D
 URxvt.keysym.Control-Right:         \033[1;5C
+
+URxvt.keysym.Shift-Control-V: eval:paste_clipboard
+URxvt.keysym.Shift-Control-C: eval:selection_to_clipboard
+URxvt.iso14755: False
