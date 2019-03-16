@@ -115,9 +115,9 @@ URxvt.underlineURLs:                True
 ! URxvt*fading:                     50
 
 ! Normal copy-paste keybindings without perls
-URxvt.iso14755:                   false
-URxvt.keysym.Shift-Control-V:     eval:paste_clipboard
-URxvt.keysym.Shift-Control-C:     eval:selection_to_clipboard
+URxvt.iso14755:                     false
+URxvt.keysym.Shift-Control-V:       eval:paste_clipboard
+URxvt.keysym.Shift-Control-C:       eval:selection_to_clipboard
 
 ! Arrow keys
 !! Allow to use alt + ->

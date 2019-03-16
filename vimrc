@@ -135,3 +135,6 @@ set undodir=$HOME/.vim/undodir
 set undofile
 
 set list listchars=tab:»·,trail:·
+
+" Disable default statusline
+set noshowmode
