@@ -93,14 +93,14 @@ bindsym $mod+$alt+Right exec --no-startup-id xrandr --output $screen --rotate ri
 
 # Set Workspace name
 set $WS1 "1: Misc"
-set $WS2 "2: Misc" 
+set $WS2 "2: Misc"
 set $WS3 "3: Mail"
 set $WS4 "4: Suje"
 set $WS5 "5: Prso"
 set $WS6 "6: IRC "
 set $WS7 "7:     "
 set $WS8 "8:     "
-set $WS9 "9:     "
+set $WS9 "9: Mntr"
 set $WS10 "10: Dump"
 
 # switch to workspace
