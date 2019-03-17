@@ -36,6 +36,9 @@ createLink bashrc "$HOME/.bashrc"
 createLink aliases "$HOME/.bash_aliases"
 createLink bash_functions "$HOME/.bash_functions"
 
+# Rxvt
+createLink urxvt ""$HOME/.urxvt
+
 # config
 mkdir -p $HOME/.config/
 for FOLDER in config/*; do
