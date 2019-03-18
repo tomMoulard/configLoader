@@ -25,14 +25,18 @@ font pango:ubuntu 8
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec --no-startup-id xterm -fa "Ubuntu mono" -fs 12
+# bindsym $mod+Return exec --no-startup-id xterm -fa "Ubuntu mono" -fs 12
 # bindsym $mod+Return exec xterm -fa "Ubuntu mono" -fs 8
+bindsym $mod+Return exec urxvt
 
 # kill focused window
 bindsym $mod+Shift+Q kill
 
-# start dmenu (a program launcher)
-bindsym $mod+d exec --no-startup-id dmenu_run
+# start program launcher
+bindsym $mod+d exec --no-startup-id $HOME/.local/bin/rofi -show run
+
+# start ssh launcher
+bindsym $mod+Shift+s exec --no-startup-id $HOME/.local/bin/rofi -show ssh
 
 # allow to lock like everybody else
 bindsym $mod+l exec --no-startup-id $HOME/afs/.confs/.i3lock
@@ -171,7 +175,7 @@ mode "resize" {
 # Change the variable name at the place you want to match the color
 # of your terminal like this:
 # [example]
-# If you want your bar to have the same background color as your 
+# If you want your bar to have the same background color as your
 # terminal background change the line 362 from:
 # background #14191D
 # to:

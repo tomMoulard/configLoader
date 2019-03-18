@@ -36,6 +36,7 @@ Xft.lcdfilter:                      lcddefault
 
 ! Colors based on Base16 Harmonic Dark color scheme
 *cursorColor:  base05
+*foreground:   base05
 
 *color0:       base00
 *color1:       base08
@@ -67,8 +68,6 @@ Xft.lcdfilter:                      lcddefault
 ! XTerm
 
 XTerm*background:                   base00
-XTerm*foreground:                   base05
-XTerm*cursorColor:                  base05
 ! XTerm*faceName:                   Terminus:style=Regular:size=10
 ! XTerm*font:                       -*-dina-medium-r-*-*-16-*-*-*-*-*-*-*
 
@@ -98,8 +97,6 @@ URxvt.background:                   [90]base00
 URxvt*scrollBar:                    false
 ! URxvt*mouseWheelScrollPage:        false
 URxvt*cursorBlink:                  false
-!URxvt*background:                   base00
-URxvt*foreground:                   base05
 URxvt*saveLines:                    5000
 URxvt*urgentOnBell:                 true
 URxvt.url-launcher:                 /usr/bin/chromium
