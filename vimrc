@@ -23,19 +23,19 @@ set nowrap                     " don't wrap lines
 set textwidth=79
 set tabstop=4                  " a tab is four spaces
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
-set autoindent                 " always set autoindenting on
-set copyindent                 " copy the previous indentation on autoindenting
+set autoindent                 " always set auto indenting on
+set copyindent                 " copy the previous indentation on auto indenting
 set number                     " always show line numbers
-set shiftwidth=4               " number of spaces to use for autoindenting
-set shiftround                 " use multiple of shiftwidth when indenting with '<' and '>'
+set shiftwidth=4               " number of spaces to use for auto indenting
+set shiftround                 " use multiple of shift width when indenting with '<' and '>'
 set showmatch                  " set show matching parenthesis
 set ignorecase                 " ignore case when searching
 set smartcase                  " ignore case if search pattern is all lowercase,  case-sensitive otherwise
-set smarttab                   " insert tabs on the start of a line according to shiftwidth, not tabstop
+set smarttab                   " insert tabs on the start of a line according to shift width, not tab stop
 set hlsearch                   " highlight search terms
 set incsearch                  " show search matches as you type
 set history=1000               " remember more commands and search history
-set undolevels=1000            " use many muchos levels of undo
+set undolevels=1000            " use many levels of undo
 set wildignore=*.swp,*.bak,*.pyc,*.class
 set title                      " change the terminal's title
 set visualbell                 " don't beep
@@ -43,10 +43,10 @@ set noerrorbells               " don't beep
 
 set pastetoggle=<F2>
 
-" for when we forget to use sudo to open/edit a file
+" For when we forget to use sudo to open/edit a file
 cmap w!! w !sudo tee % >/dev/null
 
-" ctrl-jklm  changes to that split
+" Ctrl-jklm  changes to that split
 map <c-j> <c-w>j
 map <c-k> <c-w>k
 map <c-l> <c-w>l
@@ -59,16 +59,16 @@ let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
 set wildmenu                   " Menu completion in command mode on <Tab>
 set wildmode=full              " <Tab> cycles between all matching choices.
 
-" Search down into subfolders
+" Search down into sub folders
 " Provides tab-completion for all file-related tasks
 set path+=**
 
 " Insert completion
-" don't select first item, follow typing in autocomplete
+" Don't select first item, follow typing in auto complete
 set completeopt=menuone,longest,preview
 set pumheight=6                " Keep a small completion window
 
-" show a line at column 79
+" Show a line at column 79
 if exists("&colorcolumn")
     set colorcolumn=79
 endif
@@ -84,17 +84,17 @@ set noautowriteall             " NEVER.
 set noautoread                 " Don't automatically re-read changed files.
 set modeline                   " Allow vim options to be embedded in files;
 set modelines=5                " they must be within the first or last 5 lines.
-set ffs=unix,dos,mac           " Try recognizing dos, unix, and mac line endings.
+set ffs=unix,dos,mac           " Try recognizing dos, Unix, and mac line endings.
 
 " Messages, Info, Status
-set ls=2                       " allways show status line
+set ls=2                       " always show status line
 set vb t_vb=                   " Disable all bells.  I hate ringing/flashing.
 set confirm                    " Y-N-C prompt if closing with unsaved changes.
 set showcmd                    " Show incomplete normal mode commands as I type.
 set report=0                   " : commands always print changed line count.
-set shortmess+=a               " Use [+]/[RO]/[w] for modified/readonly/written.
-set ruler                      " Show some info, even without statuslines.
-set laststatus=2               " Always show statusline, even if only 1 window.
+set shortmess+=a               " Use [+]/[RO]/[w] for modified/read only/written.
+set ruler                      " Show some info, even without status lines.
+set laststatus=2               " Always show status line, even if only 1 window.
 set statusline=%<%f\ (%{&ft})%=%-19(%3l,%02c%03V%)
 
 " Searching and Patterns
@@ -115,21 +115,21 @@ let g:molokai_original = 1
 let g:rehash256 = 1
 set laststatus=2
 
-" Display trailings chars
+" Display trailing chars
 highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
 match ExtraWhitespace /\s\+$/
 
-" set 5 lines to the cursor when moving aroung
+" Set 5 lines to the cursor when moving around
 set scrolloff=5
 
-" enable undo even when the fileis closed
+" Enable undo even when the file is closed
 set undodir=$HOME/.vim/undodir
 set undofile
 
 set list
 set listchars=tab:»·,trail:·,eol:\ ,extends:>,precedes:<,nbsp:¤
 
-" Disable default statusline
+" Disable default status line
 set noshowmode
 
 " Quick save
@@ -139,12 +139,16 @@ nnoremap <Leader><Leader> :update<CR>
 " Use <Leader>W to “strip all trailing whitespace in the current file”
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 
-" splitting window
+" Splitting window
 nnoremap <F11> :split<CR>
 nnoremap <F12> :vsplit<CR>
 
-" turn off search highlighting
+" Turn off search highlighting
 nmap <leader>, :nohl<CR>
+
+" Spell check
+map <F6> :setlocal spell! spelllang=fr<CR>
+map <F3> :set spelllang=en_us<CR>
 
 " Plugins
 " Airline
@@ -155,15 +159,15 @@ let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 let g:markdown_syntax_conceal = 0
 let g:markdown_minlines = 100
 
-" nerdtree
+" Nerdtree
 nnoremap <F1> :NERDTreeToggle<CR>
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
-" ultisnip
-"let g:UltiSnipsExpandTrigger="<F3>"
+" Ultisnip
+" let g:UltiSnipsExpandTrigger="<F3>"
 
-" nerdcommenter
+" Nerdcommenter
 let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 let g:NERDTrimTrailingWhitespace = 1

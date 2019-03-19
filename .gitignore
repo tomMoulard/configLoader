@@ -1,4 +1,6 @@
+# Vim trash files
 vim/undodir/*
+vim/spell/*
 
 # fonts
 *.uuid
