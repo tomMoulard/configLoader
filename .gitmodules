@@ -25,9 +25,6 @@
 [submodule "vim/bundle/vim-gitgutter"]
 	path = vim/bundle/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
-[submodule "vim/bundle/vim-rails"]
-	path = vim/bundle/vim-rails
-	url = https://github.com/tpope/vim-rails.git
 [submodule "vim/bundle/vim-signature"]
 	path = vim/bundle/vim-signature
 	url = https://github.com/kshenoy/vim-signature
