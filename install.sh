@@ -18,7 +18,7 @@ function createLink() {
 
 # Xressourses
 createLink Xresources "$HOME/.Xresources"
-xrdb $HOME/.Xresources
+[[ -f /usr/bin/xrdb ]] && xrdb $HOME/.Xresources
 
 # Font
 createLink fonts "$HOME/.fonts"
