@@ -3,6 +3,6 @@ services:
     dotfiles:
         build:
             context: .
-        command: bash -c "cd /root/workspace/configLoader/ && ./install.sh"
         volumes:
             - ../configLoader/:/root/workspace/configLoader
+        command: bash -c "cd /root/workspace/configLoader/ && ./install.sh"
