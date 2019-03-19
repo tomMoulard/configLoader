@@ -9,19 +9,6 @@ set encoding=utf-8 fileencodings=
 execute pathogen#infect()
 syntax on
 set nocompatible
-let g:airline#extensions#tabline#enabled = 1
-
-" Adding markdown syntax highlighter
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
-let g:markdown_syntax_conceal = 0
-let g:markdown_minlines = 100
-
-" let g:UltiSnipsUsePythonVersion = 3
-" let g:UltiSnipsExpandTrigger="<tab>"
-" let g:UltiSnipsJumpForwardTrigger="<c-b>"
-" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-" let g:UltiSnipsSnippetsDir="$HOME/.vim/"
-" let g:UltiSnipsEditSplit="vertical"
 
 map ; :
 
@@ -65,7 +52,7 @@ map <c-k> <c-w>k
 map <c-l> <c-w>l
 map <c-h> <c-w>h
 
-""" Tabulation completion
+" Tabulation completion
 " Try different completion methods depending on its context
 let g:SuperTabDefaultCompletionType = "context"
 let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
@@ -76,7 +63,7 @@ set wildmode=full              " <Tab> cycles between all matching choices.
 " Provides tab-completion for all file-related tasks
 set path+=**
 
-""" Insert completion
+" Insert completion
 " don't select first item, follow typing in autocomplete
 set completeopt=menuone,longest,preview
 set pumheight=6                " Keep a small completion window
@@ -86,12 +73,12 @@ if exists("&colorcolumn")
     set colorcolumn=79
 endif
 
-""" Moving Around/Editing
+" Moving Around/Editing
 set cursorline                 " have a line indicate the cursor location
 set ruler                      " show the cursor position all the time
 set nostartofline              " Avoid moving cursor to BOL when jumping around
 
-"""" Reading/Writing
+" Reading/Writing
 set noautowrite                " Never write a file unless I request it.
 set noautowriteall             " NEVER.
 set noautoread                 " Don't automatically re-read changed files.
@@ -99,7 +86,7 @@ set modeline                   " Allow vim options to be embedded in files;
 set modelines=5                " they must be within the first or last 5 lines.
 set ffs=unix,dos,mac           " Try recognizing dos, unix, and mac line endings.
 
-"""" Messages, Info, Status
+" Messages, Info, Status
 set ls=2                       " allways show status line
 set vb t_vb=                   " Disable all bells.  I hate ringing/flashing.
 set confirm                    " Y-N-C prompt if closing with unsaved changes.
@@ -110,7 +97,7 @@ set ruler                      " Show some info, even without statuslines.
 set laststatus=2               " Always show statusline, even if only 1 window.
 set statusline=%<%f\ (%{&ft})%=%-19(%3l,%02c%03V%)
 
-""" Searching and Patterns
+" Searching and Patterns
 set ignorecase                 " Default to using case insensitive searches,
 set smartcase                  " unless uppercase letters are used in the regex.
 set hlsearch                   " Highlight searches by default.
@@ -122,13 +109,13 @@ if filereadable($VIRTUAL_ENV . '/.vimrc')
     source $VIRTUAL_ENV/.vimrc
 endif
 
-"""" Display
+" Display
 colorscheme molokai
 let g:molokai_original = 1
 let g:rehash256 = 1
 set laststatus=2
 
-"""" Display trailings chars
+" Display trailings chars
 highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
 match ExtraWhitespace /\s\+$/
 
@@ -158,3 +145,26 @@ nnoremap <F12> :vsplit<CR>
 
 " turn off search highlighting
 nmap <leader>, :nohl<CR>
+
+" Plugins
+" Airline
+let g:airline#extensions#tabline#enabled = 1
+
+" Adding markdown syntax highlighter
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+let g:markdown_syntax_conceal = 0
+let g:markdown_minlines = 100
+
+" nerdtree
+nnoremap <F1> :NERDTreeToggle<CR>
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" ultisnip
+"let g:UltiSnipsExpandTrigger="<F3>"
+
+" nerdcommenter
+let g:NERDSpaceDelims = 1
+let g:NERDCompactSexyComs = 1
+let g:NERDTrimTrailingWhitespace = 1
+
