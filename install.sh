@@ -26,7 +26,6 @@ createLink fonts "$HOME/.fonts"
 # Vim
 createLink vimrc "$HOME/.vimrc"
 createLink vim "$HOME/.vim"
-cd vim && ./install.sh && cd ..
 
 # SSH
 createLink ssh "$HOME/.ssh"
