@@ -54,8 +54,8 @@ map <c-h> <c-w>h
 
 " Tabulation completion
 " Try different completion methods depending on its context
-let g:SuperTabDefaultCompletionType = "context"
-let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
+" let g:SuperTabDefaultCompletionType = "context"
+" let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
 set wildmenu                   " Menu completion in command mode on <Tab>
 set wildmode=full              " <Tab> cycles between all matching choices.
 
@@ -171,3 +171,9 @@ let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 let g:NERDTrimTrailingWhitespace = 1
 
+" Multicursor
+let g:multi_cursor_quit_key = '<Esc>'
+
+" CtrlP
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
