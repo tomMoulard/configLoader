@@ -15,9 +15,9 @@ alias cd..='cd ..'
 alias check='awk -f $HOME/workspace/verifCode/verifCode.awk'
 alias cls='clear'
 alias cm='cmake'
-alias dc="docker-compose"
+alias dc='docker-compose'
 alias df='df -h'
-alias dk="docker"
+alias dk='docker'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
 alias gaa='git add -A'
@@ -45,7 +45,7 @@ alias meak='make'
 alias meka='make'
 alias mkae='make'
 alias mkea='make'
-alias myip="curl http://ipecho.net/plain; echo"
+alias myip='curl http://ipecho.net/plain; echo'
 alias py='python'
 alias q='exit'
 alias rb='ruby'
@@ -61,9 +61,9 @@ alias upgrade='for x in update upgrade; do sudo apt $x -y; done'
 alias vbpf='$EDITOR $HOME/.bash_profile'
 alias varc='$EDITOR $HOME/.bash_aliases'
 alias vbrc='$EDITOR $HOME/.bashrc'
-alias vi3c="$EDITOR $HOME/.config/i3/config"
-alias vvrc="$EDITOR $HOME/.$EDITORrc"
-alias wgetall="wget --execute=\"robots = off\" --mirror --convert-links --no-parent --wait=5"
+alias vi3c='$EDITOR $HOME/.config/i3/config'
+alias vvrc='$EDITOR $HOME/.vimrc'
+alias wgetall='wget --execute=\"robots = off\" --mirror --convert-links --no-parent --wait=5'
 alias xs='cd'
 alias xt='extract'
 
