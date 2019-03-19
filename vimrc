@@ -11,6 +11,11 @@ syntax on
 set nocompatible
 let g:airline#extensions#tabline#enabled = 1
 
+" Adding markdown syntax highlighter
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+let g:markdown_syntax_conceal = 0
+let g:markdown_minlines = 100
+
 " let g:UltiSnipsUsePythonVersion = 3
 " let g:UltiSnipsExpandTrigger="<tab>"
 " let g:UltiSnipsJumpForwardTrigger="<c-b>"
@@ -21,11 +26,10 @@ let g:airline#extensions#tabline#enabled = 1
 map ; :
 
 filetype plugin on
-let mapleader=","
+let mapleader=" "
+let g:mapleader=" "
 set timeout timeoutlen=1500
 filetype plugin indent on
-
-syntax on
 
 set expandtab                  " Tab -> spaces
 set nowrap                     " don't wrap lines
@@ -64,6 +68,7 @@ map <c-h> <c-w>h
 """ Tabulation completion
 " Try different completion methods depending on its context
 let g:SuperTabDefaultCompletionType = "context"
+let g:SuperTabCompletionContexts = ['s:ContextText', 's:ContextDiscover']
 set wildmenu                   " Menu completion in command mode on <Tab>
 set wildmode=full              " <Tab> cycles between all matching choices.
 
@@ -110,7 +115,7 @@ set ignorecase                 " Default to using case insensitive searches,
 set smartcase                  " unless uppercase letters are used in the regex.
 set hlsearch                   " Highlight searches by default.
 set incsearch                  " Incrementally search while typing a /regex
-
+set magic                      " For regular expressions turn magic on
 
 " Load up virtualenv's vimrc if it exists
 if filereadable($VIRTUAL_ENV . '/.vimrc')
@@ -128,13 +133,28 @@ highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
 match ExtraWhitespace /\s\+$/
 
 " set 5 lines to the cursor when moving aroung
-set so=5
+set scrolloff=5
 
 " enable undo even when the fileis closed
 set undodir=$HOME/.vim/undodir
 set undofile
 
-set list listchars=tab:»·,trail:·
+set list
+set listchars=tab:»·,trail:·,eol:\ ,extends:>,precedes:<,nbsp:¤
 
 " Disable default statusline
 set noshowmode
+
+" Quick save
+nnoremap <Leader>w :update<CR>
+nnoremap <Leader><Leader> :update<CR>
+
+" Use <Leader>W to “strip all trailing whitespace in the current file”
+nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
+
+" splitting window
+nnoremap <F11> :split<CR>
+nnoremap <F12> :vsplit<CR>
+
+" turn off search highlighting
+nmap <leader>, :nohl<CR>
