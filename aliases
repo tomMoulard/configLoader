@@ -54,12 +54,12 @@ alias reload='source $HOME/.bashrc'
 alias show='toilet -F border -f future --gay'
 alias shttp='python2 -m SimpleHTTPServer'
 alias sl='ls'
-alias sshpi='ssh pi@tom.moulard.org'
 alias svim='sudo vim'
 alias tor='docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY -v /dev/snd:/dev/snd --privileged --name tor-browser jess/tor-browser'
 alias tree='tree -C'
 alias upgrade='for x in update upgrade; do sudo apt $x -y; done'
 alias vbpf='vim $HOME/.bash_profile'
+alias varc='vim $HOME/.bash_aliases'
 alias vbrc='vim $HOME/.bashrc'
 alias vi3c="vim $HOME/.config/i3/config"
 alias vvrc="vim $HOME/.vimrc"
