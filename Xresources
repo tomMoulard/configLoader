@@ -92,12 +92,14 @@ URxvt*font:                         xft:Menlo
 ! URxvt.bold.font:                  -xos4-terminus-bold-r-normal--16-160-72-72-c-80-iso10646-1
 
 ! True transparency
-URxvt.depth:                        32
-URxvt.background:                   [90]base00
+URxvt*depth:                        32
+URxvt*background:                   [90]base00
+! Fade the text by the given percentage when focus is lost
+URxvt*fadeing:                      30
 URxvt*scrollBar:                    false
 ! URxvt*mouseWheelScrollPage:        false
 URxvt*cursorBlink:                  false
-URxvt*saveLines:                    5000
+URxvt*saveLines:                    4096
 URxvt*urgentOnBell:                 true
 URxvt.url-launcher:                 /usr/bin/chromium
 URxvt.underlineURLs:                True
@@ -129,5 +131,5 @@ URxvt.keysym.Control-Left:          \033[1;5D
 URxvt.keysym.Control-Right:         \033[1;5C
 
 ! Ctrl + Alt + n launch a new windows
-URxvt.perl-ext-common:              new-window
+URxvt.perl-ext-common:              default,new-window,matcher
 URxvt.keysym.Control-Shift-N:       perl:new-window
