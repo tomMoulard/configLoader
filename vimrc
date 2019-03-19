@@ -147,8 +147,7 @@ nnoremap <F12> :vsplit<CR>
 nmap <leader>, :nohl<CR>
 
 " Spell check
-map <F6> :setlocal spell! spelllang=fr<CR>
-map <F3> :set spelllang=en_us<CR>
+map <F6> :setlocal spell! spelllang=fr,en_us<CR>
 
 " Plugins
 " Airline
