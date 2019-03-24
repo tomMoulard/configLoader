@@ -16,6 +16,9 @@ function createLink() {
     ln -s $PWD/${1} $2
 }
 
+# Profile
+createLink profile "$HOME/.profile"
+
 # Xressourses
 createLink Xresources "$HOME/.Xresources"
 [[ -f /usr/bin/xrdb ]] && xrdb $HOME/.Xresources
@@ -34,6 +37,7 @@ createLink ssh "$HOME/.ssh"
 createLink bashrc "$HOME/.bashrc"
 createLink aliases "$HOME/.bash_aliases"
 createLink bash_functions "$HOME/.bash_functions"
+createLink bash_profile "$HOME/.bash_profile"
 
 # Rxvt
 createLink urxvt "$HOME/.urxvt"
