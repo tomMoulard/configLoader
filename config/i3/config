@@ -1,7 +1,7 @@
 # i3 config file (v4)
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
-exec --no-startup-id feh --bg-scale /etc/i3/background.jpg
+exec --no-startup-id feh --bg-scale $HOME/workspace/configLoader/background/background.jpg
 
 set $alt Mod1
 set $mod Mod4

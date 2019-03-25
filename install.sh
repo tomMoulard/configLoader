@@ -16,6 +16,9 @@ function createLink() {
     ln -s $PWD/${1} $2
 }
 
+# Background picture
+wget -q https://tom.moulard.org/picts/background.jpg -O background/background.jpg
+
 # Profile
 createLink profile "$HOME/.profile"
 
