@@ -193,6 +193,7 @@ export VISUAL=vim
 export SHELL=bash
 export EDITOR="$VISUAL"
 export PAGER=less
+export BROWSER=chromium
 
 # COLORS
 #   Attributes:   Text color:    Background:
@@ -217,3 +218,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 # Enable to have some scripts in the PATH
 # https://github.com/tomMoulard/scripts
 PATH="$PATH:$HOME/.scripts"
+
+# GPG agent
+GPG_TTY=$(tty)
+export GPG_TTY
