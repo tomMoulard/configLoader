@@ -40,7 +40,6 @@ createLink ssh "$HOME/.ssh"
 createLink bashrc "$HOME/.bashrc"
 createLink aliases "$HOME/.bash_aliases"
 createLink bash_functions "$HOME/.bash_functions"
-createLink bash_profile "$HOME/.bash_profile"
 
 # Rxvt
 createLink urxvt "$HOME/.urxvt"
