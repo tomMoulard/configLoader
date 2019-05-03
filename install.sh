@@ -47,6 +47,9 @@ createLink urxvt "$HOME/.urxvt"
 # xinitrc
 createLink xinitrc "$HOME/.xinitrc"
 
+# gdbinit
+createLink gdbinit "$HOME/.gdbinit"
+
 # config
 mkdir -p $HOME/.config/
 for FOLDER in config/*; do
