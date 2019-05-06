@@ -1,18 +1,18 @@
 version: "2"
 services:
+  traefik:
     image: traefik:1.5.4
     container_name: traefik
     restart: always
     ports:
       - 80:80
       - 443:443
-    networks:
-      - web
+    # networks:
+    #   - web
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /opt/traefik/traefik.toml:/traefik.toml
-      - /opt/traefik/acme.json:/acme.json
-    container_name: traefik
+      - '/var/run/docker.sock:/var/run/docker.sock'
+      - '$HOME/srv/traefik/traefik.toml:/traefik.toml'
+      - '$HOME/srv/traefik/acme.json:/acme.json'
 
   gitlab:
     image: 'gitlab/gitlab-ce:latest'
@@ -31,8 +31,8 @@ services:
       - '$HOME/srv/gitlab/logs:/var/log/gitlab'
       - '$HOME/srv/gitlab/data:/var/opt/gitlab'
 
-  db-nextcloud:
-    image: mariadb
+  db:
+    image: mariadb:10.1
     container_name: mariadb
     command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
     restart: always
@@ -45,13 +45,13 @@ services:
       - 'MYSQL_ROOT_PASSWORD='
 
   nextcloud:
-    image: nextcloud
+    image: nextcloud:16.0-fpm-alpine
     container_name: nextcloud
     restart: always
     ports:
       - '8080:80'
     links:
-      - db-nextcloud
+      - db
     volumes:
       - '$HOME/srv/nextcloud/data:/var/www/html'
       - '$HOME/srv/nextcloud/db:/var/lib/mysql '
@@ -59,12 +59,86 @@ services:
       - '$HOME/srv/nextcloud/config:/var/www/html/config'
       - '$HOME/srv/nextcloud/data:/var/www/html/data'
       - '$HOME/srv/nextcloud/theme:/var/www/html/themes/<YOUR_CUSTOM_THEME>'
+
   nginx:
-    image: nginx:latest
+    image: nginx:stable-alpine
     container_name: nginx
     volumes:
-      - '$HOME/srv/nginx.conf:/etc/nginx/nginx.conf'
-      - '$HOME/srv/PersonalSite/:/PersonalSite/'
+      - '$HOME/srv/nginx:/etc/nginx/conf.d'
     ports:
       - '80:80'
       - '443:433'
+
+  weechat:
+    image: craighurley/docker-weechat:latest
+    container_name: weechat
+    restart: always
+    volumes:
+      - '$HOME/.weechat:/home/user/.weechat'
+
+  transmission:
+    image: linuxserver/transmission:2.94-r1-ls12
+    container_name: transmission
+    restart: always
+    environment:
+      - 'PGID=1000'
+      - 'PUID=1000'
+      - 'TZ=Europe/Paris'
+    ports:
+      - '80:9091'
+      - '51413:51413'
+      - '51413:51413/udp'
+    volumes:
+      - '$HOME/srv/transmission/config:/config'
+      - '$HOME/srv/transmission/downloads:/downloads'
+      - '$HOME/srv/transmission/watch:/watch'
+
+  vpn:
+    image: hwdsl2/ipsec-vpn-server:latest
+    restart: always
+    container_name: vpn
+    privileged: true
+    environment:
+      - 'VPN_IPSEC_PSK='
+      - 'VPN_USER='
+      - 'VPN_PASSWORD='
+      - 'VPN_ADDL_USERS=' # space separated values
+      - 'VPN_ADDL_PASSWORDS=' # space separated values
+    ports:
+      - '500:500'
+      - '4500:4500/udp'
+    volumes:
+      - '/lib/modules:/lib/modules:ro'
+
+  jupyter:
+    image: jupyter/datascience-notebook:9b06df75e445
+    container_name: jupyter
+    restart: always
+    environment:
+      - 'JUPYTER_ENABLE_LAB=yes'
+    volumes:
+      - '$HOME/srv/jupyter/jupyter_notebook_config.py:/root/.jupyter/jupyter_notebook_config.py'
+      - '$HOME/srv/jupyter/notbooks:/notebooks'
+    ports:
+      - '80:8888'
+
+  pastebin:
+    image: mkodockx/docker-pastebin:latest
+    container_name: pastebin
+    restart: always
+    ports:
+      - '80:80'
+
+  doc:
+    image: jekyll/jekyll:latest
+    command: jekyll serve --force_polling --livereload
+    container_name: doc
+    # restart: always
+    environment:
+      - 'JEKYLL_ENV=docker'
+    ports:
+        - '4000:4000'
+        - '35729:35729'
+    volumes:
+      - '$HOME/srv/documentation/site:/srv/jekyll'
+      - '$HOME/srv/documentation/bundle:/usr/local/bundle'
