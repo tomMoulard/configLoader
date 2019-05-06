@@ -1,0 +1,70 @@
+version: "2"
+services:
+    image: traefik:1.5.4
+    container_name: traefik
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /opt/traefik/traefik.toml:/traefik.toml
+      - /opt/traefik/acme.json:/acme.json
+    container_name: traefik
+
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    container_name: gitlab
+    restart: always
+    hostname: 'gitlab.tom.moulard.org'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab.tom.moulard.org:8929'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+    ports:
+      - '8929:8929'
+      - '2224:22'
+    volumes:
+      - '$HOME/srv/gitlab/config:/etc/gitlab'
+      - '$HOME/srv/gitlab/logs:/var/log/gitlab'
+      - '$HOME/srv/gitlab/data:/var/opt/gitlab'
+
+  db-nextcloud:
+    image: mariadb
+    container_name: mariadb
+    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+    restart: always
+    volumes:
+      - '$HOME/srv/nextcloud/db:/var/lib/mysql'
+    environment:
+      - 'MYSQL_DATABASE=nextcloud'
+      - 'MYSQL_USER=nextcloud'
+      - 'MYSQL_PASSWORD='
+      - 'MYSQL_ROOT_PASSWORD='
+
+  nextcloud:
+    image: nextcloud
+    container_name: nextcloud
+    restart: always
+    ports:
+      - '8080:80'
+    links:
+      - db-nextcloud
+    volumes:
+      - '$HOME/srv/nextcloud/data:/var/www/html'
+      - '$HOME/srv/nextcloud/db:/var/lib/mysql '
+      - '$HOME/srv/nextcloud/apps:/var/www/html/custom_apps'
+      - '$HOME/srv/nextcloud/config:/var/www/html/config'
+      - '$HOME/srv/nextcloud/data:/var/www/html/data'
+      - '$HOME/srv/nextcloud/theme:/var/www/html/themes/<YOUR_CUSTOM_THEME>'
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - '$HOME/srv/nginx.conf:/etc/nginx/nginx.conf'
+      - '$HOME/srv/PersonalSite/:/PersonalSite/'
+    ports:
+      - '80:80'
+      - '443:433'
