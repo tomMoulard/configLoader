@@ -1,14 +1,22 @@
 version: "2"
+networks:
+  srv:
+
 services:
   traefik:
     image: traefik:1.5.4
     container_name: traefik
     restart: always
     ports:
-      - 80:80
-      - 443:443
-    # networks:
-    #   - web
+      - '80:80'
+      - '443:443'
+      - '8080:8080'
+    networks:
+      - srv
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.port=8080'
+      - 'traefik.frontend.rule=Host:traefik.${SITE}'
     volumes:
       - '/var/run/docker.sock:/var/run/docker.sock'
       - '$HOME/srv/traefik/traefik.toml:/traefik.toml'
@@ -18,63 +26,93 @@ services:
     image: 'gitlab/gitlab-ce:latest'
     container_name: gitlab
     restart: always
-    hostname: 'gitlab.tom.moulard.org'
+    hostname: 'gitlab.${SITE}'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://gitlab.tom.moulard.org:8929'
-        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+        external_url 'http://gitlab.${SITE}:80'
+        gitlab_rails['gitlab_shell_ssh_port'] = 22
     ports:
-      - '8929:8929'
-      - '2224:22'
+      - '22:22'
     volumes:
       - '$HOME/srv/gitlab/config:/etc/gitlab'
       - '$HOME/srv/gitlab/logs:/var/log/gitlab'
       - '$HOME/srv/gitlab/data:/var/opt/gitlab'
+    networks:
+      - srv
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.frontend.rule=Host:gitlab.${SITE}'
+      - 'traefik.port=80'
 
-  db:
-    image: mariadb:10.1
-    container_name: mariadb
-    command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
-    restart: always
-    volumes:
-      - '$HOME/srv/nextcloud/db:/var/lib/mysql'
-    environment:
-      - 'MYSQL_DATABASE=nextcloud'
-      - 'MYSQL_USER=nextcloud'
-      - 'MYSQL_PASSWORD='
-      - 'MYSQL_ROOT_PASSWORD='
+  # db:
+  #   image: mariadb:10.1
+  #   container_name: mariadb
+  #   command: --transaction-isolation=READ-COMMITTED --binlog-format=ROW
+  #   restart: always
+  #   volumes:
+  #     - '$HOME/srv/nextcloud/db:/var/lib/mysql'
+  #   environment:
+  #     - 'MYSQL_DATABASE=nextcloud'
+  #     - 'MYSQL_USER=nextcloud'
+  #     - 'MYSQL_PASSWORD='
+  #     - 'MYSQL_ROOT_PASSWORD='
+  #   labels:
+  #     - 'traefik.enable=false'
 
-  nextcloud:
-    image: nextcloud:16.0-fpm-alpine
-    container_name: nextcloud
-    restart: always
-    ports:
-      - '8080:80'
-    links:
-      - db
-    volumes:
-      - '$HOME/srv/nextcloud/data:/var/www/html'
-      - '$HOME/srv/nextcloud/db:/var/lib/mysql '
-      - '$HOME/srv/nextcloud/apps:/var/www/html/custom_apps'
-      - '$HOME/srv/nextcloud/config:/var/www/html/config'
-      - '$HOME/srv/nextcloud/data:/var/www/html/data'
-      - '$HOME/srv/nextcloud/theme:/var/www/html/themes/<YOUR_CUSTOM_THEME>'
+  # nextcloud:
+  #   image: nextcloud:16.0-fpm-alpine
+  #   container_name: nextcloud
+  #   restart: always
+  #   links:
+  #     - db
+  #   volumes:
+  #     - '$HOME/srv/nextcloud/data:/var/www/html'
+  #     - '$HOME/srv/nextcloud/db:/var/lib/mysql '
+  #     - '$HOME/srv/nextcloud/apps:/var/www/html/custom_apps'
+  #     - '$HOME/srv/nextcloud/config:/var/www/html/config'
+  #     - '$HOME/srv/nextcloud/data:/var/www/html/data'
+  #     - '$HOME/srv/nextcloud/theme:/var/www/html/themes/<YOUR_CUSTOM_THEME>'
+  #   networks:
+  #     - srv
+  #   labels:
+  #     - 'traefik.enable=true'
+  #     - 'traefik.frontend.rule=Host:cloud.${SITE}'
+  #     - 'traefik.port=80'
 
   nginx:
     image: nginx:stable-alpine
     container_name: nginx
     volumes:
       - '$HOME/srv/nginx:/etc/nginx/conf.d'
-    ports:
-      - '80:80'
-      - '443:433'
+    networks:
+      - srv
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.frontend.rule=Host:${SITE}'
+      - 'traefik.port=80'
 
-  weechat:
-    image: craighurley/docker-weechat:latest
-    container_name: weechat
-    restart: always
+  cyprine:
+    image: nginx:stable-alpine
+    container_name: cyprine
     volumes:
-      - '$HOME/.weechat:/home/user/.weechat'
+      - '$HOME/srv/cyprine:/etc/nginx/conf.d'
+    networks:
+      - srv
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.frontend.rule=Host:${SITE2}'
+      - 'traefik.port=80'
+
+  # weechat:
+  #   image: craighurley/docker-weechat:latest
+  #   container_name: weechat
+  #   restart: always
+  #   volumes:
+  #     - '$HOME/srv/weechat:/home/user/.weechat'
+  #   labels:
+  #     - 'traefik.enable=true'
+  #     - 'traefik.frontend.rule=Host:irc.${SITE}'
+  #     - 'traefik.port=80'
 
   transmission:
     image: linuxserver/transmission:2.94-r1-ls12
@@ -85,13 +123,18 @@ services:
       - 'PUID=1000'
       - 'TZ=Europe/Paris'
     ports:
-      - '80:9091'
       - '51413:51413'
       - '51413:51413/udp'
     volumes:
       - '$HOME/srv/transmission/config:/config'
       - '$HOME/srv/transmission/downloads:/downloads'
       - '$HOME/srv/transmission/watch:/watch'
+    networks:
+      - srv
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.frontend.rule=Host:torrent.${SITE}'
+      - 'traefik.port=9091'
 
   vpn:
     image: hwdsl2/ipsec-vpn-server:latest
@@ -111,7 +154,7 @@ services:
       - '/lib/modules:/lib/modules:ro'
 
   jupyter:
-    image: jupyter/datascience-notebook:9b06df75e445
+    image: jupyter/base-notebook:2662627f26e0
     container_name: jupyter
     restart: always
     environment:
@@ -119,26 +162,37 @@ services:
     volumes:
       - '$HOME/srv/jupyter/jupyter_notebook_config.py:/root/.jupyter/jupyter_notebook_config.py'
       - '$HOME/srv/jupyter/notbooks:/notebooks'
-    ports:
-      - '80:8888'
+    networks:
+      - srv
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.frontend.rule=Host:jupyter.${SITE}'
+      - 'traefik.port=8888'
 
   pastebin:
     image: mkodockx/docker-pastebin:latest
     container_name: pastebin
     restart: always
-    ports:
-      - '80:80'
+    networks:
+      - srv
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.frontend.rule=Host:paste.${SITE}'
+      - 'traefik.port=80'
 
-  doc:
-    image: jekyll/jekyll:latest
-    command: jekyll serve --force_polling --livereload
-    container_name: doc
-    # restart: always
-    environment:
-      - 'JEKYLL_ENV=docker'
-    ports:
-        - '4000:4000'
-        - '35729:35729'
-    volumes:
-      - '$HOME/srv/documentation/site:/srv/jekyll'
-      - '$HOME/srv/documentation/bundle:/usr/local/bundle'
+  # doc:
+  #   image: jekyll/jekyll:latest
+  #   command: jekyll serve --force_polling --livereload
+  #   container_name: doc
+  #   # restart: always
+  #   environment:
+  #     - 'JEKYLL_ENV=docker'
+  #   volumes:
+  #     - '$HOME/srv/documentation/site:/srv/jekyll'
+  #     - '$HOME/srv/documentation/bundle:/usr/local/bundle'
+  #   networks:
+  #     - srv
+  #   labels:
+  #     - 'traefik.enable=true'
+  #     - 'traefik.frontend.rule=Host:wiki.${SITE}'
+  #     - 'traefik.port=4000'
