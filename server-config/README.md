@@ -59,6 +59,15 @@ Configuration files are: `docker-compose.yml`, `nginx.conf`
     - [X] jupyter
     - [X] pastebin
 
+### Configuration
+ - [ ] have default configuration files
+    - [ ] traefik
+    - [ ] gitlab
+    - [ ] transmission
+    - [ ] pastebin
+    - [ ] nextcloud
+    - [ ] nginx
+
 ## Configuration
 | Status | Address | port(s)|
 |:--:|--|--|
