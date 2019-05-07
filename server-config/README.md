@@ -62,21 +62,21 @@ Configuration files are: `docker-compose.yml`, `nginx.conf`
 ## Configuration
 | Status | Address | port(s)|
 |:--:|--|--|
-| [ ] | traefik.${SITE} | 80, 443 (redirect 80 to 443) |
-| [ ] | gitlab.${SITE} | 22, 80, 443 |
+| [X] | traefik.${SITE} | 80, 443 (redirect 80 to 443) |
+| [X] | gitlab.${SITE} | 22, 80, 443 |
 | [ ] | cloud.${SITE} | 80, 443 |
-| [ ] | ${SITE} | 80, 443 |
+| [X] | ${SITE} | 80, 443 |
 | [ ] | mail.${SITE} | 25(recv mail), 465(ssl), 587(TLS), 143(IMAP), 993(IMAP), 110(POP3), 995(POP3) |
-| [ ] | torrent.${SITE} | 80, 443 (redirect 80 to 443) |
-| [ ] | vpn.${SITE} | 500, 4500 |
-| [ ] | jupiter.${SITE} | 80, 443 (redirect 80 to 443) |
-| [ ] | paste.${SITE} | 80, 443 (redirect 80 to 443) |
+| [X] | torrent.${SITE} | 80, 443 (redirect 80 to 443) |
+| [X] | vpn.${SITE} | 500, 4500 |
+| [X] | jupiter.${SITE} | 80, 443 (redirect 80 to 443) |
+| [X] | paste.${SITE} | 80, 443 (redirect 80 to 443) |
 | [ ] | irc.${SITE} | ?? |
 
 ### Miscellaneous
 | Status | Address | port(s)|
 |:--:|--|--|
-| [ ] | ${SITE2} | 80, 443 (redirect 80 to 443) |
+| [X] | ${SITE2} | 80, 443 (redirect 80 to 443) |
 
 
 ## Installation
