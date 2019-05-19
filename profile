@@ -31,4 +31,9 @@ IFS=" ";for x in $PATHS; do
     fi
 done
 
+if [ -z "$SSH_AUTH_SOCK" ] ; then
+  eval `ssh-agent -s`
+  ssh-add
+fi
+
 export GPG_TTY=$(tty)
