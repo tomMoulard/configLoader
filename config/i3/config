@@ -12,7 +12,7 @@ font pango:ubuntu 8
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
+font menlo:pango:DejaVu Sans Mono 8
 
 # Before i3 v4.8, we used to recommend this one as the default:
 # font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
@@ -86,7 +86,15 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # focus the child container
-#bindsym $mod+d focus child
+# bindsym $mod+d focus child
+
+# set $scrp minus
+# move focused container to scratchpad
+# bindsym $mod+Shift+$scrp move scratchpad
+
+# show the next scratchpad container or hide the focused one.
+# this circle throught scratchpad container
+# bind $mod+$scrp scratchpad show
 
 #screen orientation
 set $screen DP1
@@ -131,6 +139,12 @@ bindsym $mod+Shift+8 move container to workspace $WS8
 bindsym $mod+Shift+9 move container to workspace $WS9
 bindsym $mod+Shift+0 move container to workspace $WS10
 
+# move through workspaces
+bindsym $mod+Ctrl+Right workspace next
+bindsym $mod+Ctrl+Left workspace prev
+bindsym $mod+Ctrl+Up workspace next
+bindsym $mod+Ctrl+Down workspace prev
+
 # Open specific applications in floating mode
 for_window [class="(?i)pavucontrol"] floating enable
 
@@ -147,26 +161,26 @@ for_window [urgent=latest] focus
 # resize window (you can also use the mouse for that)
 bindsym $mod+r mode "resize"
 mode "resize" {
-        # These bindings trigger as soon as you enter the resize mode
+    # These bindings trigger as soon as you enter the resize mode
 
-        # Pressing left will shrink the window’s width.
-        # Pressing right will grow the window’s width.
-        # Pressing up will shrink the window’s height.
-        # Pressing down will grow the window’s height.
-        bindsym j resize shrink width 10 px or 10 ppt
-        bindsym k resize grow height 10 px or 10 ppt
-        bindsym l resize shrink height 10 px or 10 ppt
-        bindsym semicolon resize grow width 10 px or 10 ppt
+    # Pressing left will shrink the window’s width.
+    # Pressing right will grow the window’s width.
+    # Pressing up will shrink the window’s height.
+    # Pressing down will grow the window’s height.
+    bindsym j resize shrink width 10 px or 10 ppt
+    bindsym k resize grow height 10 px or 10 ppt
+    bindsym l resize shrink height 10 px or 10 ppt
+    bindsym semicolon resize grow width 10 px or 10 ppt
 
-        # same bindings, but for the arrow keys
-        bindsym Left resize shrink width 10 px or 10 ppt
-        bindsym Down resize grow height 10 px or 10 ppt
-        bindsym Up resize shrink height 10 px or 10 ppt
-        bindsym Right resize grow width 10 px or 10 ppt
+    # same bindings, but for the arrow keys
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
 
-        # back to normal: Enter or Escape
-        bindsym Return mode "default"
-        bindsym Escape mode "default"
+    # back to normal: Enter or Escape
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
 }
 
 # Color palette used for the terminal ( ~/.Xresources file )
@@ -204,17 +218,32 @@ set $transparent #000008C0
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status -c $HOME/.config/i3/i3status.conf
-        colors {
-            background #000000
-            statusline #ffffff
-            focused_workspace  #ffffff #285577
-            active_workspace   #ffffff #333333
-            inactive_workspace #888888 #222222
-            urgent_workspace   #ffffff #900000
-        }
-        tray_output primary
+    status_command i3status -c $HOME/.config/i3/i3status.conf
+    colors {
+        background #000000
+        statusline #ffffff
+        focused_workspace  #ffffff #285577
+        active_workspace   #ffffff #333333
+        inactive_workspace #888888 #222222
+        urgent_workspace   #ffffff #900000
+    }
+    # show i3bar on primary dispay
+    # output primary
+    # tray dispay position for vlc, pidin, ...
+    # tray_output none|primary|<output>
+    tray_output primary
+    # bar position top|bottom
+    position bottom
+    font menlo:pango:DejaVu Sans Mono 8
+    separator_symbol " "
 }
+# no border, normal|none|pixel|pixel <px>
+default_border none
+default_floating_border none
+
+# focuses window with the mouse yes|no
+focus_follows_mouse no
+
 # bar toggle, hide or show
 bindsym $mod+m bar mode toggle
 
