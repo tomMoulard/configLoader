@@ -33,7 +33,7 @@ bindsym $mod+Return exec urxvt
 bindsym $mod+Shift+Q kill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id $HOME/.local/bin/rofi -show run
+bindsym $mod+d exec --no-startup-id $HOME/.local/bin/rofi -show-icons -modi combi -show combi -combi-modi drun,run
 
 # start ssh launcher
 bindsym $mod+Shift+s exec --no-startup-id $HOME/.local/bin/rofi -show ssh
