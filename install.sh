@@ -50,6 +50,9 @@ createLink xinitrc "$HOME/.xinitrc"
 # gdbinit
 createLink gdbinit "$HOME/.gdbinit"
 
+# xmodmap
+createLink Xmodmap "$HOME/.Xmodmap"
+
 # config
 mkdir -p $HOME/.config/
 for FOLDER in config/*; do
