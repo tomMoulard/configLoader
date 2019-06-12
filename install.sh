@@ -13,7 +13,7 @@ function createLink() {
     if [ -f "$2" ]; then
         mv "$2" "${2}.old"
     fi
-    ln -s $PWD/${1} $2
+    ln -s "$PWD/${1}" "$2"
 }
 
 # Background picture
@@ -24,7 +24,7 @@ createLink profile "$HOME/.profile"
 
 # Xressourses
 createLink Xresources "$HOME/.Xresources"
-[[ -f /usr/bin/xrdb ]] && xrdb $HOME/.Xresources
+[[ -f /usr/bin/xrdb ]] && "xrdb $HOME/.Xresources"
 
 # Font
 createLink fonts "$HOME/.fonts"
@@ -54,7 +54,7 @@ createLink gdbinit "$HOME/.gdbinit"
 createLink Xmodmap "$HOME/.Xmodmap"
 
 # config
-mkdir -p $HOME/.config/
+mkdir -p "$HOME/.config/"
 for FOLDER in config/*; do
-    createLink $FOLDER "$HOME/.$FOLDER"
+    createLink "$FOLDER" "$HOME/.$FOLDER"
 done
