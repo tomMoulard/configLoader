@@ -63,7 +63,7 @@ alias tor='docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$
 alias tree='tree -C'
 alias upgrade='for x in update upgrade; do sudo apt $x -y; done'
 alias varc='$EDITOR $HOME/.bash_aliases'
-alias vbpf='$EDITOR $HOME/.bash_profile'
+alias vbpf='$EDITOR $HOME/.profile'
 alias vbrc='$EDITOR $HOME/.bashrc'
 alias vdwm='cd $HOME/workspace/dwm-fork/ && vim config.h && make && sudo make install && killall dwm && popd && cd -'
 alias vi3c='$EDITOR $HOME/.config/i3/config'
