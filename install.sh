@@ -53,6 +53,9 @@ createLink gdbinit "$HOME/.gdbinit"
 # xmodmap
 createLink Xmodmap "$HOME/.Xmodmap"
 
+# dig
+createLink digrc "$HOME/.digrc"
+
 # config
 mkdir -p "$HOME/.config/"
 for FOLDER in config/*; do
