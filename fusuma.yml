@@ -1,0 +1,29 @@
+# gpasswd -a $USER input
+# apt-get install libinput-tools xdotool
+# gem install fusuma
+# mkdir -p $HOME/.config/fusuma && touch $HOME/.config/fusuma/config.yml
+# fusuma
+
+swipe:
+  3:
+    left:
+      command: 'xdotool key ctrl+alt+Right'
+    right:
+      command: 'xdotool key ctrl+alt+Left'
+    up:
+      command: 'xdotool key ctrl+alt+Down'
+    down:
+      command: 'xdotool key ctrl+alt+Up'
+pinch:
+  in:
+    command: 'xdotool key ctrl+plus'
+  out:
+     command: 'xdotool key ctrl+minus'
+
+threshold:
+  swipe: 0.4
+  pinch: 0.4
+
+interval:
+  swipe: 0.8
+  pinch: 0.1
