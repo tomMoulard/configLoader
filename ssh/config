@@ -1,4 +1,8 @@
-# $OpenBSD: ssh_config,v 1.33 2017/05/07 23:12:57 djm Exp $
+# ┌────────────────────────────┐
+# │┏━┓┏━┓╻ ╻   ┏━╸┏━┓┏┓╻┏━╸╻┏━╸│
+# │┗━┓┗━┓┣━┫   ┃  ┃ ┃┃┗┫┣╸ ┃┃╺┓│
+# │┗━┛┗━┛╹ ╹╺━╸┗━╸┗━┛╹ ╹╹  ╹┗━┛│
+# └────────────────────────────┘
 
 # This is the ssh client system-wide configuration file.  See
 # ssh_config(5) for more information.  This file provides defaults for
@@ -20,10 +24,13 @@
 Host *
 #   ForwardAgent no
 #   ForwardX11 no
+#   ForwardX11Trusted yes
 #   PasswordAuthentication yes
 #   HostbasedAuthentication no
 #   GSSAPIAuthentication no
 #   GSSAPIDelegateCredentials no
+#   GSSAPIKeyExchange no
+#   GSSAPITrustDNS no
 #   BatchMode no
 #   CheckHostIP yes
 #   AddressFamily any
@@ -44,9 +51,14 @@ Host *
 #   VisualHostKey no
 #   ProxyCommand ssh -q -W %h:%p gateway.example.com
 #   RekeyLimit 1G 1h
+    SendEnv LANG LC_*
+    HashKnownHosts yes
+    GSSAPIAuthentication yes
+    ServerAliveInterval 300
+    ServerAliveCountMax 2
 
-Host pi
+Host tmp
     IdentityFile $HOME/.ssh/id_rsa
-    user pi
+    user tm
     hostname tom.moulard.org
-
+    port 22
