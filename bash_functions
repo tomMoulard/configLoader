@@ -16,7 +16,8 @@ function extract {
     for n in $@
     do
       if [ -f "$n" ] ; then
-          case "${n%,}" in
+          case "${n%,}" in # migth use file to detect file type
+          #file $n | awk '{print $2}'
             *.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
                          tar xvf "$n"       ;;
             *.lzma)      unlzma ./"$n"      ;;
@@ -72,3 +73,10 @@ thunderbird(){
     _disown "thunderbird $@"
 }
 
+evince(){
+    _disown "evince $@"
+}
+
+dc () {
+  docker-compose $(find . -name "docker-compose*.yml" -type f -exec printf " -f {}" \; 2>/dev/null) $@
+}
