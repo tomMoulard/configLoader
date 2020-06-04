@@ -44,39 +44,36 @@ fi
 }
 
 # Generate a "password"
-genpwd(){ < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16};echo; }
+function genpwd { < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16};echo; }
 
 # cd into a directory and list its contents
-cdl() {
+function cdl {
     cd "$@"
     ls
 }
 
-_disown(){
+function _disown {
     bash -c "$1" >& /dev/null &
     disown $!
 }
 
-firefox(){
-    _disown "firefox $@"
+TMP=$(mktemp)
+
+for fun in firefox chromium google-chrome thunderbird evince; do
+    echo "function $fun { _disown \"$fun \$@\"; };" >> ${TMP}
+done
+
+source ${TMP} && rm ${TMP}
+
+function dc {
+    docker-compose $(find -name 'docker-compose*.yml' -type f -printf '%p\t%d\n'  2>/dev/null | sort -n -k2 | cut -f 1 | awk '{print "-f "$0}') $@
 }
 
-chromium(){
-    _disown "chromium $@"
-}
-
-google-chrome(){
-    _disown "google-chrome $@"
-}
-
-thunderbird(){
-    _disown "thunderbird $@"
-}
-
-evince(){
-    _disown "evince $@"
-}
-
-dc () {
-  docker-compose $(find . -name "docker-compose*.yml" -type f -exec printf " -f {}" \; 2>/dev/null) $@
+function upgrade {
+    apt list --upgradable;
+    for x in update upgrade; do
+        sudo apt $x -y;
+    done
+    sudo apt autoremove -y;
+    sudo snap refresh;
 }
