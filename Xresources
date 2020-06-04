@@ -10,13 +10,21 @@
 #define base05 #f8f8f2
 #define base06 #f5f4f1
 #define base07 #f9f8f5
+! pink
 #define base08 #f92672
+! orange
 #define base09 #fd971f
+! beige
 #define base0A #f4bf75
+! green
 #define base0B #a6e22e
+! cryan
 #define base0C #a1efe4
+! blue
 #define base0D #66d9ef
+! purple
 #define base0E #ae81ff
+! brown
 #define base0F #cc6633
 
 ! Cursor
