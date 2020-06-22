@@ -114,8 +114,8 @@ URxvt.underlineURLs:                True
 
 ! for 'fake' transparency (without Compton) uncomment the following lines
 ! URxvt*inheritPixmap:              true
-! URxvt*transparent:                true
-! URxvt*shading:                    50
+URxvt*transparent:                true
+URxvt*shading:                    20
 ! URxvt*tintColor:                  #245b8f
 ! URxvt*tintColor:                  base00
 ! URxvt*blurRadius:                 20
