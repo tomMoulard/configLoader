@@ -1,18 +1,9 @@
-[submodule "vim/bundle/markdown-preview.vim"]
-	path = vim/bundle/markdown-preview.vim
-	url = https://github.com/iamcco/markdown-preview.vim
-[submodule "vim/bundle/neocomplete.vim"]
-	path = vim/bundle/neocomplete.vim
-	url = https://github.com/Shougo/neocomplete.vim
 [submodule "vim/bundle/nerdcommenter"]
 	path = vim/bundle/nerdcommenter
 	url = https://github.com/scrooloose/nerdcommenter.git
 [submodule "vim/bundle/nerdtree"]
 	path = vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree
-[submodule "vim/bundle/ultisnips"]
-	path = vim/bundle/ultisnips
-	url = https://github.com/SirVer/ultisnips
 [submodule "vim/bundle/vim-airline"]
 	path = vim/bundle/vim-airline
 	url = https://github.com/vim-airline/vim-airline
@@ -28,9 +19,6 @@
 [submodule "vim/bundle/vim-multiple-cursors"]
 	path = vim/bundle/vim-multiple-cursors
 	url = https://github.com/terryma/vim-multiple-cursors.git
-[submodule "vim/bundle/YouCompleteMe"]
-	path = vim/bundle/YouCompleteMe
-	url = https://github.com/Valloric/YouCompleteMe.git
 [submodule "vim/bundle/ctrlp.vim"]
 	path = vim/bundle/ctrlp.vim
 	url = https://github.com/kien/ctrlp.vim

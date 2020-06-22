@@ -5,10 +5,10 @@
 " │┗┛ ╹╹ ╹╹┗╸┗━╸│
 " └─────────────┘
 
-set encoding=utf-8 fileencodings=
+set encoding=utf-8 fileencodings=utf-8
 execute pathogen#infect()
 syntax on
-set nocompatible
+set nocompatible " enter the new millenium
 
 map ; :
 
@@ -20,12 +20,13 @@ filetype plugin indent on
 
 set expandtab                  " Tab -> spaces
 set nowrap                     " don't wrap lines
-set textwidth=79
+" set textwidth=79             " wrap text at a given column number
+set sidescroll=5               " To make scrolling horizontally a bit more useful
 set tabstop=4                  " a tab is four spaces
 set backspace=indent,eol,start " allow backspacing over everything in insert mode
 set autoindent                 " always set auto indenting on
 set copyindent                 " copy the previous indentation on auto indenting
-set number                     " always show line numbers
+set number relativenumber      " always show line numbers
 set shiftwidth=4               " number of spaces to use for auto indenting
 set shiftround                 " use multiple of shift width when indenting with '<' and '>'
 set showmatch                  " set show matching parenthesis
@@ -38,8 +39,9 @@ set history=1000               " remember more commands and search history
 set undolevels=1000            " use many levels of undo
 set wildignore=*.swp,*.bak,*.pyc,*.class
 set title                      " change the terminal's title
-set visualbell                 " don't beep
+set titlestring=%<%F%=%l/%L-%P titlelen=70 " change the terminal title with fancy text
 set noerrorbells               " don't beep
+set visualbell t_vb=           " Disable all bells.  I hate ringing/flashing.
 
 set pastetoggle=<F2>
 
@@ -73,9 +75,13 @@ if exists("&colorcolumn")
     set colorcolumn=79
 endif
 
+set lazyredraw                 " Lazy redraw during macros
+
 " Moving Around/Editing
 set cursorline                 " have a line indicate the cursor location
+set nocursorcolumn             " remove a line indicating the cursor colum
 set ruler                      " show the cursor position all the time
+set rulerformat=%15(%c%V\ %p%%%) " display a better ruler
 set nostartofline              " Avoid moving cursor to BOL when jumping around
 
 " Reading/Writing
@@ -88,12 +94,10 @@ set ffs=unix,dos,mac           " Try recognizing dos, Unix, and mac line endings
 
 " Messages, Info, Status
 set ls=2                       " always show status line
-set vb t_vb=                   " Disable all bells.  I hate ringing/flashing.
 set confirm                    " Y-N-C prompt if closing with unsaved changes.
 set showcmd                    " Show incomplete normal mode commands as I type.
 set report=0                   " : commands always print changed line count.
 set shortmess+=a               " Use [+]/[RO]/[w] for modified/read only/written.
-set ruler                      " Show some info, even without status lines.
 set laststatus=2               " Always show status line, even if only 1 window.
 set statusline=%<%f\ (%{&ft})%=%-19(%3l,%02c%03V%)
 
@@ -114,6 +118,7 @@ colorscheme molokai
 let g:molokai_original = 1
 let g:rehash256 = 1
 set laststatus=2
+syntax enable     " enable syntax processing
 
 " Display trailing chars
 highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
@@ -142,6 +147,13 @@ nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 " Splitting window
 nnoremap <F11> :split<CR>
 nnoremap <F12> :vsplit<CR>
+
+" copy paste windows like
+nnoremap <C-c> "+y
+nnoremap <C-v> "+p
+
+" Auto make
+nnoremap <F5> :make<CR><c-w> "auto make
 
 " Turn off search highlighting
 nmap <leader>, :nohl<CR>
@@ -177,3 +189,35 @@ let g:multi_cursor_quit_key = '<Esc>'
 " CtrlP
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+
+set matchpairs+=\":\"
+set matchpairs+=':'
+
+" Add ad matchin char
+imap ( ()<C-[>i
+imap [ []<C-[>i
+imap { {}<C-[>i
+imap < <><C-[>i
+
+" Autocmd to have custom settings depending on file type
+autocmd FileType c,cpp,java setlocal matchpairs+==:; " jump between the '=' and ';'
+autocmd FileType html setlocal matchpairs+=<:>       " adding a pair of <>
+autocmd FileType c setlocal makeprg=cc\ %\ $*
+autocmd FileType html setlocal makeprg=$BROWSER\ %\ $*
+
+" Proper comments (<leader>cc to comment, <leader>cu to uncomment)
+autocmd FileType python,sh setlocal commentstring=#\ %s
+autocmd FileType html setlocal commentstring=<!--\ %s\ -->
+autocmd FileType vim setlocal commentstring="\ %s
+
+" Change cursor color on urxvt
+if &term =~ "xterm\\|rxvt"
+    " use an red cursor in REPLACE mode
+    let &t_SR = "\<Esc>]12;red\x7"
+    " use a white cursor otherwise
+    let &t_EI = "\<Esc>]12;white\x7"
+    silent !echo -ne "\033]12;white\007"
+    " reset cursor when vim exits
+    autocmd VimLeave * silent !echo -ne "\033]112\007"
+endif
