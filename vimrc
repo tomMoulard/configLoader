@@ -37,7 +37,7 @@ set hlsearch                   " highlight search terms
 set incsearch                  " show search matches as you type
 set history=1000               " remember more commands and search history
 set undolevels=1000            " use many levels of undo
-set wildignore=*.swp,*.bak,*.pyc,*.class
+set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
 set title                      " change the terminal's title
 set titlestring=%<%F%=%l/%L-%P titlelen=70 " change the terminal title with fancy text
 set noerrorbells               " don't beep
@@ -156,7 +156,7 @@ nnoremap <C-v> "+p
 nnoremap <F5> :make<CR><c-w> "auto make
 
 " Turn off search highlighting
-nmap <leader>, :nohl<CR>
+nmap <leader>, :nohlsearch<CR>
 
 " Spell check
 map <F6> :setlocal spell! spelllang=fr,en_us<CR>
@@ -205,6 +205,7 @@ autocmd FileType c,cpp,java setlocal matchpairs+==:; " jump between the '=' and 
 autocmd FileType html setlocal matchpairs+=<:>       " adding a pair of <>
 autocmd FileType c setlocal makeprg=cc\ %\ $*
 autocmd FileType html setlocal makeprg=$BROWSER\ %\ $*
+autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
 
 " Proper comments (<leader>cc to comment, <leader>cu to uncomment)
 autocmd FileType python,sh setlocal commentstring=#\ %s
