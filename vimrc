@@ -1,4 +1,4 @@
-" $HOME/.vimrc
+"  $HOME/.vimrc
 " ┌─────────────┐
 " │╻ ╻╻┏┳┓┏━┓┏━╸│
 " │┃┏┛┃┃┃┃┣┳┛┃  │
@@ -8,7 +8,7 @@
 set encoding=utf-8 fileencodings=utf-8
 execute pathogen#infect()
 syntax on
-set nocompatible " enter the new millenium
+set nocompatible " enter the new millennium
 
 map ; :
 
@@ -79,7 +79,7 @@ set lazyredraw                 " Lazy redraw during macros
 
 " Moving Around/Editing
 set cursorline                 " have a line indicate the cursor location
-set nocursorcolumn             " remove a line indicating the cursor colum
+set nocursorcolumn             " remove a line indicating the cursor column
 set ruler                      " show the cursor position all the time
 set rulerformat=%15(%c%V\ %p%%%) " display a better ruler
 set nostartofline              " Avoid moving cursor to BOL when jumping around
@@ -160,6 +160,9 @@ nmap <leader>, :nohlsearch<CR>
 
 " Spell check
 map <F6> :setlocal spell! spelllang=fr,en_us<CR>
+" z=    " change word
+" ]s    " jump to next misspelled word
+" zg    " add a word to dictionary
 
 " Plugins
 " Airline
@@ -194,7 +197,7 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 set matchpairs+=\":\"
 set matchpairs+=':'
 
-" Add ad matchin char
+" Add ad matching char
 imap ( ()<C-[>i
 imap [ []<C-[>i
 imap { {}<C-[>i
