@@ -148,9 +148,11 @@ nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 nnoremap <F11> :split<CR>
 nnoremap <F12> :vsplit<CR>
 
-" copy paste windows like
+" windows like
 nnoremap <C-c> "+y
 nnoremap <C-v> "+p
+nnoremap <C-s> :update<CR>
+nnoremap <C-h> :%s/
 
 " Auto make
 nnoremap <F5> :make<CR><c-w> "auto make
@@ -163,6 +165,9 @@ map <F6> :setlocal spell! spelllang=fr,en_us<CR>
 " z=    " change word
 " ]s    " jump to next misspelled word
 " zg    " add a word to dictionary
+
+" Set dictionary (Its used with C-X C-K to autocomplete words)
+set dictionary=/usr/share/dict/words
 
 " Plugins
 " Airline
@@ -214,6 +219,7 @@ autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
 autocmd FileType python,sh setlocal commentstring=#\ %s
 autocmd FileType html setlocal commentstring=<!--\ %s\ -->
 autocmd FileType vim setlocal commentstring="\ %s
+autocmd FileType xdefaults setlocal commentstring=!\ %s
 
 " Change cursor color on urxvt
 if &term =~ "xterm\\|rxvt"
@@ -225,3 +231,5 @@ if &term =~ "xterm\\|rxvt"
     " reset cursor when vim exits
     autocmd VimLeave * silent !echo -ne "\033]112\007"
 endif
+
+set secure
