@@ -1,0 +1,35 @@
+snippet date
+${2:${1:`date +%d`}.`date +%m`}.`date +%Y`
+endsnippet
+
+snippet -_
+-_ {n \rightarrow +\infty}> $0
+endsnippet
+
+snippet boxed
+\boxed{${1}}${0}
+endsnippet
+
+snippet prod
+\prod_{${1:i=1}}^{${2:n}} $0
+endsnippet
+
+snippet fact
+\frac{${1}}{${2}}${0}
+endsnippet
+
+snippet sum
+\sum_{${1:i=1}}^{${2:n}} $0
+endsnippet
+
+snippet overbar
+\overbar{${1}}$0
+endsnippet
+
+snippet cases
+\begin{cases}${1:x} & ${2:x<2} \\\\ ${3:0} & ${4:sinon}\end{cases}$0
+endsnippet
+
+snippet int
+\int_{${1:0}}^{${2:+\infty}} ${3:x} ${4:dx} $0
+endsnippet

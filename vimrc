@@ -201,6 +201,13 @@ let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 " This allow to scoll autocomplete top to bottom
 let g:SuperTabDefaultCompletionType = "<c-n>"
 
+" ultisnips
+" Create snippets using :UltiSnipsEdit
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsSnippetsDir = "~/.vim/UltiSnips/"
 
 set matchpairs+=\":\"
 set matchpairs+=':'
