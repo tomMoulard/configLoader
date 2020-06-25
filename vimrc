@@ -183,11 +183,9 @@ nnoremap <F1> :NERDTreeToggle<CR>
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
-" Ultisnip
-" let g:UltiSnipsExpandTrigger="<F3>"
-
 " Nerdcommenter
 let g:NERDSpaceDelims = 1
+let g:NERDTreeShowHidden=1
 let g:NERDCompactSexyComs = 1
 let g:NERDTrimTrailingWhitespace = 1
 
@@ -218,8 +216,8 @@ autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
 " Proper comments (<leader>cc to comment, <leader>cu to uncomment)
 autocmd FileType python,sh setlocal commentstring=#\ %s
 autocmd FileType html setlocal commentstring=<!--\ %s\ -->
-autocmd FileType vim setlocal commentstring="\ %s
 autocmd FileType xdefaults setlocal commentstring=!\ %s
+autocmd FileType vim setlocal commentstring=\"\ %s
 
 " Change cursor color on urxvt
 if &term =~ "xterm\\|rxvt"
