@@ -218,7 +218,7 @@ autocmd FileType c setlocal makeprg=cc\ %\ $*
 autocmd FileType html setlocal makeprg=$BROWSER\ %\ $*
 autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
 
-" Proper comments (<leader>cc to comment, <leader>cu to uncomment)
+" Proper comments (<leader>cc to comment, <leader>cu to uncomment, <Leader>c<space> to toggle)
 autocmd FileType python,sh setlocal commentstring=#\ %s
 autocmd FileType html setlocal commentstring=<!--\ %s\ -->
 autocmd FileType xdefaults setlocal commentstring=!\ %s
