@@ -197,6 +197,11 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
 
+" supertab
+" This allow to scoll autocomplete top to bottom
+let g:SuperTabDefaultCompletionType = "<c-n>"
+
+
 set matchpairs+=\":\"
 set matchpairs+=':'
 
