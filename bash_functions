@@ -77,3 +77,11 @@ function upgrade {
     sudo apt autoremove -y;
     sudo snap refresh;
 }
+
+# Removes spaces from a file name
+# file\ with \spaces.py -> file-with-spaces.py
+remove-spaces() {
+    FILE=$(echo $1 | sed 's/ /-/g')
+    mv "$1" "$FILE"
+    echo $FILE
+}
