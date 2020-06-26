@@ -1,35 +1,35 @@
-snippet date
+snippet date "Display a date"
 ${2:${1:`date +%d`}.`date +%m`}.`date +%Y`
 endsnippet
 
-snippet -_
+snippet -_ "display an arrow"
 -_ {n \rightarrow +\infty}> $0
 endsnippet
 
-snippet boxed
+snippet boxed "boxe an area"
 \boxed{${1}}${0}
 endsnippet
 
-snippet prod
+snippet prod "display a simple prod"
 \prod_{${1:i=1}}^{${2:n}} $0
 endsnippet
 
-snippet fact
+snippet fact "display a simple frac"
 \frac{${1}}{${2}}${0}
 endsnippet
 
-snippet sum
+snippet sum "display a simple sum"
 \sum_{${1:i=1}}^{${2:n}} $0
 endsnippet
 
-snippet overbar
+snippet overbar "put a bar over a text"
 \overbar{${1}}$0
 endsnippet
 
-snippet cases
+snippet cases "display a simple cases statements"
 \begin{cases}${1:x} & ${2:x<2} \\\\ ${3:0} & ${4:sinon}\end{cases}$0
 endsnippet
 
-snippet int
+snippet int "display a simple integral"
 \int_{${1:0}}^{${2:+\infty}} ${3:x} ${4:dx} $0
 endsnippet

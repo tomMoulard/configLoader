@@ -1,5 +1,8 @@
+# How to: ${VISUAL}
+# aThis is a snippet<Esc>V<Tab>snippet<Tab>
+
 snippet snippet
-snippet ${1:snippet_name}
-$0
+snippet ${1:snippet_name} "${2:comment}" ${3:biwrtsmeA}
+${0:${VISUAL}}
 \endsnippet
 endsnippet

@@ -1,0 +1,44 @@
+snippet /^package/ "Package declaration" r
+// Package $1 provides ...
+package ${1:${VISUAL:main}}
+endsnippet
+
+snippet /^import/ "Import declaration" r
+import (
+	"${1:${VISUAL:fmt}}"
+)
+endsnippet
+
+snippet struct "Struct declaration" b
+type ${1:Struct} struct {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet if "If statement" b
+if ${1:condition}${1/(.+)/ /}{
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet switch "Switch statement" b
+switch ${1:expression}${1/(.+)/ /}{
+case$0
+}
+endsnippet
+
+snippet /^main/ "Main function" r
+func main() {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet func "Function" b
+func ${1:name}(${2:params})${3/(.+)/ /}${3:type} {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet var "Variable declaration" b
+var ${1:name}${2/(.+)/ /}${2:type}${3: = ${0:value}}
+endsnippet
