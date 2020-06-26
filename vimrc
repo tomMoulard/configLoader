@@ -91,6 +91,7 @@ set noautoread                 " Don't automatically re-read changed files.
 set modeline                   " Allow vim options to be embedded in files;
 set modelines=5                " they must be within the first or last 5 lines.
 set ffs=unix,dos,mac           " Try recognizing dos, Unix, and mac line endings.
+set cinoptions=(0,u0,U0,t0,g0  " fixing indent, see :help cinoptions-values
 
 " Messages, Info, Status
 set ls=2                       " always show status line
