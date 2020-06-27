@@ -3,7 +3,7 @@
 ## Comments
 This is a list of vim commands sorted alphabetically (`:12kt<CR\>V't:sort<CR\>`)
 
-`<leader\>` is set to <space\>
+`<leader>` is set to <space\>
 
 This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), you might want to look at `:help`
 
@@ -22,6 +22,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |:!<command\>|Run <command\> in shell|
 |:%s/<1\>/<2\>/g|Replace <1\> with <2\> (g for more than once per line)|
 |:<[0-9]+\>|Move cursor to line|
+|:G<command>|Do git command inside Vim (i.e. `:Gdiff`)|
 |:UltiSnipsEdit|Edit snippets for current file type|
 |:bd|Close current buffer|
 |:bn|Go to next buffer|
@@ -72,7 +73,6 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |<leader\>cc|Comment selected area|
 |<leader\>cu|Uncomment selected area|
 |<|Indent down line (or selected area)|
-|\>|Indent line (or selected area)|
 |A|INSERT mode at the end of line|
 |C|Delete the end of line and go into INSERT mode|
 |G=gg|Indent The whole file|
@@ -90,6 +90,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |ZZ|Save and exit|
 |[s|go to previous misspelled word|
 |\*|Highlight word under cursor and jump to next occurrence|
+|\>|Indent line (or selected area)|
 |]s|go to next misspelled word|
 |^|Move cursor at the beginning of a line|
 |a|INSERT mode after cursor|
