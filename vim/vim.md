@@ -22,7 +22,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |:!<command\>|Run <command\> in shell|
 |:%s/<1\>/<2\>/g|Replace <1\> with <2\> (g for more than once per line)|
 |:<[0-9]+\>|Move cursor to line|
-|:G<command>|Do git command inside Vim (i.e. `:Gdiff`)|
+|:G<command\>|Do git <command\> inside Vim (i.e. `:Gdiff`)|
 |:UltiSnipsEdit|Edit snippets for current file type|
 |:bd|Close current buffer|
 |:bn|Go to next buffer|
