@@ -168,10 +168,10 @@ nnoremap <F11> :split<CR>      " Do a horizontal split with <F11>
 nnoremap <F12> :vsplit<CR>     " Do a vertical split with <F12>
 
 " Ctrl-jklm  changes to that split
-map <c-j> <c-w>j               " move cursor to down split
-map <c-k> <c-w>k               " move cursor to up split
-map <c-l> <c-w>l               " move cursor to right split
-map <c-h> <c-w>h               " move cursor to left split
+map <c-j> <c-w>j               " Move cursor to down split
+map <c-k> <c-w>k               " Move cursor to up split
+map <c-l> <c-w>l               " Move cursor to right split
+map <c-h> <c-w>h               " Move cursor to left split
 
 " windows like
 nnoremap <C-c> "+y
@@ -179,7 +179,7 @@ nnoremap <C-v> "+p
 nnoremap <C-s> :update<CR>
 
 " Auto make
-nnoremap <F5> :make<CR><c-w> "auto make
+nnoremap <F5> :make<CR><c-w>   " Auto make
 
 " Add ad matching char
 imap ( ()<C-[>i
@@ -191,6 +191,7 @@ imap < <><C-[>i
 autocmd FileType c,cpp,java setlocal matchpairs+==:; " jump between the '=' and ';'
 autocmd FileType html setlocal matchpairs+=<:>       " adding a pair of <>
 autocmd FileType c setlocal makeprg=cc\ %\ $*
+autocmd FileType python setlocal makeprg=python\ \-i\ %\ $*
 autocmd FileType html setlocal makeprg=$BROWSER\ %\ $*
 autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
 
@@ -212,6 +213,12 @@ map <F6> :setlocal spell! spelllang=fr,en_us<CR>
 
 " Set dictionary (Its used with C-X C-K to auto complete words)
 set dictionary=/usr/share/dict/words
+
+" Prettier files command
+command! JsonPretty execute ":%!python -m json.tool" !
+
+" Open Terminal
+nnoremap <F3> :terminal<CR>
 
 " Plugins
 execute pathogen#infect()
@@ -250,8 +257,8 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
 " ultisnips
 " Create snippets using :UltiSnipsEdit
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-" let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetsDir = "~/.vim/UltiSnips/"
 
