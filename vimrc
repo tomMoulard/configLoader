@@ -88,8 +88,6 @@ set lazyredraw                 " Lazy redraw during macros
 set sidescroll=5               " To make scrolling horizontally a bit more useful
 set number relativenumber      " Always show line numbers
 set title                      " Change the terminal's title
-set titlestring=%<%F%=%l/%L-%P " Change the terminal title with fancy text
-set titlelen=70                " Fix the max length of title
 set laststatus=2               " Always show status line, even if only 1 window.
 set statusline=%<%f\ (%{&ft})%=%-19(%3l,%02c%03V%)
 set noshowmode                 " Disable default status line
@@ -102,6 +100,28 @@ set cursorline                 " Have a line indicate the cursor location
 set matchpairs+=\":\"          " match quotes when typing
 set matchpairs+=':'            " match single quote when typing
 set scrolloff=5                " Set 5 lines to the cursor when moving around
+
+" Status line function
+function! StatuslineGit()
+    let l:branchname = system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+    return strlen(l:branchname) > 0?'['.l:branchname.']':''
+endfunction
+
+" Status line
+set titlelen=90                " Fix the max length of title, therefore align text with the available space
+set titlestring=%<             " Change the terminal title with fancy text
+set titlestring+=%r            " Readonly flag, text is "[RO]".
+set titlestring+=%m            " Modified flag, text is "[+]"; "[-]" if 'modifiable' is off.
+set titlestring+=%{StatuslineGit()} " Display current git branch
+set titlestring+=%F            " Full path to the file in the buffer.
+set titlestring+=\ -\ %{&fileencoding?&fileencoding:&encoding}
+set titlestring+=%=            " Separation point between left and right aligned items.
+set titlestring+=%b            " Value of character under cursor.
+set titlestring+=-%B           " As above, in hexadecimal.
+set titlestring+=\ %c          " Column number.
+set titlestring+=,%l           " Line number.
+set titlestring+=/%L           " Number of lines in buffer.
+set titlestring+=(%p%%)          " Percentage through file in lines as in CTRL-G.
 
 " Show a line at column 79
 if exists("&colorcolumn")
@@ -147,8 +167,8 @@ nnoremap <F11> :split<CR>      " Do a horizontal split with <F11>
 nnoremap <F12> :vsplit<CR>     " Do a vertical split with <F12>
 
 " Ctrl-jklm  changes to that split
-map <c-j> <c-w>j               " move cursor to top split
-map <c-k> <c-w>k               " move cursor to down split
+map <c-j> <c-w>j               " move cursor to down split
+map <c-k> <c-w>k               " move cursor to up split
 map <c-l> <c-w>l               " move cursor to right split
 map <c-h> <c-w>h               " move cursor to left split
 
