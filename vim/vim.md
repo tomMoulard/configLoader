@@ -46,6 +46,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |<F12\>|Do a vertical split|
 |<F1\>|Toggle NerdTree|
 |<F2\>|Toggle PASTE mode|
+|<F3\>|Open a terminal|
 |<F5\>|Make file|
 |<F6\>|Toggle spelling|
 |<Tab\>|Auto complete + snippets|
@@ -73,9 +74,11 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |<leader\>cc|Comment selected area|
 |<leader\>cu|Uncomment selected area|
 |<|Indent down line (or selected area)|
+|==|Indent the line|
+|=|In VISUAL mode, indent the selected area|
 |A|INSERT mode at the end of line|
 |C|Delete the end of line and go into INSERT mode|
-|G=gg|Indent The whole file|
+|G=gg|Indent the whole file|
 |G|Go to the end of the file|
 |H|Move cursor at the top of the screen|
 |I|INSERT mode at the beginning of a line|
