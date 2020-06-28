@@ -54,7 +54,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |<c-b\>|Go up half a page|
 |<c-e\>|Move screen up|
 |<c-f\>|Go down half a page|
-|<c-g\>|Display informations about the file|
+|<c-g\>|Display information about the file|
 |<c-h\>|Move cursor to left split|
 |<c-j\>|Move cursor to bottom split|
 |<c-k\>|Move cursor to top split|
@@ -62,7 +62,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |<c-o\>|Jump to previous place|
 |<c-p\>|open file using CtrlP|
 |<c-r\>|Redo|
-|<c-w\>=|Resize all split to défault value|
+|<c-w\>=|Resize all split to default value|
 |<c-w\>w|Move to next split|
 |<c-y\>|Move screen down|
 |<c-z\>|Halt vim to cli, revert with fg|
@@ -126,6 +126,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |z=|fix misspelled word|
 |zg|add work to dict|
 |zt|Move line at the top of the screen|
-|{|Move cursor on top of the paragraphe|
+|zw|Mark a work as misspelled|
+|{|Move cursor on top of the paragraph|
 |}|Move cursor at the end of paragraph|
 |£|Highlight word under cursor and jump to previous occurrence|
