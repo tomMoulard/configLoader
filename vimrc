@@ -86,7 +86,8 @@ let g:rehash256 = 1
 syntax enable                  " Enable syntax processing
 set lazyredraw                 " Lazy redraw during macros
 set sidescroll=5               " To make scrolling horizontally a bit more useful
-set number relativenumber      " Always show line numbers
+set number                     " Always show line numbers
+set relativenumber             " Show relative line numbers, useful for functions
 set title                      " Change the terminal's title
 set laststatus=2               " Always show status line, even if only 1 window.
 set statusline=%<%f\ (%{&ft})%=%-19(%3l,%02c%03V%)
@@ -108,7 +109,7 @@ function! StatuslineGit()
 endfunction
 
 " Status line
-set titlelen=90                " Fix the max length of title, therefore align text with the available space
+set titlelen=85                " Fix the max length of title, therefore align text with the available space
 set titlestring=%<             " Change the terminal title with fancy text
 set titlestring+=%r            " Readonly flag, text is "[RO]".
 set titlestring+=%m            " Modified flag, text is "[+]"; "[-]" if 'modifiable' is off.
@@ -159,7 +160,7 @@ nnoremap <Leader><Leader> :update<CR>
 " For when we forget to use sudo to open/edit a file
 cmap w!! w !sudo tee % >/dev/null
 
-" Use <Leader>W to strip all trailing whitespace in the current file
+" Use <Leader>W to strip all trailing white spaces in the current file
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
 
 " Splitting window
@@ -206,6 +207,7 @@ nmap <leader>, :nohlsearch<CR>
 " z=    " change word
 " ]s    " jump to next misspelled word
 " zg    " add a word to dictionary
+" zw    " mark a word misspelled
 map <F6> :setlocal spell! spelllang=fr,en_us<CR>
 
 " Set dictionary (Its used with C-X C-K to auto complete words)
