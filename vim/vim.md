@@ -17,7 +17,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |(|Move cursor at the beginning of the sentence|
 |)|Move cursor at the end of the sentence|
 |.|Redo command|
-|/<word\>|search for <word\>|
+|/<word\>|Search for <word\>|
 |0|Move cursor at the beginning of the line|
 |:!<command\>|Run <command\> in shell|
 |:%s/<1\>/<2\>/g|Replace <1\> with <2\> (g for more than once per line)|
@@ -57,18 +57,22 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |<c-f\>|Go down half a page|
 |<c-g\>|Display information about the file|
 |<c-h\>|Move cursor to left split|
+|<c-i\>|Jump to next place|
 |<c-j\>|Move cursor to bottom split|
 |<c-k\>|Move cursor to top split|
 |<c-l\>|Move cursor to right split|
 |<c-o\>|Jump to previous place|
-|<c-p\>|open file using CtrlP|
+|<c-p\>|Open file using CtrlP|
 |<c-r\>|Redo|
 |<c-w\>=|Resize all split to default value|
 |<c-w\>w|Move to next split|
+|<c-x><c-f>|When on INSERT mode, autocomplete file names|
+|<c-x><c-l>|When on INSERT mode, autocomplete whole sentences|
+|<c-x><c-o>|When on INSERT mode, autocomplete depending on the file type|
 |<c-y\>|Move screen down|
 |<c-z\>|Halt vim to cli, revert with fg|
 |<leader\>,|Turn off search highlighting|
-|<leader\><leader\>|save file|
+|<leader\><leader\>|Save file|
 |<leader\>W|Remove trailing white space|
 |<leader\>c<space\>|Toggle selected area comment|
 |<leader\>cc|Comment selected area|
@@ -83,6 +87,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |H|Move cursor at the top of the screen|
 |I|INSERT mode at the beginning of a line|
 |J|Join lines (removes indent and \n, add a <space\>)|
+|K|Show vim help about the word under the cursor|
 |L|Move cursor at the bottom of the screen|
 |M|Move cursor at the middle of the screen|
 |N|Go to previous highlighted value|
