@@ -1,0 +1,124 @@
+snippet html "Base HTML file" b
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width" />
+	<title>${1:Site Title}</title>
+</head>
+<body>
+	${0:${VISUAL}}
+</body>
+</html>
+endsnippet
+
+snippet p "<p> div" b!
+<p>${0:${VISUAL}}</p>
+endsnippet
+
+snippet ul "ul list" b!
+<ul>
+	<li>${0:${VISUAL}}</li>
+</ul>
+endsnippet
+
+snippet a "Link" w
+<a href="${1:http://www.${2:url.com}}"${3: target="_blank"}>${4:Anchor Text}</a>
+endsnippet
+
+snippet footer "<footer>"
+<footer>
+	${1:footer content}
+</footer>
+endsnippet
+
+snippet h1 "HTML <h1>" w
+<h1>${0:${VISUAL}}</h1>
+endsnippet
+
+snippet h2 "HTML <h2>" w
+<h2>${0:${VISUAL}}</h2>
+endsnippet
+
+snippet h3 "HTML <h3>" w
+<h3>${0:${VISUAL}}</h3>
+endsnippet
+
+snippet h4 "HTML <h4>" w
+<h4>${0:${VISUAL}}</h4>
+endsnippet
+
+snippet h5 "HTML <h5>" w
+<h5>${0:${VISUAL}}</h5>
+endsnippet
+
+snippet h6 "HTML <h6>" w
+<h6>${0:${VISUAL}}</h6>
+endsnippet
+
+snippet img "<img>"
+<img src="$1" alt="$2">$0
+endsnippet
+
+snippet icon "<icon>" w
+<link rel="icon" sizes="${2:512x512}" href="$1">
+<link rel="shortcut icon" href="$1">$0
+endsnippet
+
+snippet li "list item" w
+<li>${0:${VISUAL}}</li>
+endsnippet
+
+snippet mailto "HTML <a mailto: >" w
+<a href="mailto:${1:tom@moulard.org}?subject=${2:feedback}">${3:email me}</a>
+endsnippet
+
+snippet noscript "<noscript>"
+<noscript>${1:Please enable JS to view this page!}</noscript>
+endsnippet
+
+snippet scriptsrc "HTML <script src...>" w
+<script src="$1" type="text/javascript" charset="${2:utf-8}"></script>
+endsnippet
+
+snippet script "HTML <script>" w
+<script charset="utf-8">
+	${0:${VISUAL}}
+</script>
+endsnippet
+
+snippet stylesrc "HTML <style src...>" w
+<style src="$1" type="text/css" rel="stylesheet" charset="${2:utf-8}"></style>
+endsnippet
+
+snippet style "HTML <style>" w
+<style type="text/css" media="screen">
+	${0:${VISUAL}}
+</style>
+endsnippet
+
+snippet table "HTML <table>" w
+<table>
+	${0:${VISUAL}}
+</table>
+endsnippet
+
+snippet td "table cell" w
+<td>${0:${VISUAL}}</td>
+endsnippet
+
+snippet template "<template>" w
+<template id="$1">
+	${0:${VISUAL}}
+</template>
+endsnippet
+
+snippet th "table header" w
+<th>${0:${VISUAL}}</th>
+endsnippet
+
+snippet tr "table row" w
+<tr>${0:${VISUAL}}</tr>
+endsnippet
+
+
