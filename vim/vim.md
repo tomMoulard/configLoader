@@ -31,6 +31,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |:e <file\>|Open file|
 |:h <command\>|Show help for this command|
 |:help <command\>|Show help for this command|
+|:ls|List current buffers|
 |:make|Build file / project|
 |:marks|Show marks|
 |:nohlsearch|Turn off search highlighting|
@@ -38,9 +39,11 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |:q!|Quit without save (forced)|
 |:q|Quit without save|
 |:r <file\>|Insert content of <file\>|
+|:r!<command\>|Insert the result of the shell <command\>|
 |:update|Save file only if there is changes|
 |:w!!|Save a file even when open without sudo (still need sudo pwd)|
 |:wq|Save and exit|
+|:w|Save file|
 |:x|Save and close file|
 |<F11\>|Do a horizontal split|
 |<F12\>|Do a vertical split|
@@ -66,9 +69,9 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |<c-r\>|Redo|
 |<c-w\>=|Resize all split to default value|
 |<c-w\>w|Move to next split|
-|<c-x><c-f>|When on INSERT mode, autocomplete file names|
-|<c-x><c-l>|When on INSERT mode, autocomplete whole sentences|
-|<c-x><c-o>|When on INSERT mode, autocomplete depending on the file type|
+|<c-x\><c-f\>|When on INSERT mode, autocomplete file names|
+|<c-x\><c-l\>|When on INSERT mode, autocomplete whole sentences|
+|<c-x\><c-o\>|When on INSERT mode, autocomplete depending on the file type|
 |<c-y\>|Move screen down|
 |<c-z\>|Halt vim to cli, revert with fg|
 |<leader\>,|Turn off search highlighting|
@@ -132,6 +135,9 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |z-|Move line at the bottom of the screen|
 |z.|Move line at the center of the screen|
 |z=|fix misspelled word|
+|za|Open fold|
+|zc|Close fold|
+|zf<command\>|Create fold using <command\> (like zf3j or V'tzf)|
 |zg|add work to dict|
 |zt|Move line at the top of the screen|
 |zw|Mark a work as misspelled|
