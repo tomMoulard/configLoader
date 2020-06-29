@@ -33,3 +33,32 @@ endsnippet
 snippet int "display a simple integral"
 \int_{${1:0}}^{${2:+\infty}} ${3:x} ${4:dx} $0
 endsnippet
+
+snippet --- "Markdown metadata for courses" A
+---
+title: ${1:Course title}
+author: ${2:`echo $USER`}
+date: ${3:`date '+%Y-%m-%d'`}
+tags: [${4:`echo ${PWD##*/}`}]
+rights: © ${5:`date '+%Y'`} ${6:`echo $EMAIL`}
+---
+$0
+endsnippet
+
+snippet --- "Markdown metadata for report" A
+---
+title: ${1:`!p snip.rv = snip.basename.capitalize()`}
+author: ${2:`echo $USER`}
+date: ${3:`date '+%Y-%m-%d'`}
+lang: ${4:`echo $LANG`}
+toc: ${5:true}
+toc-title: "${6:Summary}"
+fontsize: ${7:12pt}
+titlepage: ${8:true}
+logo: ${9:`!p snip.rv = snip.basename`.png}
+book: ${10:true}
+listings-no-page-break: ${11:true}
+keywords: ${12:true}
+---
+$0
+endsnippet
