@@ -13,7 +13,7 @@
 set nocompatible               " Enter the new millennium
 
 " main mappings
-map ; :                        " Map semicolon to colon
+nnoremap  ; :                  " Map semicolon to colon
 let mapleader=" "              " Set <leader> to space
 let g:mapleader=" "
 
