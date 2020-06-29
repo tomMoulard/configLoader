@@ -247,6 +247,7 @@ let g:NERDSpaceDelims = 1
 let g:NERDTreeShowHidden=1
 let g:NERDCompactSexyComs = 1
 let g:NERDTrimTrailingWhitespace = 1
+let g:NERDTreeIgnore=['.*.swp', '*.o', '*.out', '*.pyc', '*~']
 
 " Multicursor
 let g:multi_cursor_quit_key = '<Esc>'
