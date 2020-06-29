@@ -23,6 +23,9 @@ set wildmode=full              " <Tab> cycles between all matching choices.
 set path+=**                   " Search down into sub folders
 set completeopt=menuone,longest,preview " Don't select first item, follow typing in auto complete
 set pumheight=6                " Keep a small completion window
+set complete+=k./*             " Enable auto complete with words of the current directory, it might take time
+set complete+=kspell           " Auto complete with words of the dictionary
+set complete+=k/usr/share/dict/words " Auto complete with more dictionary
 
 " Moving Around
 set nostartofline              " Avoid moving cursor to BOL when jumping around
@@ -34,11 +37,12 @@ set noautowrite                " Never write a file unless I request it.
 set noautowriteall             " NEVER.
 set noautoread                 " Don't automatically reread changed files.
 set modeline                   " Allow vim options to be embedded in files;
-set modelines=5                " they must be within the first or last 5 lines.
+set modelines=5                " They must be within the first or last 5 lines.
 set fileformats=unix,dos,mac   " Try recognizing dos, Unix, and mac line endings.
-set secure                     " do not allow to write commands, :autocmd and shell in ~/.vimrc
+set secure                     " Do not allow to write commands, :autocmd and shell in ~/.vimrc
 set pastetoggle=<F2>           " Toggle PASTE mode
 set nowrap                     " Don't wrap lines
+set textwidth=0                " Do not wrap lines !
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode
 filetype plugin on             " Allow file type detection
 
@@ -50,22 +54,22 @@ set shortmess+=a               " Use [+]/[RO]/[w] for modified/read only/written
 
 " Indentation
 set expandtab                  " Tab -> spaces
-set tabstop=4                  " a tab is four spaces
-set autoindent                 " always set auto indenting on
-set copyindent                 " copy the previous indentation on auto indenting
-set shiftwidth=4               " number of spaces to use for auto indenting
-set shiftround                 " use multiple of shift width when indenting with '<' and '>'
-set smarttab                   " insert tabs on the start of a line according to shift width, not tab stop
-set cinoptions=(0,u0,U0,t0,g0  " fixing indent, see :help cinoptions-values
+set tabstop=4                  " A tab is four spaces
+set autoindent                 " Always set auto indenting on
+set copyindent                 " Copy the previous indentation on auto indenting
+set shiftwidth=4               " Number of spaces to use for auto indenting
+set shiftround                 " Use multiple of shift width when indenting with '<' and '>'
+set smarttab                   " Insert tabs on the start of a line according to shift width, not tab stop
+set cinoptions=(0,u0,U0,t0,g0  " Fixing indent, see :help cinoptions-values
 filetype indent on             " Allow indent customization from file type
 
 " Searching and Patterns
-set hlsearch                   " highlight search terms
-set ignorecase                 " ignore case when searching
+set hlsearch                   " Highlight search terms
+set ignorecase                 " Ignore case when searching
 set incsearch                  " Incrementally search while typing a /regex
 set magic                      " For regular expressions turn magic on
-set showmatch                  " show matching parenthesis
-set smartcase                  " ignore case if search pattern is all lowercase,  case sensitive otherwise
+set showmatch                  " Show matching parenthesis
+set smartcase                  " Ignore case if search pattern is all lowercase,  case sensitive otherwise
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
 
 " Sounds
@@ -122,7 +126,7 @@ set titlestring+=-%B           " As above, in hexadecimal.
 set titlestring+=\ %c          " Column number.
 set titlestring+=,%l           " Line number.
 set titlestring+=/%L           " Number of lines in buffer.
-set titlestring+=(%p%%)          " Percentage through file in lines as in CTRL-G.
+set titlestring+=(%p%%)        " Percentage through file in lines as in CTRL-G.
 
 " Show a line at column 79
 if exists("&colorcolumn")
@@ -188,16 +192,18 @@ imap { {}<C-[>i
 imap < <><C-[>i
 
 " Autocmd to have custom settings depending on file type
-autocmd FileType c,cpp,java setlocal matchpairs+==:; " jump between the '=' and ';'
-autocmd FileType html setlocal matchpairs+=<:>       " adding a pair of <>
+autocmd FileType c,cpp,java setlocal matchpairs+==:; " Jump between the '=' and ';'
+autocmd FileType html setlocal matchpairs+=<:>       " Adding a pair of <>
 autocmd FileType c setlocal makeprg=cc\ %\ $*
-autocmd FileType python setlocal makeprg=python\ \-i\ %\ $*
+autocmd FileType python nnoremap <F5> :term python -i %<CR> " Open a term with interactive python
 autocmd FileType html setlocal makeprg=$BROWSER\ %\ $*
 autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
 
 " Proper comments (<leader>cc to comment, <leader>cu to uncomment, <Leader>c<space> to toggle)
 autocmd FileType python,sh setlocal commentstring=#\ %s
 autocmd FileType html setlocal commentstring=<!--\ %s\ -->
+autocmd FileType c setlocal commentstring=/*\ %s\ */
+autocmd FileType go setlocal commentstring=//\ %s
 autocmd FileType xdefaults setlocal commentstring=!\ %s
 autocmd FileType vim setlocal commentstring=\"\ %s
 
@@ -205,19 +211,19 @@ autocmd FileType vim setlocal commentstring=\"\ %s
 nmap <leader>, :nohlsearch<CR>
 
 " Spell check
-" z=    " change word
-" ]s    " jump to next misspelled word
-" zg    " add a word to dictionary
-" zw    " mark a word misspelled
+" z=    " Change word
+" ]s    " Jump to next misspelled word
+" zg    " Add a word to dictionary
+" zw    " Mark a word misspelled
 map <F6> :setlocal spell! spelllang=fr,en_us<CR>
 
 " Set dictionary (Its used with C-X C-K to auto complete words)
 set dictionary=/usr/share/dict/words
 
 " Prettier files command
-command! JsonPretty execute ":%!python -m json.tool" !
+command! JsonPretty execute ":%!python -m json.tool"
 
-" Open Terminal
+" Open Terminal (can use :vertical terminal)
 nnoremap <F3> :terminal<CR>
 
 " Plugins
