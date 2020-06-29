@@ -651,7 +651,7 @@ snippet pmdoc "pocoo style module doc string" b
 
 	${1:DESCRIPTION}
 
-	:copyright: (c) `date +%Y` by ${2:YOUR_NAME}.
+	:copyright: (c) `date +%Y` by ${2:`echo $USER`}.
 	:license: ${3:LICENSE_NAME}, see LICENSE for more details.
 """
 $0
