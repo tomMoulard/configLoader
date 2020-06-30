@@ -8,7 +8,6 @@
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
 
-
 # If not running interactively, don't do anything
 case $- in
     *i*) ;;
@@ -161,8 +160,8 @@ fi
 
 # Alias definitions.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-if [ -f ~/.bash_aliases ]; then
-    source "$HOME/.bash_aliases"
+if [ -f ~/workspace/configLoader/bash_aliases ]; then
+    source "$HOME/workspace/configLoader/bash_aliases"
 fi
 
 # functions definitions.
@@ -177,9 +176,11 @@ fi
 if ! shopt -oq posix; then
   if [ -f /usr/share/bash-completion ]; then
     source /usr/share/bash-completion/*
-  elif [ -f /etc/bash_completion.d ]; then
+  fi
+  if [ -f /etc/bash_completion.d ]; then
     source /etc/bash_completion.d/*
-  elif [ -f /etc/bash_completion ]; then
+  fi
+  if [ -f /etc/bash_completion ]; then
     source /etc/bash_completion
   fi
 fi
@@ -217,7 +218,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 
 # Enable to have some scripts in the PATH
 # https://github.com/tomMoulard/scripts
-PATH="$PATH:$HOME/.scripts"
+[ -d "$HOME/.scripts" ] && PATH="$PATH:$HOME/.scripts" # github.com/tommoulard/scripts
 
 # GPG agent
 GPG_TTY=$(tty)
