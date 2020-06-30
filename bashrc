@@ -219,12 +219,20 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 # Enable to have some scripts in the PATH
 # https://github.com/tomMoulard/scripts
 [ -d "$HOME/.scripts" ] && PATH="$PATH:$HOME/.scripts" # github.com/tommoulard/scripts
+[ -d "$HOME/go/bin" ] && PATH="$PATH:$HOME/go/bin"     # https://golang.org/doc/code.html#Command
+[ -d "$HOME/.local/bin" ] && PATH="$PATH:$HOME/.local/bin"
+if [[ -d "$HOME/.cargo/bin" ]]; then
+  PATH="$PATH:$HOME/.cargo/bin"
+  [ -f "$HOME/.cargo/bin/zoxide" ] && eval "$(zoxide init bash)" && alias cd='z' && _ZO_DATA_DIR=$HOME/.local/share/zoxide.db
+fi
 
 PATH=$PATH:/usr/local/go/bin
 
 # GPG agent
 GPG_TTY=$(tty)
 export GPG_TTY
+
+complete -C /home/tm/go/bin/mc mc
 
 # enable gnome keyring
 eval `gnome-keyring-daemon --start`
