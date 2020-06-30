@@ -12,12 +12,14 @@
 
 set nocompatible               " Enter the new millennium
 
-" main mappings
+" Settings {{{1
+" main mapping {{{2
 nnoremap  ; :                  " Map semicolon to colon
 let mapleader=" "              " Set <leader> to space
 let g:mapleader=" "
+" }}}
 
-" Tabulation completion
+" Tabulation completion {{{2
 set wildmenu                   " Menu completion in command mode on <Tab>
 set wildmode=full              " <Tab> cycles between all matching choices.
 set path+=**                   " Search down into sub folders
@@ -26,11 +28,13 @@ set pumheight=6                " Keep a small completion window
 set complete+=k./*             " Enable auto complete with words of the current directory, it might take time
 set complete+=kspell           " Auto complete with words of the dictionary
 set complete+=k/usr/share/dict/words " Auto complete with more dictionary
+" }}}
 
-" Moving Around
+" Moving Around {{{2
 set nostartofline              " Avoid moving cursor to BOL when jumping around
+" }}}
 
-" Reading/Writing
+" Reading/Writing {{{2
 set encoding=utf-8             " Vim encoding
 set fileencodings=utf-8        " File encoding
 set noautowrite                " Never write a file unless I request it.
@@ -45,14 +49,16 @@ set nowrap                     " Don't wrap lines
 set textwidth=0                " Do not wrap lines !
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode
 filetype plugin on             " Allow file type detection
+" }}}
 
-" Messages, Info
+" Messages, Info {{{2
 set confirm                    " Y-N-C prompt if closing with unsaved changes.
 set showcmd                    " Show incomplete normal mode commands as I type.
 set report=0                   " : commands always print changed line count.
 set shortmess+=a               " Use [+]/[RO]/[w] for modified/read only/written.
+" }}}
 
-" Indentation
+" Indentation {{{2
 set expandtab                  " Tab -> spaces
 set tabstop=4                  " A tab is four spaces
 set autoindent                 " Always set auto indenting on
@@ -62,8 +68,9 @@ set shiftround                 " Use multiple of shift width when indenting with
 set smarttab                   " Insert tabs on the start of a line according to shift width, not tab stop
 set cinoptions=(0,u0,U0,t0,g0  " Fixing indent, see :help cinoptions-values
 filetype indent on             " Allow indent customization from file type
+" }}}
 
-" Searching and Patterns
+" Searching and Patterns {{{2
 set hlsearch                   " Highlight search terms
 set ignorecase                 " Ignore case when searching
 set incsearch                  " Incrementally search while typing a /regex
@@ -71,22 +78,26 @@ set magic                      " For regular expressions turn magic on
 set showmatch                  " Show matching parenthesis
 set smartcase                  " Ignore case if search pattern is all lowercase,  case sensitive otherwise
 set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
+" }}}
 
-" Sounds
+" Sounds {{{2
 set noerrorbells               " Don't beep
 set visualbell t_vb=           " Disable all bells.  I hate ringing/flashing.
+" }}}
 
-" Load up virtualenv's vimrc if it exists
+" Load up virtualenv's vimrc if it exists {{{2
 if filereadable($VIRTUAL_ENV . '/.vimrc')
     source $VIRTUAL_ENV/.vimrc
 endif
+" }}}
 
-" Display
+" Display {{{2
 colorscheme molokai
 let g:molokai_original = 1
 let g:rehash256 = 1
+" }}}
 
-" Customize gui
+" Customize gui {{{2
 syntax enable                  " Enable syntax processing
 set lazyredraw                 " Lazy redraw during macros
 set sidescroll=5               " To make scrolling horizontally a bit more useful
@@ -105,14 +116,9 @@ set cursorline                 " Have a line indicate the cursor location
 set matchpairs+=\":\"          " match quotes when typing
 set matchpairs+=':'            " match single quote when typing
 set scrolloff=5                " Set 5 lines to the cursor when moving around
+" }}}
 
-" Status line function
-function! StatuslineGit()
-    let l:branchname = system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-    return strlen(l:branchname) > 0?'['.l:branchname.']':''
-endfunction
-
-" Status line
+" Status line {{{2
 set titlelen=85                " Fix the max length of title, therefore align text with the available space
 set titlestring=%<             " Change the terminal title with fancy text
 set titlestring+=%r            " Readonly flag, text is "[RO]".
@@ -127,6 +133,12 @@ set titlestring+=\ %c          " Column number.
 set titlestring+=,%l           " Line number.
 set titlestring+=/%L           " Number of lines in buffer.
 set titlestring+=(%p%%)        " Percentage through file in lines as in CTRL-G.
+
+" Status line function
+function! StatuslineGit()
+    let l:branchname = system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+    return strlen(l:branchname) > 0?'['.l:branchname.']':''
+endfunction
 
 " Show a line at column 79
 if exists("&colorcolumn")
@@ -147,70 +159,85 @@ endif
 " Display trailing chars
 highlight ExtraWhitespace ctermbg=darkgreen guibg=darkgreen
 match ExtraWhitespace /\s\+$/
+" }}}
 
-" Undo
+" Undo {{{2
 set undodir=$HOME/.vim/undodir " Set folder to store undo files
 set undofile                   " Allow persistent undo
 set undolevels=1000            " Use many levels of undo
 set history=1000               " Remember more commands and search history
+" }}}
 
-" Timeout
+" Timeout {{{
 set timeout                    " Set a timeout to commands
 set timeoutlen=1500            " Set timeout value to commands
+" }}}
+" }}}
 
-" Save
+" Bindings {{{1
+" Save {{{2
 nnoremap <Leader>w :update<CR> " <space>w writes a files only if modified
 nnoremap <Leader><Leader> :update<CR>
 " For when we forget to use sudo to open/edit a file
 cmap w!! w !sudo tee % >/dev/null
+" }}}
 
-" Use <Leader>W to strip all trailing white spaces in the current file
+" Use <Leader>W to strip all trailing white spaces in the current file {{{2
 nnoremap <Leader>W :%s/\s\+$//<CR>:let @/=''<CR>
+" }}}
 
-" Splitting window
+" Splitting window {{{2
 nnoremap <F11> :split<CR>      " Do a horizontal split with <F11>
 nnoremap <F12> :vsplit<CR>     " Do a vertical split with <F12>
+" }}}
 
-" Ctrl-jklm  changes to that split
+" Ctrl-jklm  changes to that split {{{2
 map <c-j> <c-w>j               " Move cursor to down split
 map <c-k> <c-w>k               " Move cursor to up split
 map <c-l> <c-w>l               " Move cursor to right split
 map <c-h> <c-w>h               " Move cursor to left split
+" }}}
 
-" windows like
+" windows like {{{2
 nnoremap <C-c> "+y
 nnoremap <C-v> "+p
 nnoremap <C-s> :update<CR>
+" }}}
 
-" Auto make
+" Auto make {{{2
 nnoremap <F5> :make<CR><c-w>   " Auto make
+" }}}
 
-" Add ad matching char
+" Add ad matching char {{{2
 imap ( ()<C-[>i
 imap [ []<C-[>i
 imap { {}<C-[>i
 imap < <><C-[>i
+" }}}
 
-" Autocmd to have custom settings depending on file type
+" Autocmd to have custom settings depending on file type {{{2
 autocmd FileType c,cpp,java setlocal matchpairs+==:; " Jump between the '=' and ';'
 autocmd FileType html setlocal matchpairs+=<:>       " Adding a pair of <>
 autocmd FileType c setlocal makeprg=cc\ %\ $*
 autocmd FileType python nnoremap <F5> :term python -i %<CR> " Open a term with interactive python
 autocmd FileType html setlocal makeprg=$BROWSER\ %\ $*
 autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
+" }}}
 
-" Proper comments (<leader>cc to comment, <leader>cu to uncomment, <Leader>c<space> to toggle)
+" Proper comments (<leader>cc to comment, <leader>cu to uncomment, <Leader>c<space> to toggle) {{{2
 autocmd FileType python,sh setlocal commentstring=#\ %s
 autocmd FileType html setlocal commentstring=<!--\ %s\ -->
 autocmd FileType c setlocal commentstring=/*\ %s\ */
 autocmd FileType go setlocal commentstring=//\ %s
 autocmd FileType xdefaults setlocal commentstring=!\ %s
 autocmd FileType vim setlocal commentstring=\"\ %s
+" }}}
 
-" Turn off search highlighting
+" Turn off search highlighting {{{2
 nmap <leader>, :nohlsearch<CR>
+" }}}
 
-" Spell check
+" Spell check {{{2
 " z=    " Change word
 " ]s    " Jump to next misspelled word
 " zg    " Add a word to dictionary
@@ -219,53 +246,65 @@ map <F6> :setlocal spell! spelllang=fr,en_us<CR>
 
 " Set dictionary (Its used with C-X C-K to auto complete words)
 set dictionary=/usr/share/dict/words
+" }}}
 
-" Prettier files command
+" Prettier files command {{{2
 command! JsonPretty execute ":%!python -m json.tool"
+" }}}
 
-" Open Terminal (can use :vertical terminal)
+" Open Terminal (can use :vertical terminal) {{{2
 nnoremap <F3> :terminal<CR>
+" }}}
+" }}}
 
-" Plugins
+" Plugins {{{1
 execute pathogen#infect()
-" Airline
+" Airline {{{2
 let g:airline#extensions#tabline#enabled = 1
+" }}}
 
-" Adding markdown syntax highlighter
+" Adding markdown syntax highlighter {{{2
 let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
 let g:markdown_syntax_conceal = 0
 let g:markdown_minlines = 100
+" }}}
 
-" Nerdtree
+" Nerdtree {{{2
 nnoremap <F1> :NERDTreeToggle<CR>
 autocmd StdinReadPre * let s:std_in=1
 " Open Nerdtree when no file is provided to vim
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" }}}
 
-" Nerdcommenter
+" Nerdcommenter {{{2
 let g:NERDSpaceDelims = 1
 let g:NERDTreeShowHidden=1
 let g:NERDCompactSexyComs = 1
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDTreeIgnore=['.*.swp', '*.o', '*.out', '*.pyc', '*~']
+" }}}
 
-" Multicursor
+" Multicursor {{{2
 let g:multi_cursor_quit_key = '<Esc>'
+" }}}
 
-" CtrlP
+" CtrlP {{{2
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
+" }}}
 
-" supertab
+" supertab {{{2
 " This allow to scoll auto complete top to bottom
 let g:SuperTabDefaultCompletionType = "<c-n>"
+" }}}
 
-" ultisnips
+" ultisnips {{{2
 " Create snippets using :UltiSnipsEdit
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetsDir = "~/.vim/UltiSnips/"
-
+" }}}
+" }}} vim: fdm=marker
