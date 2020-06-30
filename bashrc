@@ -220,6 +220,13 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 # https://github.com/tomMoulard/scripts
 [ -d "$HOME/.scripts" ] && PATH="$PATH:$HOME/.scripts" # github.com/tommoulard/scripts
 
+PATH=$PATH:/usr/local/go/bin
+
 # GPG agent
 GPG_TTY=$(tty)
 export GPG_TTY
+
+# enable gnome keyring
+eval `gnome-keyring-daemon --start`
+export SSH_AUTH_SOCK="$(ls /run/user/$(id -u $USERNAME)/keyring*/ssh|head -1)"
+export SSH_AGENT_PID="$(pgrep gnome-keyring)"
