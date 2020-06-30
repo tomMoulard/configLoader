@@ -135,10 +135,13 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |z-|Move line at the bottom of the screen|
 |z.|Move line at the center of the screen|
 |z=|fix misspelled word|
-|za|Open fold|
+|zM|Close all fold|
+|zR|Open all fold|
+|za|Toggle fold open and closed|
 |zc|Close fold|
 |zf<command\>|Create fold using <command\> (like zf3j or V'tzf)|
 |zg|add work to dict|
+|zo|Open fold|
 |zt|Move line at the top of the screen|
 |zw|Mark a work as misspelled|
 |{|Move cursor on top of the paragraph|
