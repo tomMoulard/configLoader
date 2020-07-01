@@ -101,6 +101,7 @@ let g:rehash256 = 1
 syntax enable                  " Enable syntax processing
 set lazyredraw                 " Lazy redraw during macros
 set sidescroll=5               " To make scrolling horizontally a bit more useful
+set scrolloff=5                " Set 5 lines to the cursor when moving around
 set number                     " Always show line numbers
 set relativenumber             " Show relative line numbers, useful for functions
 set title                      " Change the terminal's title
@@ -115,7 +116,7 @@ set nocursorcolumn             " Remove a line indicating the cursor column
 set cursorline                 " Have a line indicate the cursor location
 set matchpairs+=\":\"          " match quotes when typing
 set matchpairs+=':'            " match single quote when typing
-set scrolloff=5                " Set 5 lines to the cursor when moving around
+highlight Normal ctermbg=NONE  " Transparent background color
 " }}}
 
 " Status line {{{2
@@ -168,9 +169,41 @@ set undolevels=1000            " Use many levels of undo
 set history=1000               " Remember more commands and search history
 " }}}
 
-" Timeout {{{
+" Timeout {{{2
 set timeout                    " Set a timeout to commands
 set timeoutlen=1500            " Set timeout value to commands
+" }}}
+
+" Autocmd to have custom settings depending on file type {{{2
+
+" matchpairs {{{3
+autocmd FileType c,cpp,java setlocal matchpairs+==:; " Jump between the '=' and ';'
+autocmd FileType html setlocal matchpairs+=<:>       " Adding a pair of <>
+" }}}
+
+" makeprg (for :make) {{{3
+autocmd FileType c setlocal makeprg=cc\ %\ $*
+autocmd FileType python nnoremap <F5> :term python -i %<CR> " Open a term with interactive python
+autocmd FileType html setlocal makeprg=$BROWSER\ %\ $*
+autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
+autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
+" }}}
+
+" Markers {{{3
+autocmd FileType python set foldmethod=indent
+autocmd FileType go set foldmethod=marker
+autocmd FileType go set foldmarker={,}
+" }}}
+
+" Proper comments (<leader>cc to comment, <leader>cu to uncomment, <Leader>c<space> to toggle) {{{3
+autocmd FileType python,sh setlocal commentstring=#\ %s
+autocmd FileType html setlocal commentstring=<!--\ %s\ -->
+autocmd FileType c setlocal commentstring=/*\ %s\ */
+autocmd FileType go setlocal commentstring=//\ %s
+autocmd FileType xdefaults setlocal commentstring=!\ %s
+autocmd FileType vim setlocal commentstring=\"\ %s
+" }}}
+
 " }}}
 " }}}
 
@@ -215,23 +248,6 @@ imap { {}<C-[>i
 imap < <><C-[>i
 " }}}
 
-" Autocmd to have custom settings depending on file type {{{2
-autocmd FileType c,cpp,java setlocal matchpairs+==:; " Jump between the '=' and ';'
-autocmd FileType html setlocal matchpairs+=<:>       " Adding a pair of <>
-autocmd FileType c setlocal makeprg=cc\ %\ $*
-autocmd FileType python nnoremap <F5> :term python -i %<CR> " Open a term with interactive python
-autocmd FileType html setlocal makeprg=$BROWSER\ %\ $*
-autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
-" }}}
-
-" Proper comments (<leader>cc to comment, <leader>cu to uncomment, <Leader>c<space> to toggle) {{{2
-autocmd FileType python,sh setlocal commentstring=#\ %s
-autocmd FileType html setlocal commentstring=<!--\ %s\ -->
-autocmd FileType c setlocal commentstring=/*\ %s\ */
-autocmd FileType go setlocal commentstring=//\ %s
-autocmd FileType xdefaults setlocal commentstring=!\ %s
-autocmd FileType vim setlocal commentstring=\"\ %s
-" }}}
 
 " Turn off search highlighting {{{2
 nmap <leader>, :nohlsearch<CR>
