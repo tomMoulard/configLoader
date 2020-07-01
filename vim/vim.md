@@ -67,6 +67,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |<c-o\>|Jump to previous place|
 |<c-p\>|Open file using CtrlP|
 |<c-r\>|Redo|
+|<c-w\>\_|Full screen current split to default value|
 |<c-w\>=|Resize all split to default value|
 |<c-w\>w|Move to next split|
 |<c-x\><c-f\>|When on INSERT mode, autocomplete file names|
@@ -89,7 +90,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |G|Go to the end of the file|
 |H|Move cursor at the top of the screen|
 |I|INSERT mode at the beginning of a line|
-|J|Join lines (removes indent and \n, add a <space\>)|
+|J|Join lines (removes indent and \\n, add a <space\>)|
 |K|Show vim help about the word under the cursor|
 |L|Move cursor at the bottom of the screen|
 |M|Move cursor at the middle of the screen|
