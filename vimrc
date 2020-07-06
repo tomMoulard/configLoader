@@ -14,7 +14,8 @@ set nocompatible               " Enter the new millennium
 
 " Settings {{{1
 " main mapping {{{2
-nnoremap  ; :                  " Map semicolon to colon
+" Map semicolon to colon
+nnoremap  ; :
 let mapleader=" "              " Set <leader> to space
 let g:mapleader=" "
 " }}}
@@ -187,6 +188,7 @@ autocmd FileType python nnoremap <F5> :term python -i %<CR> " Open a term with i
 autocmd FileType html setlocal makeprg=$BROWSER\ %\ $*
 autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
 autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
+autocmd FileType css setlocal makeprg=npx\ prettier\ --write\ %
 " }}}
 
 " Markers {{{3
