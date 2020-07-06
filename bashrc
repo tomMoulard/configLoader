@@ -169,12 +169,14 @@ prompt(){
     # If id command returns zero, you have root access.
     if [ "$(id -u)" -eq 0 ];
     then # you are root, set red colour prompt
-        PS1="${debian_chroot:+($debian_chroot)}\[${GREEN}\]"
-        PS1="${PS1}[\!]\u@\h:\W > \[${COLOR_OFF}\]\[$(tput sgr0)\]"
+        PS1="\[${debian_chroot:+($debian_chroot)}\[${GREEN}\]"
+        PS1="\[${PS1}[\!]\u@\h:\W > \[${COLOR_OFF}\]\[$(tput sgr0)\]"
+        PS1="\[${PS1}\]"
     else # normal
-        PS1="${debian_chroot:+($debian_chroot)}${RETVAL}"
-        PS1="${PS1}$(parse_git_branch)\[${GREEN}\][\!]\u@\h:"
-        PS1="${PS1}\[${BLUE}\]\W\[${PURPLE}\] > \[${COLOR_OFF}\]\[$(tput sgr0)\]"
+        PS1="\[${debian_chroot:+($debian_chroot)}\]\[${RETVAL}\]"
+        PS1="\[${PS1}\]$(parse_git_branch)\[${GREEN}\][\!]\u@\h:"
+        PS1="\[${PS1}\]\[${BLUE}\]\W\[${PURPLE}\] > \[${COLOR_OFF}\]\[$(tput sgr0)\]"
+        PS1="\[${PS1}\]"
     fi
 }
 # }}}
@@ -243,7 +245,7 @@ export VISUAL=vim
 export SHELL=bash
 export EDITOR="$VISUAL"
 export PAGER=less
-export BROWSER=chromium
+export BROWSER=google-chrome
 # }}}
 
 # Custom bin PATH {{{1
