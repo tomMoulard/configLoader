@@ -1,4 +1,16 @@
 #!/bin/bash
+# ${HOME}/.xinitrc
+# ┌─────────────────┐
+# │╻ ╻╻┏┓╻╻╺┳╸┏━┓┏━╸│
+# │┏╋┛┃┃┗┫┃ ┃ ┣┳┛┃  │
+# │╹ ╹╹╹ ╹╹ ╹ ╹┗╸┗━╸│
+# └─────────────────┘
+# Maintainer:
+#  tom at moulard dot org
+# Complete_version:
+#  You can file the updated version on the git repository
+#  github.com/tommoulard/configloader
+
 
 resources="$HOME/.Xresources /etc/X11/xinit/.Xresources"
 # modmap="$HOME/.Xmodmap /etc/X11/xinit/.Xmodmap"
