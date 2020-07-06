@@ -1,3 +1,15 @@
+# ${HOME}/.config/dunst/dunstrc
+# ┌─────────────────────┐
+# │╺┳┓╻ ╻┏┓╻┏━┓╺┳╸┏━┓┏━╸│
+# │ ┃┃┃ ┃┃┗┫┗━┓ ┃ ┣┳┛┃  │
+# │╺┻┛┗━┛╹ ╹┗━┛ ╹ ╹┗╸┗━╸│
+# └─────────────────────┘
+# Maintainer:
+#  tom at moulard dot org
+# Complete_version:
+#  You can file the updated version on the git repository
+#  github.com/tommoulard/configloader
+
 [global]
     ### Display ###
 
@@ -166,7 +178,7 @@
     max_icon_size = 32
 
     # Paths to default icons.
-    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/
+    icon_path = /usr/share/icons/gnome/16x16/status/:/usr/share/icons/gnome/16x16/devices/:/tmp/
 
     ### History ###
 
@@ -236,9 +248,10 @@
 
     # Redisplay last message(s).
     # On the US keyboard layout "grave" is normally above TAB and left
+    # (and "twosuperior" for non standard AZERTY Keyboards)
     # of "1". Make sure this key actually exists on your keyboard layout,
     # e.g. check output of 'xmodmap -pke'
-    history = ctrl+grave
+    history = ctrl+twosuperior
 
     # Context menu.
     context = ctrl+shift+period
