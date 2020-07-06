@@ -2,6 +2,27 @@
 
 ## How to
 # git clone http://github.com/tommoulard/configLoader.git $HOME/.config
+USAGE="Usage ${0}
+Option:
+\t-d,--debug\tActivate debug mode
+\t-v,--verbose\tActivate verbose mode
+\t-h,--help\tShow this help"
+
+while [[ "${1}" != "" ]]; do
+    case "${1}" in
+        -d|--debug)
+            set -x
+            ;;
+        -v|--verbose)
+            VERBOSE=true
+            ;;
+        -h|--help)
+            echo -e "${USAGE}"
+            exit 0
+            ;;
+    esac
+    shift
+done
 
 # createLink create a link between the file in the git repo and the output file
 # $1 must be the file path
@@ -14,11 +35,12 @@ function createLink() {
     if [ ${2} "$3" ]; then
         mv "$3" "${3}.$(date +"%y%m%d%H%M%S").old"
     fi
+    [ "${VERBOSE}" == "" ] || echo -e "ln -s "$PWD/${1}" "$3""
     ln -s "$PWD/${1}" "$3"
 }
 
 # Background picture
-wget -q https://tom.moulard.org/picts/background.jpg -O background/background.jpg
+timeout 5 wget -q https://tom.moulard.org/picts/background.jpg -O background/background.jpg
 
 # Profile
 createLink profile -f "$HOME/.profile"
