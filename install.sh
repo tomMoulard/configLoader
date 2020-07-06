@@ -29,62 +29,62 @@ done
 # $2 must be the test $(man test)
 # $2 must be the output file path
 function createLink() {
-    if [ -L "$3" ]; then
-        rm -r "$3"
+    if [ -L "${3}" ]; then
+        rm -r "${3}"
     fi
     if [ ${2} "$3" ]; then
         mv "$3" "${3}.$(date +"%y%m%d%H%M%S").old"
     fi
-    [ "${VERBOSE}" == "" ] || echo -e "ln -s "$PWD/${1}" "$3""
-    ln -s "$PWD/${1}" "$3"
+    [ "${VERBOSE}" == "" ] || echo ln -s "${PWD}/${1}" "$3"
+    ln -s "${PWD}/${1}" "$3"
 }
 
 # Background picture
 timeout 5 wget -q https://tom.moulard.org/picts/background.jpg -O background/background.jpg
 
 # Profile
-createLink profile -f "$HOME/.profile"
+createLink profile -f "${HOME}/.profile"
 
 # Xressourses
-createLink Xresources -f "$HOME/.Xresources"
-[[ -f /usr/bin/xrdb ]] && bash -c "/usr/bin/xrdb $HOME/.Xresources"
+createLink Xresources -f "${HOME}/.Xresources"
+[[ -f /usr/bin/xrdb ]] && bash -c "/usr/bin/xrdb ${HOME}/.Xresources"
 
 # Font
-createLink fonts -d "$HOME/.fonts"
+createLink fonts -d "${HOME}/.fonts"
 
 # Vim
-createLink vimrc -f "$HOME/.vimrc"
-createLink vim -d "$HOME/.vim"
+createLink vimrc -f "${HOME}/.vimrc"
+createLink vim -d "${HOME}/.vim"
 
 # SSH
-createLink ssh -d "$HOME/.ssh"
+createLink ssh -d "${HOME}/.ssh"
 
 # Bash
-createLink bashrc -f "$HOME/.bashrc"
-createLink aliases -f "$HOME/.bash_aliases"
-createLink bash_functions -f "$HOME/.bash_functions"
+createLink bashrc -f "${HOME}/.bashrc"
+createLink aliases -f "${HOME}/.bash_aliases"
+createLink bash_functions -f "${HOME}/.bash_functions"
 
 # Rxvt
-createLink urxvt -d "$HOME/.urxvt"
+createLink urxvt -d "${HOME}/.urxvt"
 
 # xinitrc
-createLink xinitrc -f "$HOME/.xinitrc"
+createLink xinitrc -f "${HOME}/.xinitrc"
 
 # gdbinit
-createLink gdbinit -f "$HOME/.gdbinit"
+createLink gdbinit -f "${HOME}/.gdbinit"
 
 # xmodmap
-createLink Xmodmap -f "$HOME/.Xmodmap"
+createLink Xmodmap -f "${HOME}/.Xmodmap"
 
 # dig
-createLink digrc -f "$HOME/.digrc"
+createLink digrc -f "${HOME}/.digrc"
 
 # gesture
-mkdir -p "$HOME/.config/fusuma/"
-createLink fusuma.yml -f "$HOME/.config/fusuma/config.yml"
+mkdir -p "${HOME}/.config/fusuma/"
+createLink fusuma.yml -f "${HOME}/.config/fusuma/config.yml"
 
 # config
-mkdir -p "$HOME/.config/"
+mkdir -p "${HOME}/.config/"
 for FOLDER in config/*; do
-    createLink "$FOLDER" -d "$HOME/.$FOLDER"
+    createLink "${FOLDER}" -d "${HOME}/.${FOLDER}"
 done
