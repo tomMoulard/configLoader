@@ -88,3 +88,6 @@ mkdir -p "${HOME}/.config/"
 for FOLDER in config/*; do
     createLink "${FOLDER}" -d "${HOME}/.${FOLDER}"
 done
+
+# curl
+createLink curlrc -f "${HOME}/.curlrc"
