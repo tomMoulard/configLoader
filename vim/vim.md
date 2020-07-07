@@ -146,6 +146,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |zo|Open fold|
 |zt|Move line at the top of the screen|
 |zw|Mark a work as misspelled|
+|zz|Center screen to cursor|
 |{|Move cursor on top of the paragraph|
 |}|Move cursor at the end of paragraph|
 |£|Highlight word under cursor and jump to previous occurrence|
