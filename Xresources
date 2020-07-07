@@ -114,6 +114,9 @@ URxvt.url-launcher:                 /usr/bin/xdg-open
 URxvt.matcher.button:               1
 URxvt.underlineURLs:                True
 
+!! do not scroll with output
+URxvt*scrollTtyOutput:              false
+
 ! for 'fake' transparency (without Compton) uncomment the following lines
 ! URxvt*inheritPixmap:              true
 URxvt*transparent:                  true
