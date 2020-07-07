@@ -4,6 +4,15 @@
 # │┣┻┓┣━┫┗━┓┣━┫   ┣━┫┃  ┃┣━┫┗━┓┣╸ ┗━┓│
 # │┗━┛╹ ╹┗━┛╹ ╹╺━╸╹ ╹┗━╸╹╹ ╹┗━┛┗━╸┗━┛│
 # └──────────────────────────────────┘
+# Maintainer:
+#  tom at moulard dot org
+# Complete_version:
+#  You can file the updated version on the git repository
+#  github.com/tommoulard/configloader
+
+for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
+    alias "$method"="lwp-request -m \"$method\""
+done
 
 alias -- -='cd -'
 alias ....='cd ../../..'
@@ -18,10 +27,11 @@ alias cls='clear'
 alias cm='cmake'
 alias d='dk'
 alias dd='dd status="progress"'
-alias diff='diff --color -u'
 alias df='df -hT --total --sync'
+alias diff='diff --color -u'
 alias dk='docker'
 alias egrep='egrep --color=auto'
+alias feh='feh --scale-down --image-bg black  --borderless --auto-zoom -sort filename'
 alias fgrep='fgrep --color=auto'
 alias g='gcloud'
 alias ga='git add'
@@ -40,8 +50,8 @@ alias grep='grep --color=auto'
 alias gs='gits'
 alias gsl='git shortlog -s'
 alias h='history'
-alias ipy='ipython'
 alias ip='ip -c'
+alias ipy='ipython'
 alias k='clear'
 alias l1='ls -1'
 alias l='ls -a'
@@ -84,3 +94,5 @@ alias vvrc='$EDITOR $HOME/workspace/configLoader/vimrc'
 alias wgetall='wget --execute="robots = off" --mirror --convert-links --no-parent --wait=5'
 alias xs='cd'
 alias xt='extract'
+
+# vim:ft=bash
