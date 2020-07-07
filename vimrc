@@ -29,6 +29,7 @@ set pumheight=6                " Keep a small completion window
 set complete+=k./*             " Enable auto complete with words of the current directory, it might take time
 set complete+=kspell           " Auto complete with words of the dictionary
 set complete+=k/usr/share/dict/words " Auto complete with more dictionary
+set infercase                  " Match current format when tab complete
 " }}}
 
 " Moving Around {{{2
@@ -50,6 +51,7 @@ set nowrap                     " Don't wrap lines
 set textwidth=0                " Do not wrap lines !
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode
 filetype plugin on             " Allow file type detection
+set spelllang=fr,en_us         " Spec spell check languages
 " }}}
 
 " Messages, Info {{{2
@@ -72,13 +74,29 @@ filetype indent on             " Allow indent customization from file type
 " }}}
 
 " Searching and Patterns {{{2
+if executable('ag')            " Set grep program to ag if available
+    setglobal grepprg=ag\ -s\ --vimgrep
+endif
 set hlsearch                   " Highlight search terms
 set ignorecase                 " Ignore case when searching
 set incsearch                  " Incrementally search while typing a /regex
 set magic                      " For regular expressions turn magic on
 set showmatch                  " Show matching parenthesis
 set smartcase                  " Ignore case if search pattern is all lowercase,  case sensitive otherwise
-set wildignore=*.swp,*.bak,*.pyc,*.class,*.o
+set wildignore+=.hg,.git,.svn  " Version control
+set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.spl          " compiled spelling word lists
+set wildignore+=*.sw?          " Vim swap files
+set wildignore+=*.DS_Store     " OSX bullshit
+set wildignore+=*.luac         " Lua byte code
+set wildignore+=migrations     " Django migrations
+set wildignore+=go/pkg         " Go static files
+set wildignore+=go/bin         " Go bin files
+set wildignore+=go/bin-vagrant " Go bin-vagrant files
+set wildignore+=*.pyc          " Python byte code
+set wildignore+=*.orig         " Merge resolution files
 " }}}
 
 " Sounds {{{2
@@ -183,29 +201,63 @@ autocmd FileType html setlocal matchpairs+=<:>       " Adding a pair of <>
 " }}}
 
 " makeprg (for :make) {{{3
-autocmd FileType c setlocal makeprg=cc\ %\ $*
-autocmd FileType python nnoremap <F5> :term python -i %<CR> " Open a term with interactive python
-autocmd FileType html setlocal makeprg=$BROWSER\ %\ $*
+autocmd FileType c        setlocal makeprg=cc\ %\ $*
+autocmd FileType python   nnoremap <F5> :term python -i %<CR> " Open a term with interactive python
+autocmd FileType html     setlocal makeprg=$BROWSER\ %\ $*
 autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
 autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
-autocmd FileType css setlocal makeprg=npx\ prettier\ --write\ %
+autocmd FileType css      setlocal makeprg=npx\ prettier\ --write\ %
 " }}}
 
 " Markers {{{3
 autocmd FileType python set foldmethod=indent
-autocmd FileType go set foldmethod=marker
-autocmd FileType go set foldmarker={,}
+autocmd FileType go     set foldmethod=marker
+autocmd FileType go     set foldmarker={,}
 " }}}
 
 " Proper comments (<leader>cc to comment, <leader>cu to uncomment, <Leader>c<space> to toggle) {{{3
 autocmd FileType python,sh setlocal commentstring=#\ %s
-autocmd FileType html setlocal commentstring=<!--\ %s\ -->
-autocmd FileType c setlocal commentstring=/*\ %s\ */
-autocmd FileType go setlocal commentstring=//\ %s
+autocmd FileType html      setlocal commentstring=<!--\ %s\ -->
+autocmd FileType c         setlocal commentstring=/*\ %s\ */
+autocmd FileType go        setlocal commentstring=//\ %s
 autocmd FileType xdefaults setlocal commentstring=!\ %s
-autocmd FileType vim setlocal commentstring=\"\ %s
+autocmd FileType vim       setlocal commentstring=\"\ %s
+autocmd FileType sql       setlocal commentstring=--\ %s
 " }}}
 
+" Settings {{{3
+autocmd FileType dockerfile set noexpandtab
+autocmd FileType go         setlocal noet ts=4 sw=4 sts=4
+autocmd FileType markdown   setlocal spell
+autocmd FileType gitcommit  setlocal spell
+autocmd FileType nginx      setlocal noet ts=4 sw=4 sts=4
+augroup Binary                 " Display Bin files using xxd
+  au!
+  au BufReadPre  *.bin  let &bin=1
+  au BufReadPost *.bin  if &bin | %!xxd
+  au BufReadPost *.bin  set ft=xxd | endif
+  au BufWritePre *.bin  if &bin | %!xxd -r
+  au BufWritePre *.bin  endif
+  au BufWritePost *.bin if &bin | %!xxd
+  au BufWritePost *.bin set nomod | endif
+augroup END
+" }}}
+
+" Path {{{3
+autocmd FileType c,cpp setlocal path+=/usr/include include&
+" }}}
+" }}}
+
+" Autocmd misc {{{2
+" When editing a file, always jump to the last known cursor position.
+" Don't do it when the position is invalid or when inside an event handler
+" (happens when dropping a file on gvim).
+" Also don't do it when the mark is in the first line, that is the default
+" position when opening a file.
+autocmd BufReadPost *
+      \ if line("'\"") > 1 && line("'\"") <= line("$") |
+      \	exe "normal! g`\"" |
+      \ endif
 " }}}
 " }}}
 
@@ -260,7 +312,7 @@ nmap <leader>, :nohlsearch<CR>
 " ]s    " Jump to next misspelled word
 " zg    " Add a word to dictionary
 " zw    " Mark a word misspelled
-map <F6> :setlocal spell! spelllang=fr,en_us<CR>
+map <F6> :setlocal spell!<CR>
 
 " Set dictionary (Its used with C-X C-K to auto complete words)
 set dictionary=/usr/share/dict/words
