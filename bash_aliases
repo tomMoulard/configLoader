@@ -14,11 +14,6 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
     alias "$method"="lwp-request -m \"$method\""
 done
 
-alias -- -='cd -'
-alias ....='cd ../../..'
-alias ...='cd ../..'
-alias ..='cd ..'
-alias _='sudo'
 alias aria2c='aria2c --conf-path=$HOME/workspace/configLoader/aria2.conf'
 alias c='docker-compose'
 alias cd..='cd ..'
@@ -94,5 +89,16 @@ alias vvrc='$EDITOR $HOME/workspace/configLoader/vimrc'
 alias wgetall='wget --execute="robots = off" --mirror --convert-links --no-parent --wait=5'
 alias xs='cd'
 alias xt='extract'
+
+source ${HOME}/workspace/configLoader/complete_alias
+for a in $(alias | cut -c 7- | cut -d'=' -f 1); do
+    complete -F _complete_alias $a
+done
+
+alias -- -='cd -'
+alias ....='cd ../../..'
+alias ...='cd ../..'
+alias ..='cd ..'
+alias _='sudo'
 
 # vim:ft=bash
