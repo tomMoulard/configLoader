@@ -146,3 +146,15 @@ URxvt.keysym.Control-Right:         \033[1;5C
 ! Ctrl + Alt + n launch a new windows
 URxvt.perl-ext-common:              default,new-window,matcher
 URxvt.keysym.Control-Shift-N:       perl:new-window
+
+! Rofi
+rofi.modi:                          combi
+rofi.font:                          Menlo 12
+rofi.show-icons:                    true
+rofi.terminal:                      urxvtc
+rofi.combi-modi:                    window,drun,run,🖫:rofi-file-browser.sh
+rofi.fake-transparency:             true
+rofi.theme:                         Monokai.rasi
+rofi.matching:                      normal
+rofi.drun-match-fields:             all
+rofi.window-match-fields:           all
