@@ -5,7 +5,7 @@ This is a list of vim commands sorted alphabetically (`:12kt<CR\>V't:sort<CR\>`)
 
 `<leader>` is set to <space\>
 
-This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), you might want to look at `:help`
+This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), you might want to look at `:help` and `:map`
 
 |Command|Description|
 |-------|-----------|
@@ -44,6 +44,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |:w!!|Save a file even when open without sudo (still need sudo pwd)|
 |:wq|Save and exit|
 |:w|Save file|
+|:w <file name\>|Save as <file name\>|
 |:x|Save and close file|
 |<F11\>|Do a horizontal split|
 |<F12\>|Do a vertical split|
