@@ -28,6 +28,9 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |:bn|Go to next buffer|
 |:bp|Go to previous buffer|
 |:cd <dir\>|move vim root dir to <dir\>|
+|:cn|Goto next error|
+|:copen|Open a windows with a list of errors|
+|:cp|Goto previous error|
 |:e <file\>|Open file|
 |:h <command\>|Show help for this command|
 |:help <command\>|Show help for this command|
@@ -41,10 +44,10 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |:r <file\>|Insert content of <file\>|
 |:r!<command\>|Insert the result of the shell <command\>|
 |:update|Save file only if there is changes|
+|:w <file name\>|Save as <file name\>|
 |:w!!|Save a file even when open without sudo (still need sudo pwd)|
 |:wq|Save and exit|
 |:w|Save file|
-|:w <file name\>|Save as <file name\>|
 |:x|Save and close file|
 |<F11\>|Do a horizontal split|
 |<F12\>|Do a vertical split|
@@ -114,9 +117,12 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |dt<char\>|Remove characters until next <char\>|
 |echo &<command\>|Display <command\> value|
 |e|Move cursor at the end of next word|
+|g??|Do rot13 on selected text|
 |ge|Move cursor at the end of previous word|
 |gf|open file from path under the cursor|
 |gg|Go to the beginning of the file|
+|gww|Format current line using wrap|
+|gw|Format selected text using wrap|
 |h|Move cursor left|
 |i|INSERT mode at cursor|
 |j|Move cursor down|
