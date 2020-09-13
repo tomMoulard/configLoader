@@ -24,7 +24,9 @@ let g:mapleader=" "
 set wildmenu                   " Menu completion in command mode on <Tab>
 set wildmode=full              " <Tab> cycles between all matching choices.
 set path+=**                   " Search down into sub folders
-set completeopt=menuone,longest,preview " Don't select first item, follow typing in auto complete
+set completeopt=menuone        " Always show pop up menu
+set completeopt+=longest       " Only insert the longest common text of the matches
+set completeopt+=preview       " Show extra information about the completion
 set pumheight=6                " Keep a small completion window
 set complete+=k./*             " Enable auto complete with words of the current directory, it might take time
 set complete+=kspell           " Auto complete with words of the dictionary
@@ -52,13 +54,34 @@ set textwidth=0                " Do not wrap lines !
 set backspace=indent,eol,start " Allow backspacing over everything in insert mode
 filetype plugin on             " Allow file type detection
 set spelllang=fr,en_us         " Spec spell check languages
+set nolinebreak                " no line wrapping
 " }}}
 
 " Messages, Info {{{2
 set confirm                    " Y-N-C prompt if closing with unsaved changes.
 set showcmd                    " Show incomplete normal mode commands as I type.
 set report=0                   " : commands always print changed line count.
-set shortmess+=a               " Use [+]/[RO]/[w] for modified/read only/written.
+set shortmess=f                " use "(3 of 5)" instead of "(file 3 of 5)".
+set shortmess+=i               " use "[noeol]" instead of "[Incomplete last line]".
+set shortmess+=l               " use "999L, 888C" instead of "999 lines, 888 characters".
+set shortmess+=m               " use "[+]" instead of "[Modified]".
+set shortmess+=n               " use "[New]" instead of "[New File]".
+set shortmess+=r               " use "[RO]" instead of "[readonly]".
+set shortmess+=w               " use "[w]" instead of "written" and and "[a]" instead of "appended".
+set shortmess+=x               " Use "[dos]" / "[unix]" / "[mac]" instead of "[dos format]" / "[unix format]" / "[mac format]"
+" set shortmess+=a               " all of the above abbreviations
+set shortmess+=o               " overwrite message for writing a file.
+set shortmess+=O               " message for reading a file overwrites any previous message.
+" set shortmess+=s               " don't give "search hit BOTTOM, continuing at TOP" or "search hit TOP, continuing at BOTTOM" message.
+set shortmess+=t               " truncate file message at the start if it is too long to fit.
+set shortmess+=T               " truncate other messages in the middle if they are too long to fit.
+" set shortmess+=W               " don't give "written" or "[w]" when writing a file.
+" set shortmess+=A               " don't give the "ATTENTION" message when an existing swap file is found.
+" set shortmess+=I               " don't give the intro message when starting Vim :intro.
+" set shortmess+=c               " don't give ins-completion-menu messages.
+" set shortmess+=q               " use "recording" instead of "recording @a".
+" set shortmess+=F               " don't give the file info when editing a file.
+" set shortmess+=S               " do not show search count message when searching, e.g. "[1/5]".
 " }}}
 
 " Indentation {{{2
@@ -128,7 +151,7 @@ set laststatus=2               " Always show status line, even if only 1 window.
 set statusline=%<%f\ (%{&ft})%=%-19(%3l,%02c%03V%)
 set noshowmode                 " Disable default status line
 set list                       " Show chars on VISUAL mode
-set listchars=tab:»·,trail:·,eol:\ ,extends:>,precedes:<,nbsp:¤
+set listchars=tab:»·,trail:$,eol:\ ,extends:>,precedes:<,nbsp:¤
 set ruler                      " Show the cursor position all the time
 set rulerformat=%15(%c%V\ %p%%%) " Display a better ruler
 set nocursorcolumn             " Remove a line indicating the cursor column
@@ -203,10 +226,10 @@ autocmd FileType html setlocal matchpairs+=<:>       " Adding a pair of <>
 " makeprg (for :make) {{{3
 autocmd FileType c        setlocal makeprg=cc\ %\ $*
 autocmd FileType python   nnoremap <F5> :term python -i %<CR> " Open a term with interactive python
-autocmd FileType html     setlocal makeprg=$BROWSER\ %\ $*
-autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
+autocmd FileType html     setlocal makeprg=tidy\ -e\ -q\ --gnu-emacs\ 1\ %\ $*
 autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
 autocmd FileType css      setlocal makeprg=npx\ prettier\ --write\ %
+autocmd FileType sh       setlocal makeprg=shellcheck\ -f\ gcc\ %\ $*
 " }}}
 
 " Markers {{{3
@@ -231,21 +254,34 @@ autocmd FileType go         setlocal noet ts=4 sw=4 sts=4
 autocmd FileType markdown   setlocal spell
 autocmd FileType gitcommit  setlocal spell
 autocmd FileType nginx      setlocal noet ts=4 sw=4 sts=4
+autocmd FileType mail       setlocal spell wrap tw=68
 augroup Binary                 " Display Bin files using xxd
-  au!
-  au BufReadPre  *.bin  let &bin=1
-  au BufReadPost *.bin  if &bin | %!xxd
-  au BufReadPost *.bin  set ft=xxd | endif
-  au BufWritePre *.bin  if &bin | %!xxd -r
-  au BufWritePre *.bin  endif
-  au BufWritePost *.bin if &bin | %!xxd
-  au BufWritePost *.bin set nomod | endif
+    autocmd!
+    autocmd BufReadPre  *.bin  let &bin=1
+    autocmd BufReadPost *.bin  if &bin | %!xxd
+    autocmd BufReadPost *.bin  set ft=xxd | endif
+    autocmd BufWritePre *.bin  if &bin | %!xxd -r
+    autocmd BufWritePre *.bin  endif
+    autocmd BufWritePost *.bin if &bin | %!xxd
+    autocmd BufWritePost *.bin set nomod | endif
+augroup END
+" }}}
+
+" Prettier files on save {{{3
+augroup Golang
+    autocmd!
+    autocmd BufWritePre *.go :%!gofmt
+augroup END
+augroup HTML                   " https://github.com/htacg/tidy-html5
+    autocmd!
+    " autocmd BufWritePre *.html :%!tidy -q -i --show-errors 0 --tidy-mark 0 --wrap 0 --ascii
 augroup END
 " }}}
 
 " Path {{{3
 autocmd FileType c,cpp setlocal path+=/usr/include include&
 " }}}
+
 " }}}
 
 " Autocmd misc {{{2
@@ -255,10 +291,11 @@ autocmd FileType c,cpp setlocal path+=/usr/include include&
 " Also don't do it when the mark is in the first line, that is the default
 " position when opening a file.
 autocmd BufReadPost *
-      \ if line("'\"") > 1 && line("'\"") <= line("$") |
-      \	exe "normal! g`\"" |
-      \ endif
+            \ if line("'\"") > 1 && line("'\"") <= line("$") |
+            \	exe "normal! g`\"" |
+            \ endif
 " }}}
+
 " }}}
 
 " Bindings {{{1
@@ -302,7 +339,6 @@ imap { {}<C-[>i
 imap < <><C-[>i
 " }}}
 
-
 " Turn off search highlighting {{{2
 nmap <leader>, :nohlsearch<CR>
 " }}}
@@ -313,6 +349,9 @@ nmap <leader>, :nohlsearch<CR>
 " zg    " Add a word to dictionary
 " zw    " Mark a word misspelled
 map <F6> :setlocal spell!<CR>
+
+" Spell check the next word
+nnoremap <leader>e ]sz=
 
 " Set dictionary (Its used with C-X C-K to auto complete words)
 set dictionary=/usr/share/dict/words
@@ -325,16 +364,23 @@ command! JsonPretty execute ":%!python -m json.tool"
 " Open Terminal (can use :vertical terminal) {{{2
 nnoremap <F3> :terminal<CR>
 " }}}
+
+" Indenting code block stays visualy selected {{{2
+vnoremap < <gv
+vnoremap > >gv
+" }}}
+
 " }}}
 
 " Plugins {{{1
 execute pathogen#infect()
+
 " Airline {{{2
 let g:airline#extensions#tabline#enabled = 1
 " }}}
 
 " Adding markdown syntax highlighter {{{2
-let g:markdown_fenced_languages = ['html', 'python', 'bash=sh']
+let g:markdown_fenced_languages = ['html', 'python', 'bash=sh', 'go']
 let g:markdown_syntax_conceal = 0
 let g:markdown_minlines = 100
 " }}}
@@ -377,4 +423,20 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 let g:UltiSnipsSnippetsDir = "~/.vim/UltiSnips/"
 " }}}
+
+" vim-markdown {{{2
+" Show syntax highlighting for latex formula inside $...$ of $$...$$
+let g:vim_markdown_math = 1
+" No folding
+let g:vim_markdown_folding_disabled = 1
+" :Toc auto fit size
+let g:vim_markdown_toc_autofit = 1
+" }}}
+
+" Git Gutter {{{2
+" Should only display signs, no mapping then
+let g:gitgutter_map_keys = 0
+sign define errors text=>> texthl=Error
+" }}}
+
 " }}} vim: fdm=marker
