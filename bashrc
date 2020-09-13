@@ -267,7 +267,6 @@ export BROWSER=google-chrome
 if [[ -d "$HOME/.cargo/bin" ]]; then
   PATH="$PATH:$HOME/.cargo/bin"
   [ -f "$HOME/.cargo/bin/zoxide" ] && eval "$(cat ${HOME}/workspace/configLoader/zoxide.bash)" && alias cd='z' && _ZO_DATA_DIR=$HOME/.local/share/zoxide.db
-  [ -f "$HOME/.cargo/bin/mcfly" ] && source ${HOME}/.local/opt/mcfly/mcfly.bash
 fi
 # }}}
 # }}}
