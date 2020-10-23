@@ -225,7 +225,8 @@ autocmd FileType html setlocal matchpairs+=<:>       " Adding a pair of <>
 
 " makeprg (for :make) {{{3
 autocmd FileType c        setlocal makeprg=cc\ %\ $*
-autocmd FileType python   nnoremap <F5> :term python -i %<CR> " Open a term with interactive python
+" Open a term with interactive python
+autocmd FileType python   nnoremap <F5> :belowright 20split | terminal python -i %<CR>
 autocmd FileType html     setlocal makeprg=tidy\ -e\ -q\ --gnu-emacs\ 1\ %\ $*
 autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
 autocmd FileType css      setlocal makeprg=npx\ prettier\ --write\ %
@@ -254,6 +255,7 @@ autocmd FileType go         setlocal noet ts=4 sw=4 sts=4
 autocmd FileType markdown   setlocal spell
 autocmd FileType gitcommit  setlocal spell
 autocmd FileType nginx      setlocal noet ts=4 sw=4 sts=4
+autocmd FileType yaml       setlocal ts=2 sw=2 sts=2
 autocmd FileType mail       setlocal spell wrap tw=68
 augroup Binary                 " Display Bin files using xxd
     autocmd!
@@ -270,7 +272,8 @@ augroup END
 " Prettier files on save {{{3
 augroup Golang
     autocmd!
-    autocmd BufWritePre *.go :%!gofmt
+    " autocmd BufWritePre *.go :%!gofmt
+    " autocmd BufWritePost *.go  <c-o>
 augroup END
 augroup HTML                   " https://github.com/htacg/tidy-html5
     autocmd!
@@ -280,6 +283,10 @@ augroup END
 
 " Path {{{3
 autocmd FileType c,cpp setlocal path+=/usr/include include&
+" }}}
+
+" To read a skeleton (template) file when opening a new file: {{{3
+autocmd BufNewFile  *.go 0r ~/workspace/default_files/go/main.go
 " }}}
 
 " }}}
