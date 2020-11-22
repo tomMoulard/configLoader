@@ -272,7 +272,7 @@ augroup END
 " Prettier files on save {{{3
 augroup Golang
     autocmd!
-    " autocmd BufWritePre *.go :%!gofmt
+    autocmd BufWritePre *.go :GoLint
     " autocmd BufWritePost *.go  <c-o>
 augroup END
 augroup HTML                   " https://github.com/htacg/tidy-html5
