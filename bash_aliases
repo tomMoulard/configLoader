@@ -15,6 +15,7 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
 done
 
 alias aria2c='aria2c --conf-path=$HOME/workspace/configLoader/aria2.conf'
+alias bettercap='docker run -it --privileged --net=host bettercap/bettercap'
 alias c='docker-compose'
 alias cd..='cd ..'
 alias check='awk -f $HOME/workspace/verifCode/verifCode.awk'
@@ -62,6 +63,7 @@ alias mkae='ma'
 alias mkea='ma'
 alias myip='curl http://ipecho.net/plain; echo'
 alias py='python'
+alias rsync='rsync --progress'
 alias q='exit'
 alias rb='ruby'
 alias rd='rmdir'
@@ -88,6 +90,7 @@ alias vvrc='$EDITOR $HOME/workspace/configLoader/vimrc'
 alias wgetall='wget --execute="robots = off" --mirror --convert-links --no-parent --wait=5'
 alias xs='cd'
 alias xt='extract'
+alias yaegi='rlwrap yaegi'
 
 source ${HOME}/workspace/configLoader/complete_alias
 for a in $(alias | cut -c 7- | cut -d'=' -f 1); do
