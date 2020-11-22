@@ -62,3 +62,17 @@ keywords: ${12:true}
 ---
 $0
 endsnippet
+
+snippet --- "Markdown metadata for beamer" A
+---
+title: ${1:`!p snip.rv = snip.basename.capitalize()`}
+author: ${2:`echo $USER`}
+date: ${3:`date +'%d %B %Y'`}
+lang: ${4:`echo $LANG`}
+theme: ${5:Warsaw}
+institute: ${6:EPITA}
+aspectratio: 43
+logo: ${9:`!p snip.rv = snip.basename`.png}
+---
+$0
+endsnippet
