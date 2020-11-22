@@ -147,6 +147,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |zM|Close all fold|
 |zR|Open all fold|
 |za|Toggle fold open and closed|
+|zb|Move line at the bottom of the screen|
 |zc|Close fold|
 |zf<command\>|Create fold using <command\> (like zf3j or V'tzf)|
 |zg|add work to dict|
