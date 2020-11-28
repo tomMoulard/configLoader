@@ -1,5 +1,5 @@
 language: bash
 
 script:
-  - shellcheck bash_aliases
+  - shellcheck -e SC2139,SC1090 bash_aliases
   - shellcheck bash_functions

@@ -1,3 +1,4 @@
+#!/bin/bash
 # $HOME/.bash_aliases
 # ┌──────────────────────────────────┐
 # │┏┓ ┏━┓┏━┓╻ ╻   ┏━┓╻  ╻┏━┓┏━┓┏━╸┏━┓│
@@ -11,7 +12,7 @@
 #  github.com/tommoulard/configloader
 
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
-    alias "$method"="lwp-request -m \"$method\""
+    alias ${method}="lwp-request -m \"${method}\""
 done
 
 alias aria2c='aria2c --conf-path=$HOME/workspace/configLoader/aria2.conf'
@@ -68,7 +69,6 @@ alias q='exit'
 alias rb='ruby'
 alias rd='rmdir'
 alias reload='source $HOME/.bashrc'
-alias s$EDITOR='sudo $EDITOR'
 alias sarc='subl $HOME/workspace/configLoader/aliases'
 alias sbpf='subl $HOME/workspace/configLoader/profile'
 alias sbrc='subl $HOME/workspace/configLoader/bashrc'
@@ -92,9 +92,9 @@ alias xs='cd'
 alias xt='extract'
 alias yaegi='rlwrap yaegi'
 
-source ${HOME}/workspace/configLoader/complete_alias
+source "${HOME}/workspace/configLoader/complete_alias"
 for a in $(alias | cut -c 7- | cut -d'=' -f 1); do
-    complete -F _complete_alias $a
+    complete -F _complete_alias "$a"
 done
 
 alias -- -='cd -'
