@@ -1,3 +1,4 @@
+#!/bin/bash
 # $HOME/.bashrc
 # ┌──────────────────┐
 # │┏┓ ┏━┓┏━┓╻ ╻┏━┓┏━╸│
@@ -266,7 +267,7 @@ export BROWSER=google-chrome
 # Zoxide {{{2
 if [[ -d "$HOME/.cargo/bin" ]]; then
   PATH="$PATH:$HOME/.cargo/bin"
-  [ -f "$HOME/.cargo/bin/zoxide" ] && eval "$(cat ${HOME}/workspace/configLoader/zoxide.bash)" && alias cd='z' && _ZO_DATA_DIR=$HOME/.local/share/zoxide.db
+  [ -f "$HOME/.cargo/bin/zoxide" ] && eval "$(cat "${HOME}/workspace/configLoader/zoxide.bash")" && alias cd='z' && _ZO_DATA_DIR="${HOME}/.local/share/zoxide.db"
 fi
 # }}}
 # }}}
@@ -277,9 +278,10 @@ export GPG_TTY
 # }}}
 
 # gnome keyring {{{1
-eval `gnome-keyring-daemon --start`
-export SSH_AUTH_SOCK="$(ls /run/user/$(id -u $USERNAME)/keyring*/ssh|head -1)"
-export SSH_AGENT_PID="$(pgrep gnome-keyring)"
+eval "$(gnome-keyring-daemon --start)"
+SSH_AUTH_SOCK="$(find /run/user/"$(id -u "${USERNAME}")"/keyring*/ssh|head -1)"
+SSH_AGENT_PID="$(pgrep gnome-keyring)"
+export "${SSH_AUTH_SOCK?}" "${SSH_AGENT_PID?}"
 # }}}
 
 # vim: fdm=marker
