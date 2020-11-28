@@ -1,0 +1,5 @@
+language: bash
+
+script:
+  - shellcheck bash_aliases
+  - shellcheck bash_functions
