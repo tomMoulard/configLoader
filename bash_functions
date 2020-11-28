@@ -83,12 +83,14 @@ function upgrade {
     sudo snap refresh;
 }
 
-# Removes spaces from a file name
+# Removes spaces from a file name (can use globing)
 # file\ with \spaces.py -> file-with-spaces.py
 function remove-spaces {
-    FILE=$(echo $1 | sed 's/ /-/g')
-    mv "$1" "$FILE"
-    echo $FILE
+    for INPUT in "$@"; do
+        FILE=${INPUT// /-}
+        mv "${INPUT}" "${FILE}"
+        echo $FILE
+    done
 }
 
 # vim:ft=bash
