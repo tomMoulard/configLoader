@@ -85,9 +85,11 @@ function upgrade {
 
 # Removes spaces from a file name (can use globing)
 # file\ with \spaces.py -> file-with-spaces.py
+# file\ - \stuff.py -> file-stuff.py
 function remove-spaces {
     for INPUT in "$@"; do
         FILE=${INPUT// /-}
+        FILE=$(echo ${FILE} | sed 's/--*/-/g')
         mv "${INPUT}" "${FILE}"
         echo $FILE
     done
