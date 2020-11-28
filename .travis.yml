@@ -2,4 +2,4 @@ language: bash
 
 script:
   - shellcheck -e SC2139,SC1090 bash_aliases
-  - shellcheck bash_functions
+  - shellcheck -e SC1090,SC2046 bash_functions

@@ -1,3 +1,4 @@
+#!/bin/bash
 # $HOME/.bash_functions
 # ┌────────────────────────────────────────┐
 # │┏┓ ┏━┓┏━┓╻ ╻   ┏━╸╻ ╻┏┓╻┏━╸╺┳╸╻┏━┓┏┓╻┏━┓│
@@ -18,7 +19,7 @@ function extract {
         echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
         return 1
     else
-        for n in $@
+        for n in "$@"
         do
             if [ -f "$n" ] ; then
                 case "${n%,}" in # migth use file to detect file type
@@ -49,13 +50,7 @@ function extract {
 }
 
 # Generate a "password"
-function genpwd { < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-16};echo; }
-
-# cd into a directory and list its contents
-function cdl {
-    cd "$@"
-    ls
-}
+function genpwd { < /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c"${1:-16}";echo; }
 
 function _disown {
     bash -c "$1" >& /dev/null &
@@ -65,13 +60,13 @@ function _disown {
 TMP=$(mktemp)
 
 for fun in firefox chromium google-chrome thunderbird evince; do
-    echo "function $fun { _disown \"$fun \$@\"; };" >> ${TMP}
+    echo "function ${fun} { _disown \"${fun} \$@\"; };" >> "${TMP}"
 done
 
-source ${TMP} && rm ${TMP}
+source "${TMP}" && rm "${TMP}"
 
 function dc {
-    docker-compose $(find -name 'docker-compose*.yml' -type f -printf '%p\t%d\n'  2>/dev/null | sort -n -k2 | cut -f 1 | awk '{print "-f "$0}') $@
+    docker-compose $(find . -name 'docker-compose*.yml' -type f -printf '%p\t%d\n' 2>/dev/null | sort -n -k2 | cut -f 1 | awk '{print "-f "$0}') "$@"
 }
 
 function upgrade {
