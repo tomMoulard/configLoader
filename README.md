@@ -1,5 +1,6 @@
 # ConfigLoader
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/27010672c81b484ebc88abe992f9fe40)](https://www.codacy.com/app/tomMoulard/configLoader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tomMoulard/configLoader&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.com/tomMoulard/configLoader.svg?branch=master)](https://travis-ci.com/tomMoulard/configLoader)
 
 Shell script to load my settings directly
 
