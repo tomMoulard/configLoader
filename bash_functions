@@ -88,10 +88,10 @@ function upgrade {
 # file\ - \stuff.py -> file-stuff.py
 function remove-spaces {
     for INPUT in "$@"; do
-        FILE=${INPUT// /-}
-        FILE=$(echo ${FILE} | sed 's/--*/-/g')
+        FILE="${INPUT// /-}"
+        FILE="${FILE//+(-)/-}"
         mv "${INPUT}" "${FILE}"
-        echo $FILE
+        echo "${FILE}"
     done
 }
 
