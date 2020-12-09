@@ -14,39 +14,32 @@
 # Extract the content of an achive
 function extract {
     if [ -z "$1" ]; then
-        # display usage if no parameters given
-        echo "Usage: extract <path/file_name>.<zip|rar|bz2|gz|tar|tbz2|tgz|Z|7z|xz|ex|tar.bz2|tar.gz|tar.xz>"
-        echo "       extract <path/file_name_1.ext> [path/file_name_2.ext] [path/file_name_3.ext]"
+        echo "Usage: ${FUNCNAME[0]} <path/file...>"
         return 1
-    else
-        for n in "$@"
-        do
-            if [ -f "$n" ] ; then
-                case "${n%,}" in # migth use file to detect file type
-                    #file $n | awk '{print $2}'
-                    *.tar.bz2|*.tar.gz|*.tar.xz|*.tbz2|*.tgz|*.txz|*.tar)
-                    tar xvf "$n"       ;;
-                *.lzma)      unlzma ./"$n"      ;;
-                *.bz2)       bunzip2 ./"$n"     ;;
-                *.rar)       unrar x -ad ./"$n" ;;
-                *.gz)        gunzip ./"$n"      ;;
-                *.zip)       unzip ./"$n"       ;;
-                *.z)         uncompress ./"$n"  ;;
-                *.7z|*.arj|*.cab|*.chm|*.deb|*.dmg|*.iso|*.lzh|*.msi|*.rpm|*.udf|*.wim|*.xar)
-                    7z x ./"$n"        ;;
-                *.xz)        unxz ./"$n"        ;;
-                *.exe)       cabextract ./"$n"  ;;
-                *)
-                    echo "extract: '$n' - unknown archive method"
-                    return 1
-                    ;;
-            esac
-        else
-            echo "'$n' - file does not exist"
-            return 1
-            fi
-        done
     fi
+    for n in "$@"; do
+        if [ ! -f "${n}" ] ; then
+            echo "${FUNCNAME[0]}: '${n}': file does not exist"
+            continue
+        fi
+        FTYPE="$(file "${n%,}" | awk '{print $2}')"
+        case "${FTYPE}" in
+            "compress'd") uncompress ./"${n}"      ;; # comrpess <file*>
+            7-zip)        7z x ./"${n}"            ;; # 7z a -t7z <archive.7z> <file*>
+            Allegro)      pack u "${n}" "${n}.out" ;; # pack <files> <file out>
+            LZMA)         unlzma ./"${n}"          ;; # lzma <file*>
+            PE32)         cabextract ./"${n}"      ;;
+            RAR)          unrar x -ad ./"${n}"     ;; # rar a -r <archive.rar> <file*>
+            XZ)           unxz ./"${n}"            ;; # xz <file>
+            Zip)          unzip ./"${n}"           ;; # zip <archive.zip> <file*>
+            bzip2)        bunzip2 ./"${n}"         ;; # bzip2 <file*>
+            gzip)         tar xvf "${n}"           ;; # tar cfz <archive.tar> <file*>
+            *)
+                echo "${FUNCNAME[0]}: '${n}': '${FTYPE}' is a unknown archive method"
+                continue
+                ;;
+        esac
+    done
 }
 
 # Generate a "password"
