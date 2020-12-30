@@ -24,7 +24,7 @@ function extract {
         fi
         FTYPE="$(file "${n%,}" | awk '{print $2}')"
         case "${FTYPE}" in
-            "compress'd") uncompress ./"${n}"      ;; # comrpess <file*>
+            "compress'd") uncompress ./"${n}"      ;; # compress -f <file*>
             7-zip)        7z x ./"${n}"            ;; # 7z a -t7z <archive.7z> <file*>
             Allegro)      pack u "${n}" "${n}.out" ;; # pack <files> <file out>
             LZMA)         unlzma ./"${n}"          ;; # lzma <file*>
