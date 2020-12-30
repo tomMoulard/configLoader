@@ -26,17 +26,17 @@ done
 
 # createLink create a link between the file in the git repo and the output file
 # $1 must be the file path
-# $2 must be the test $(man test)
-# $2 must be the output file path
+# $2 must be the test $(man test) shellcheck SC1073,SC1072,SC1009
+# $3 must be the output file path
 function createLink() {
     if [ -L "${3}" ]; then
         rm -r "${3}"
     fi
-    if [ ${2} "$3" ]; then
-        mv "$3" "${3}.$(date +"%y%m%d%H%M%S").old"
+    if [ "${2}" "${3}" ]; then
+        mv "${3}" "${3}.$(date +"%y%m%d%H%M%S").old"
     fi
-    [ "${VERBOSE}" == "" ] || echo ln -s "${PWD}/${1}" "$3"
-    ln -s "${PWD}/${1}" "$3"
+    [ "${VERBOSE}" == "true" ] && echo ln -s "${PWD}/${1}" "${3}"
+    ln -s "${PWD}/${1}" "${3}"
 }
 
 # Background picture
@@ -78,6 +78,9 @@ createLink Xmodmap -f "${HOME}/.Xmodmap"
 
 # dig
 createLink digrc -f "${HOME}/.digrc"
+
+# inputrc
+createLink digrc -f "${HOME}/.inputrc"
 
 # gesture
 mkdir -p "${HOME}/.config/fusuma/"
