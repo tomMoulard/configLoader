@@ -48,6 +48,9 @@ shopt -s cmdhist
 # If set, the pattern "**" used in a pathname expansion context will
 # match all files and zero or more directories and subdirectories.
 # shopt -s globstar
+
+# Remove terminal suspend feature (<ctrl-s> and <ctrl-q>)
+# stty -ixon
 # }}}
 
 # Less {{{1
