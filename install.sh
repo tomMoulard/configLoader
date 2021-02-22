@@ -80,7 +80,7 @@ createLink Xmodmap -f "${HOME}/.Xmodmap"
 createLink digrc -f "${HOME}/.digrc"
 
 # inputrc
-createLink digrc -f "${HOME}/.inputrc"
+createLink inputrc  -f "${HOME}/.inputrc"
 
 # gesture
 mkdir -p "${HOME}/.config/fusuma/"
@@ -94,3 +94,6 @@ done
 
 # curl
 createLink curlrc -f "${HOME}/.curlrc"
+
+# git config
+git config --global core.excludesfile "${HOME}/workspace/configLoader/gitignore"
