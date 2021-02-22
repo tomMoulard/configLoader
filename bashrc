@@ -274,7 +274,7 @@ if [[ -d "${HOME}/.cargo/bin" ]]; then
   # Zoxide https://github.com/ajeetdsouza/zoxide
   [ -f "${HOME}/.cargo/bin/zoxide" ] && eval "$(zoxide init bash)" && alias cd='z' && _ZO_DATA_DIR="${HOME}/.local/share/zoxide.db"
   # Exa https://github.com/ogham/exa
-  ([ -f "${HOME}/.cargo/bin/exa" ] || [ -f "$(which exa)" ]) && alias ls='exa'
+  [ -f "$(command -v exa)" ] && alias ls='exa'
 fi
 # }}}
 # }}}
