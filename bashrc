@@ -262,18 +262,19 @@ export BROWSER=google-chrome
 # Custom bin PATH {{{1
 # Enable to have some scripts in the PATH
 # https://github.com/tomMoulard/scripts
-[ -d "$HOME/.scripts" ] && PATH="$PATH:$HOME/.scripts" # github.com/tommoulard/scripts
-[ -d "$HOME/go/bin" ] && PATH="$PATH:$HOME/go/bin"     # https://golang.org/doc/code.html#Command
-[ -d "$HOME/.local/bin" ] && PATH="$PATH:$HOME/.local/bin"
+[ -d "${HOME}/.scripts" ] && PATH="$PATH:${HOME}/.scripts" # github.com/tommoulard/scripts
+[ -d "${HOME}/go/bin" ] && PATH="$PATH:${HOME}/go/bin"     # https://golang.org/doc/code.html#Command
+[ -d "${HOME}/.local/bin" ] && PATH="$PATH:${HOME}/.local/bin"
 [ -d "/usr/local/go/bin" ] && PATH=$PATH:/usr/local/go/bin
+[ -d "${HOME}/.local/opt/go/bin" ] && PATH=$PATH:${HOME}/.local/opt/go/bin
 
 # Cargo stuff {{{2
-if [[ -d "$HOME/.cargo/bin" ]]; then
-  PATH="$PATH:$HOME/.cargo/bin"
+if [[ -d "${HOME}/.cargo/bin" ]]; then
+  PATH="$PATH:${HOME}/.cargo/bin"
   # Zoxide https://github.com/ajeetdsouza/zoxide
-  [ -f "$HOME/.cargo/bin/zoxide" ] && eval "$(cat "${HOME}/workspace/configLoader/zoxide.bash")" && alias cd='z' && _ZO_DATA_DIR="${HOME}/.local/share/zoxide.db"
+  [ -f "${HOME}/.cargo/bin/zoxide" ] && eval "$(zoxide init bash)" && alias cd='z' && _ZO_DATA_DIR="${HOME}/.local/share/zoxide.db"
   # Exa https://github.com/ogham/exa
-  [ -f "$HOME/.cargo/bin/exa" ] && alias ls='exa'
+  ([ -f "${HOME}/.cargo/bin/exa" ] || [ -f "$(which exa)" ]) && alias ls='exa'
 fi
 # }}}
 # }}}
@@ -291,3 +292,4 @@ export SSH_AUTH_SOCK="${SSH_AUTH_SOCK?}" SSH_AGENT_PID="${SSH_AGENT_PID?}"
 # }}}
 
 # vim: fdm=marker
+source "$HOME/.cargo/env"
