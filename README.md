@@ -57,3 +57,9 @@ cava
 cmatrix
 toilet
 ```
+
+## GTK themes:
+```
+gtk-chtheme
+lxappearance
+```
