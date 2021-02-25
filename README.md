@@ -22,6 +22,7 @@ $ cd $HOME/workspace/configLoader && make
 (alphabetical sort)
 
 ```
+arandr
 autoconf
 compton
 curl
@@ -42,6 +43,7 @@ rofi
 rxvt-unicode
 screenkey
 scrot
+speedtest-cli
 tree
 vim
 wget
