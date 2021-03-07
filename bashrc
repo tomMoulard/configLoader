@@ -244,7 +244,10 @@ fi
 bind 'set completion-ignore-case on'
 
 # Minio Completion
-complete -C /home/tm/go/bin/mc mc
+[ -f "/home/tm/go/bin/mc" ] && complete -C /home/tm/go/bin/mc mc
+
+# kubectl autocomplete
+which kubect && source <(kubectl completion bash)
 # }}}
 
 # Loggin {{{1
