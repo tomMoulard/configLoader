@@ -247,7 +247,7 @@ bind 'set completion-ignore-case on'
 [ -f "/home/tm/go/bin/mc" ] && complete -C /home/tm/go/bin/mc mc
 
 # kubectl autocomplete
-which kubect && source <(kubectl completion bash)
+command -v kubect && source <(kubectl completion bash)
 # }}}
 
 # Loggin {{{1
