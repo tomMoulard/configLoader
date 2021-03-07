@@ -61,7 +61,7 @@ createLink ssh -d "${HOME}/.ssh"
 
 # Bash
 createLink bashrc -f "${HOME}/.bashrc"
-createLink aliases -f "${HOME}/.bash_aliases"
+createLink bash_aliases -f "${HOME}/.bash_aliases"
 createLink bash_functions -f "${HOME}/.bash_functions"
 
 # Rxvt
