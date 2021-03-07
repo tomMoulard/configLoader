@@ -97,7 +97,7 @@ Xft.lcdfilter:                      lcddefault
 
 ! Urxvt
 ! Font, see fc-list(1), live testing fonts with `printf '\e]710;%s\007' "xft:Terminus:pixelsize=12"`
-URxvt*font:                         xft:Menlo:style=Regular, xft:Menlo Nerd Font:style=Regular, xft:Roboto,xft:DejaVu Sans Mono,xft:Unifont,xft:Noto Color Emoji
+URxvt*font:                         xft:Menlo:style=Regular, xft:Menlo Nerd Font:style=Regular, xft:Roboto,xft:DejaVu Sans Mono,xft:Unifont,xft:NotoColorEmoji
 Urxvt.letterSpace:                  0
 
 ! True transparency
@@ -119,7 +119,7 @@ URxvt*scrollTtyOutput:              false
 
 ! for 'fake' transparency (without Compton) uncomment the following lines
 ! URxvt*inheritPixmap:              true
-URxvt*transparent:                  true
+! URxvt*transparent:                  true
 URxvt*shading:                      20
 ! URxvt*tintColor:                  #245b8f
 ! URxvt*tintColor:                  base00
