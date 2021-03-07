@@ -295,4 +295,3 @@ export SSH_AUTH_SOCK="${SSH_AUTH_SOCK?}" SSH_AGENT_PID="${SSH_AGENT_PID?}"
 # }}}
 
 # vim: fdm=marker
-source "$HOME/.cargo/env"
