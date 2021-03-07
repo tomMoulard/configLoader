@@ -33,7 +33,7 @@ bindsym $mod+Return exec urxvt
 bindsym $mod+Shift+Q kill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id $HOME/.local/bin/rofi -show-icons -modi combi -show combi -combi-modi drun,run
+bindsym $mod+d exec --no-startup-id rofi -show combi
 
 # start ssh launcher
 bindsym $mod+Shift+s exec --no-startup-id $HOME/.local/bin/rofi -show ssh
@@ -233,7 +233,7 @@ bar {
     # tray_output none|primary|<output>
     tray_output primary
     # bar position top|bottom
-    position bottom
+    position top
     font menlo:pango:DejaVu Sans Mono 8
     separator_symbol " "
 }
