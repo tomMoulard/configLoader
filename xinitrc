@@ -13,7 +13,7 @@
 
 
 resources="$HOME/.Xresources /etc/X11/xinit/.Xresources"
-# modmap="$HOME/.Xmodmap /etc/X11/xinit/.Xmodmap"
+modmap="/etc/X11/xinit/.Xmodmap $HOME/.Xmodmap"
 
 # $1: command to exec if the file exist
 # $n: list of filenames
@@ -26,6 +26,6 @@ function apply(){
 }
 
 apply "xrdb -merge" $resources
-# apply "xmodmap" $modmap
+apply "xmodmap" $modmap
 
 # exec /usr/local/bin/dwm
