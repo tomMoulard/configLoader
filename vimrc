@@ -256,6 +256,7 @@ autocmd FileType markdown   setlocal spell
 autocmd FileType gitcommit  setlocal spell
 autocmd FileType nginx      setlocal noet ts=4 sw=4 sts=4
 autocmd FileType yaml       setlocal ts=2 sw=2 sts=2
+autocmd FileType toml       setlocal ts=2 sw=2 sts=2
 autocmd FileType mail       setlocal spell wrap tw=68
 augroup Binary                 " Display Bin files using xxd
     autocmd!
