@@ -273,11 +273,12 @@ export BROWSER=google-chrome
 
 # Cargo stuff {{{2
 if [[ -d "${HOME}/.cargo/bin" ]]; then
-  PATH="$PATH:${HOME}/.cargo/bin"
-  # Zoxide https://github.com/ajeetdsouza/zoxide
-  [ -f "${HOME}/.cargo/bin/zoxide" ] && eval "$(zoxide init bash)" && alias cd='z' && _ZO_DATA_DIR="${HOME}/.local/share/zoxide.db"
-  # Exa https://github.com/ogham/exa
-  [ -f "$(command -v exa)" ] && alias ls='exa'
+    PATH="$PATH:${HOME}/.cargo/bin"
+    [ -f "${HOME}/.cargo/env" ] && source "${HOME}/.cargo/env"
+    # Zoxide https://github.com/ajeetdsouza/zoxide
+    [ -f "${HOME}/.cargo/bin/zoxide" ] && eval "$(zoxide init bash)" && alias cd='z' && _ZO_DATA_DIR="${HOME}/.local/share/zoxide.db"
+    # Exa https://github.com/ogham/exa
+    [ -f "$(command -v exa)" ] && alias ls='exa'
 fi
 # }}}
 # }}}
