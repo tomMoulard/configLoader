@@ -247,7 +247,7 @@ bind 'set completion-ignore-case on'
 [ -f "/home/tm/go/bin/mc" ] && complete -C /home/tm/go/bin/mc mc
 
 # kubectl autocomplete
-command -v kubect && source <(kubectl completion bash)
+[ -f "$(command -v kubect)" ] && source <(kubectl completion bash)
 # }}}
 
 # Loggin {{{1
@@ -285,15 +285,13 @@ fi
 # }}}
 
 # GPG agent {{{1
-GPG_TTY=$(tty)
-export GPG_TTY
+[ -f "$(command -v tty)" ] && GPG_TTY=$(tty) export GPG_TTY
 # }}}
 
 # gnome keyring {{{1
-eval "$(gnome-keyring-daemon --start)"
-SSH_AUTH_SOCK="$(find /run/user/"$(id -u "${USERNAME}")"/keyring*/ssh|head -1)"
-SSH_AGENT_PID="$(pgrep gnome-keyring)"
-export SSH_AUTH_SOCK="${SSH_AUTH_SOCK?}" SSH_AGENT_PID="${SSH_AGENT_PID?}"
+[ -f "$(command -v gnome-keyring-daemon)" ] && eval "$(gnome-keyring-daemon --start)"
+[ -f "$(command -v id)" ] && SSH_AUTH_SOCK="$(find /run/user/"$(id -u "${USERNAME}")"/keyring*/ssh|head -1)" && export SSH_AUTH_SOCK="${SSH_AUTH_SOCK?}"
+[ -f "$(command -v pgrep)" ] && SSH_AGENT_PID="$(pgrep gnome-keyring)" && export SSH_AGENT_PID="${SSH_AGENT_PID?}"
 # }}}
 
 # vim: fdm=marker
