@@ -83,4 +83,9 @@ function remove-spaces {
     done
 }
 
+function notify {
+    bash -c "time $@";
+    notify-send "Command is finished: ${?}" "$@"
+}
+
 # vim:ft=bash
