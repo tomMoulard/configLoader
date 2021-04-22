@@ -1,0 +1,7 @@
+version: "2"
+services:
+  dotfiles:
+    build:
+      context: .
+    volumes:
+      - ..:/root/workspace/configLoader

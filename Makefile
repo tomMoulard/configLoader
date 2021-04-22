@@ -8,7 +8,7 @@ test:
 	shellcheck -x -e SC2034,SC1090 bashrc
 
 
-BIN = docker-compose
+BIN = docker-compose -f demo/docker-compose.yml
 demo-down:
 	$(BIN) down
 

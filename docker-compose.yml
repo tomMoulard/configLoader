@@ -1,8 +1,0 @@
-version: "2"
-services:
-    dotfiles:
-        build:
-            context: .
-        volumes:
-            - ../configLoader/:/root/workspace/configLoader
-        command: bash -c "cd /root/workspace/configLoader/ && ./install.sh"
