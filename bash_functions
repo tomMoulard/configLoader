@@ -84,7 +84,7 @@ function remove-spaces {
 }
 
 function notify {
-    bash -c "time $@";
+    bash -c "$@";
     notify-send "Command is finished: ${?}" "$@"
 }
 
