@@ -6,6 +6,8 @@ test:
 	shellcheck -e SC1090,SC2046 bash_functions
 	shellcheck -e  SC1073,SC1072,SC1009 install.sh
 	shellcheck -x -e SC2034,SC1090 bashrc
+	shellcheck demo/entrypoint.sh
+	shfmt -l -d bash* *.sh **/*.sh
 
 
 BIN = docker-compose -f demo/docker-compose.yml
