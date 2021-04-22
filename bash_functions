@@ -25,15 +25,15 @@ function extract {
 		FTYPE="$(file "${n%,}" | awk '{print $2}')"
 		case "${FTYPE}" in
 		"compress'd") uncompress ./"${n}" ;; # compress -f <file*>
-		7-zip) 7z x ./"${n}" ;;              # 7z a -t7z <archive.7z> <file*>
+		7-zip) 7z x ./"${n}" ;; # 7z a -t7z <archive.7z> <file*>
 		Allegro) pack u "${n}" "${n}.out" ;; # pack <files> <file out>
-		LZMA) unlzma ./"${n}" ;;             # lzma <file*>
+		LZMA) unlzma ./"${n}" ;; # lzma <file*>
 		PE32) cabextract ./"${n}" ;;
 		RAR) unrar x -ad ./"${n}" ;; # rar a -r <archive.rar> <file*>
-		XZ) unxz ./"${n}" ;;         # xz <file>
-		Zip) unzip ./"${n}" ;;       # zip <archive.zip> <file*>
-		bzip2) bunzip2 ./"${n}" ;;   # bzip2 <file*>
-		gzip) tar xvf "${n}" ;;      # tar cfz <archive.tar> <file*>
+		XZ) unxz ./"${n}" ;; # xz <file>
+		Zip) unzip ./"${n}" ;; # zip <archive.zip> <file*>
+		bzip2) bunzip2 ./"${n}" ;; # bzip2 <file*>
+		gzip) tar xvf "${n}" ;; # tar cfz <archive.tar> <file*>
 		*)
 			echo "${FUNCNAME[0]}: '${n}': '${FTYPE}' is a unknown archive method"
 			continue
@@ -43,12 +43,12 @@ function extract {
 }
 
 # Generate a "password"
-function genpwd {
+function genpwd() {
 	tr </dev/urandom -dc _A-Z-a-z-0-9 | head -c"${1:-16}"
 	echo
 }
 
-function _disown {
+function _disown() {
 	bash -c "$1" >&/dev/null &
 	disown $!
 }
@@ -61,11 +61,11 @@ done
 
 source "${TMP}" && rm "${TMP}"
 
-function dc {
+function dc() {
 	docker-compose $(find . -name 'docker-compose*.yml' -type f -printf '%p\t%d\n' 2>/dev/null | sort -n -k2 | cut -f 1 | awk '{print "-f "$0}') "$@"
 }
 
-function upgrade {
+function upgrade() {
 	apt list --upgradable
 	for x in update upgrade; do
 		sudo apt $x -y
@@ -77,7 +77,7 @@ function upgrade {
 # Removes spaces from a file name (can use globing)
 # file\ with \spaces.py -> file-with-spaces.py
 # file\ - \stuff.py -> file-stuff.py
-function remove-spaces {
+function remove-spaces() {
 	for INPUT in "$@"; do
 		FILE="${INPUT// /-}"
 		FILE="${FILE//+(-)/-}"
@@ -86,7 +86,7 @@ function remove-spaces {
 	done
 }
 
-function notify {
+function notify() {
 	bash -c "$@"
 	notify-send "Command is finished: ${?}" "$@"
 }
