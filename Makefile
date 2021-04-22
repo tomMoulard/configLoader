@@ -1,4 +1,4 @@
-all:
+all: test
 	./install.sh
 
 test:
