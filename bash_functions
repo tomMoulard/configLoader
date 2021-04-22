@@ -12,7 +12,7 @@
 #  github.com/tommoulard/configloader
 
 # Extract the content of an achive
-function extract {
+function extract() {
 	if [ -z "$1" ]; then
 		echo "Usage: ${FUNCNAME[0]} <path/file...>"
 		return 1

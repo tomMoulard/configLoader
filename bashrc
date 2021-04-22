@@ -121,7 +121,7 @@ function parse_git_branch() {
 }
 
 # get current status of git repo
-function parse_git_dirty {
+function parse_git_dirty() {
 	status=$(git status 2>&1 | tee)
 	dirty=$(
 		echo -n "${status}" 2>/dev/null |
