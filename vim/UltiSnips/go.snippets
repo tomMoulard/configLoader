@@ -42,3 +42,9 @@ endsnippet
 snippet var "Variable declaration" b
 var ${1:name}${2/(.+)/ /}${2:type}${3: = ${0:value}}
 endsnippet
+
+snippet errr "Err definition" A
+if err != nil {
+	${0:return err}
+}
+endsnippet
