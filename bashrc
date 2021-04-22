@@ -17,8 +17,8 @@
 
 # If not running interactively, don't do anything
 case $- in
-    *i*) ;;
-      *) return;;
+*i*) ;;
+*) return ;;
 esac
 
 # History {{{1
@@ -81,125 +81,143 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 #                 37 white       47 white
 # Separate with ";"
 # Reset
-COLOR_OFF="\033[0m"       # Text Reset
+COLOR_OFF="\033[0m" # Text Reset
 
 # Regular Colors
-BLACK="\033[1;30m"        # Black
-RED="\033[1;31m"          # Red
-GREEN="\033[1;32m"        # Green
-YELLOW="\033[1;33m"       # Yellow
-BLUE="\033[1;34m"         # Blue
-PURPLE="\033[1;35m"       # Purple
-CYAN="\033[1;36m"         # Cyan
-WHITE="\033[1;37m"        # White
+BLACK="\033[1;30m"  # Black
+RED="\033[1;31m"    # Red
+GREEN="\033[1;32m"  # Green
+YELLOW="\033[1;33m" # Yellow
+BLUE="\033[1;34m"   # Blue
+PURPLE="\033[1;35m" # Purple
+CYAN="\033[1;36m"   # Cyan
+WHITE="\033[1;37m"  # White
 # }}}
 
 # VAR identification {{{2
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
-    debian_chroot=$(cat /etc/debian_chroot)
+	debian_chroot=$(cat /etc/debian_chroot)
 fi
 
 # set a fancy prompt (non-color, unless we know we "want" color)
 case "${TERM}" in
-    xterm-color|*-256color) color_prompt=yes;;
+xterm-color | *-256color) color_prompt=yes ;;
 esac
 # }}}
 
 # Git repo status {{{2
 # get current branch in git repo
 function parse_git_branch() {
-    BRANCH="$(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
-    if [ ! "${BRANCH}" == "" ]; then
-        STAT="$(parse_git_dirty)"
-        if [[ "${STAT}" == "" ]]; then
-            echo -e "${GREEN}[${BRANCH}${GREEN}]${COLOR_OFF}"
-        else
-            echo -e "${GREEN}[${BRANCH}${STAT}${GREEN}]${COLOR_OFF}"
-        fi
-    fi
+	BRANCH="$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
+	if [ ! "${BRANCH}" == "" ]; then
+		STAT="$(parse_git_dirty)"
+		if [[ "${STAT}" == "" ]]; then
+			echo -e "${GREEN}[${BRANCH}${GREEN}]${COLOR_OFF}"
+		else
+			echo -e "${GREEN}[${BRANCH}${STAT}${GREEN}]${COLOR_OFF}"
+		fi
+	fi
 }
 
 # get current status of git repo
 function parse_git_dirty {
-    status=$(git status 2>&1 | tee)
-    dirty=$(echo -n "${status}" 2> /dev/null \
-        | grep "modified:" &> /dev/null; echo "$?")
-    untracked=$(echo -n "${status}" 2> /dev/null \
-        | grep "Untracked files" &> /dev/null; echo "$?")
-    ahead=$(echo -n "${status}" 2> /dev/null \
-        | grep "Your branch is ahead of" &> /dev/null; echo "$?")
-    newfile=$(echo -n "${status}" 2> /dev/null \
-        | grep "new file:" &> /dev/null; echo "$?")
-    renamed=$(echo -n "${status}" 2> /dev/null \
-        | grep "renamed:" &> /dev/null; echo "$?")
-    deleted=$(echo -n "${status}" 2> /dev/null \
-        | grep "deleted:" &> /dev/null; echo "$?")
-    bits=''
-    if [ "${renamed}" == "0" ]; then
-        bits="${GREEN}>${bits}${COLOR_OFF}"
-    fi
-    if [ "${ahead}" == "0" ]; then
-        bits="${GREEN}*${bits}${COLOR_OFF}"
-    fi
-    if [ "${newfile}" == "0" ]; then
-        bits="${GREEN}+${bits}${COLOR_OFF}"
-    fi
-    if [ "${untracked}" == "0" ]; then
-        bits="${GREEN}?${bits}${COLOR_OFF}"
-    fi
-    if [ "${deleted}" == "0" ]; then
-        bits="${RED}x${bits}${COLOR_OFF}"
-    fi
-    if [ "${dirty}" == "0" ]; then
-        bits="${RED}!${bits}${COLOR_OFF}"
-    fi
-    if [ ! "${bits}" == "" ]; then
-        echo " ${bits}"
-    fi
+	status=$(git status 2>&1 | tee)
+	dirty=$(
+		echo -n "${status}" 2>/dev/null |
+			grep "modified:" &>/dev/null
+		echo "$?"
+	)
+	untracked=$(
+		echo -n "${status}" 2>/dev/null |
+			grep "Untracked files" &>/dev/null
+		echo "$?"
+	)
+	ahead=$(
+		echo -n "${status}" 2>/dev/null |
+			grep "Your branch is ahead of" &>/dev/null
+		echo "$?"
+	)
+	newfile=$(
+		echo -n "${status}" 2>/dev/null |
+			grep "new file:" &>/dev/null
+		echo "$?"
+	)
+	renamed=$(
+		echo -n "${status}" 2>/dev/null |
+			grep "renamed:" &>/dev/null
+		echo "$?"
+	)
+	deleted=$(
+		echo -n "${status}" 2>/dev/null |
+			grep "deleted:" &>/dev/null
+		echo "$?"
+	)
+	bits=''
+	if [ "${renamed}" == "0" ]; then
+		bits="${GREEN}>${bits}${COLOR_OFF}"
+	fi
+	if [ "${ahead}" == "0" ]; then
+		bits="${GREEN}*${bits}${COLOR_OFF}"
+	fi
+	if [ "${newfile}" == "0" ]; then
+		bits="${GREEN}+${bits}${COLOR_OFF}"
+	fi
+	if [ "${untracked}" == "0" ]; then
+		bits="${GREEN}?${bits}${COLOR_OFF}"
+	fi
+	if [ "${deleted}" == "0" ]; then
+		bits="${RED}x${bits}${COLOR_OFF}"
+	fi
+	if [ "${dirty}" == "0" ]; then
+		bits="${RED}!${bits}${COLOR_OFF}"
+	fi
+	if [ ! "${bits}" == "" ]; then
+		echo " ${bits}"
+	fi
 }
 # }}}
 
 # Prompt {{{2
 PROMPT_COMMAND=prompt
-prompt(){
-    RETVAL=$?
-    if [[ $RETVAL -ne 0 ]]; then
-        RETVAL="${RED}${RETVAL}${COLOR_OFF} "
-    else
-        RETVAL=""
-    fi
+prompt() {
+	RETVAL=$?
+	if [[ $RETVAL -ne 0 ]]; then
+		RETVAL="${RED}${RETVAL}${COLOR_OFF} "
+	else
+		RETVAL=""
+	fi
 
-    # Set terminal title
-    PS1="\\[\\033]0;\\w\\007\\]";
+	# Set terminal title
+	PS1="\\[\\033]0;\\w\\007\\]"
 
-    # If id command returns zero, you have root access.
-    if [ "$(id -u)" -eq 0 ]; then
-        PS1+="\[${debian_chroot:+($debian_chroot)}\[${GREEN}\]"
-        PS1="\[${PS1}[\!]\u@\h:\W > \[${COLOR_OFF}\]\[$(tput sgr0)\]"
-        PS1="\[${PS1}\]"
-    else # normal
-        PS1+="\\[${debian_chroot:+($debian_chroot)}\\]\\[${RETVAL}\\]"
-        PS1="\\[${PS1}\\]$(parse_git_branch)\\[${GREEN}\\][\!]\u@\h:"
-        PS1="\\[${PS1}\\]\\[${BLUE}\\]\W\\[${PURPLE}\\] > "
-        PS1="\\[${PS1}\\]\\[${COLOR_OFF}\\]\\[$(tput sgr0)\\]"
-        PS1="\\[${PS1}\\]"
-    fi
-    export PS1;
+	# If id command returns zero, you have root access.
+	if [ "$(id -u)" -eq 0 ]; then
+		PS1+="\[${debian_chroot:+($debian_chroot)}\[${GREEN}\]"
+		PS1="\[${PS1}[\!]\u@\h:\W > \[${COLOR_OFF}\]\[$(tput sgr0)\]"
+		PS1="\[${PS1}\]"
+	else # normal
+		PS1+="\\[${debian_chroot:+($debian_chroot)}\\]\\[${RETVAL}\\]"
+		PS1="\\[${PS1}\\]$(parse_git_branch)\\[${GREEN}\\][\!]\u@\h:"
+		PS1="\\[${PS1}\\]\\[${BLUE}\\]\W\\[${PURPLE}\\] > "
+		PS1="\\[${PS1}\\]\\[${COLOR_OFF}\\]\\[$(tput sgr0)\\]"
+		PS1="\\[${PS1}\\]"
+	fi
+	export PS1
 
-    PS2="\\[${YELLOW}\\]→ \\[${COLOR_OFF}\\]";
-    export PS2;
+	PS2="\\[${YELLOW}\\]→ \\[${COLOR_OFF}\\]"
+	export PS2
 }
 # }}}
 # }}}
 
 # enable color support {{{1
 if [ -x /usr/bin/dircolors ]; then
-    if [ -r "$HOME/.dircolors" ]; then
-      eval "$(dircolors -b ~/.dircolors)"
-    else
-      eval "$(dircolors -b)"
-    fi
+	if [ -r "$HOME/.dircolors" ]; then
+		eval "$(dircolors -b ~/.dircolors)"
+	else
+		eval "$(dircolors -b)"
+	fi
 fi
 # }}}
 
@@ -212,7 +230,7 @@ fi
 # Alias definitions.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 if [ -f ~/workspace/configLoader/bash_aliases ]; then
-    source "$HOME/workspace/configLoader/bash_aliases"
+	source "$HOME/workspace/configLoader/bash_aliases"
 fi
 # }}}
 
@@ -220,7 +238,7 @@ fi
 # functions definitions.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 if [ -f ~/.bash_functions ]; then
-    source "$HOME/workspace/configLoader/bash_functions"
+	source "$HOME/workspace/configLoader/bash_functions"
 fi
 # }}}
 
@@ -229,9 +247,9 @@ fi
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  [ -r /usr/share/bash-completion ] && source /usr/share/bash-completion/*
-  [ -r /etc/bash_completion.d ] && source /etc/bash_completion.d/*
-  [ -r /etc/bash_completion ] && source /etc/bash_completion
+	[ -r /usr/share/bash-completion ] && source /usr/share/bash-completion/*
+	[ -r /etc/bash_completion.d ] && source /etc/bash_completion.d/*
+	[ -r /etc/bash_completion ] && source /etc/bash_completion
 fi
 
 # Allow not case sensitive autocompletion
@@ -245,7 +263,7 @@ bind 'set completion-ignore-case on'
 # }}}
 
 # Loggin {{{1
-date >> ~/.terminalLogDate
+date >>~/.terminalLogDate
 # }}}
 
 # Custom ENV var {{{1
@@ -268,12 +286,12 @@ export CDPATH=:..:~:~/workspace:~/.local/opt:~/Documents:~/go/src
 
 # Cargo stuff {{{2
 if [[ -d "${HOME}/.cargo/bin" ]]; then
-    PATH="$PATH:${HOME}/.cargo/bin"
-    [ -f "${HOME}/.cargo/env" ] && source "${HOME}/.cargo/env"
-    # Zoxide https://github.com/ajeetdsouza/zoxide can be replaced by CDPATH
-    [[ "${CDPATH}" == "" && -f "${HOME}/.cargo/bin/zoxide" ]] && eval "$(zoxide init bash)" && alias cd='z' && _ZO_DATA_DIR="${HOME}/.local/share/zoxide.db"
-    # Exa https://github.com/ogham/exa
-    [ -f "$(command -v exa)" ] && alias ls='exa'
+	PATH="$PATH:${HOME}/.cargo/bin"
+	[ -f "${HOME}/.cargo/env" ] && source "${HOME}/.cargo/env"
+	# Zoxide https://github.com/ajeetdsouza/zoxide can be replaced by CDPATH
+	[[ "${CDPATH}" == "" && -f "${HOME}/.cargo/bin/zoxide" ]] && eval "$(zoxide init bash)" && alias cd='z' && _ZO_DATA_DIR="${HOME}/.local/share/zoxide.db"
+	# Exa https://github.com/ogham/exa
+	[ -f "$(command -v exa)" ] && alias ls='exa'
 fi
 # }}}
 # }}}
@@ -284,7 +302,7 @@ fi
 
 # gnome keyring {{{1
 [ -f "$(command -v gnome-keyring-daemon)" ] && eval "$(gnome-keyring-daemon --start)"
-[[ -f "$(command -v id)" && -f "/run/user" ]] && SSH_AUTH_SOCK="$(find /run/user/"$(id -u "${USERNAME:-root}")"/keyring*/ssh|head -1)" && export SSH_AUTH_SOCK="${SSH_AUTH_SOCK?}"
+[[ -f "$(command -v id)" && -f "/run/user" ]] && SSH_AUTH_SOCK="$(find /run/user/"$(id -u "${USERNAME:-root}")"/keyring*/ssh | head -1)" && export SSH_AUTH_SOCK="${SSH_AUTH_SOCK?}"
 [ -f "$(command -v pgrep)" ] && SSH_AGENT_PID="$(pgrep gnome-keyring)" && export SSH_AGENT_PID="${SSH_AGENT_PID?}"
 # }}}
 
