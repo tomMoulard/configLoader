@@ -290,7 +290,7 @@ fi
 
 # gnome keyring {{{1
 [ -f "$(command -v gnome-keyring-daemon)" ] && eval "$(gnome-keyring-daemon --start)"
-[ -f "$(command -v id)" ] && SSH_AUTH_SOCK="$(find /run/user/"$(id -u "${USERNAME}")"/keyring*/ssh|head -1)" && export SSH_AUTH_SOCK="${SSH_AUTH_SOCK?}"
+[[ -f "$(command -v id)" && -f "/run/user" ]] && SSH_AUTH_SOCK="$(find /run/user/"$(id -u "${USERNAME:-root}")"/keyring*/ssh|head -1)" && export SSH_AUTH_SOCK="${SSH_AUTH_SOCK?}"
 [ -f "$(command -v pgrep)" ] && SSH_AGENT_PID="$(pgrep gnome-keyring)" && export SSH_AGENT_PID="${SSH_AGENT_PID?}"
 # }}}
 
