@@ -229,15 +229,9 @@ fi
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
 if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion ]; then
-    source /usr/share/bash-completion/*
-  fi
-  if [ -f /etc/bash_completion.d ]; then
-    source /etc/bash_completion.d/*
-  fi
-  if [ -f /etc/bash_completion ]; then
-    source /etc/bash_completion
-  fi
+  [ -r /usr/share/bash-completion ] && source /usr/share/bash-completion/*
+  [ -r /etc/bash_completion.d ] && source /etc/bash_completion.d/*
+  [ -r /etc/bash_completion ] && source /etc/bash_completion
 fi
 
 # Allow not case sensitive autocompletion
