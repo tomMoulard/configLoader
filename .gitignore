@@ -8,3 +8,7 @@ vim/spell/*
 # pictures
 *.jpg
 *.png
+
+# ssh
+ssh/known_hosts
+ssh/id_*
