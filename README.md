@@ -2,7 +2,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/27010672c81b484ebc88abe992f9fe40)](https://www.codacy.com/app/tomMoulard/configLoader?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=tomMoulard/configLoader&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.com/tomMoulard/configLoader.svg?branch=master)](https://travis-ci.com/tomMoulard/configLoader)
 
-Shell script to load my settings directly
+Shell script to load my settings/dotfiles
 
 ## Usage
 
@@ -18,7 +18,21 @@ $ git clone --recurse-submodules git@github.com:tomMoulard/configLoader.git $HOM
 $ cd $HOME/workspace/configLoader && make
 ```
 
-# Here are a few dependencies for you to fetch
+## Options
+When using the `install.sh` script, you can use options to help you during installation:
+```
+Usage ./install.sh
+Option:
+	-d,--debug	Activate debug mode
+	-v,--verbose	Activate verbose mode
+	-h,--help	Show this help
+```
+
+## Demo
+If you want to try those configuration, there is a `demo` recipe in the `Makefile`.
+When you do `make demo`, you will be creating a docker image with the configuration installed and ready to use it.
+
+## Here are a few dependencies for you to fetch
 (alphabetical sort)
 
 ```
