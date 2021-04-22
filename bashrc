@@ -260,6 +260,7 @@ export SHELL=bash
 export EDITOR="$VISUAL"
 export PAGER=less
 export BROWSER=google-chrome
+export CDPATH=:..:~:~/workspace:~/.local/opt:~/Documents:~/go/src
 # }}}
 
 # Custom bin PATH {{{1
@@ -275,8 +276,8 @@ export BROWSER=google-chrome
 if [[ -d "${HOME}/.cargo/bin" ]]; then
     PATH="$PATH:${HOME}/.cargo/bin"
     [ -f "${HOME}/.cargo/env" ] && source "${HOME}/.cargo/env"
-    # Zoxide https://github.com/ajeetdsouza/zoxide
-    [ -f "${HOME}/.cargo/bin/zoxide" ] && eval "$(zoxide init bash)" && alias cd='z' && _ZO_DATA_DIR="${HOME}/.local/share/zoxide.db"
+    # Zoxide https://github.com/ajeetdsouza/zoxide can be replaced by CDPATH
+    [[ "${CDPATH}" == "" && -f "${HOME}/.cargo/bin/zoxide" ]] && eval "$(zoxide init bash)" && alias cd='z' && _ZO_DATA_DIR="${HOME}/.local/share/zoxide.db"
     # Exa https://github.com/ogham/exa
     [ -f "$(command -v exa)" ] && alias ls='exa'
 fi
