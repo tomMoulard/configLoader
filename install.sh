@@ -9,19 +9,19 @@ Option:
 \t-h,--help\tShow this help"
 
 while [[ "${1}" != "" ]]; do
-    case "${1}" in
-        -d|--debug)
-            set -x
-            ;;
-        -v|--verbose)
-            VERBOSE=true
-            ;;
-        -h|--help)
-            echo -e "${USAGE}"
-            exit 0
-            ;;
-    esac
-    shift
+	case "${1}" in
+	-d | --debug)
+		set -x
+		;;
+	-v | --verbose)
+		VERBOSE=true
+		;;
+	-h | --help)
+		echo -e "${USAGE}"
+		exit 0
+		;;
+	esac
+	shift
 done
 
 # createLink create a link between the file in the git repo and the output file
@@ -29,14 +29,14 @@ done
 # $2 must be the test $(man test) shellcheck SC1073,SC1072,SC1009
 # $3 must be the output file path
 function createLink() {
-    if [ -L "${3}" ]; then
-        rm -r "${3}"
-    fi
-    if [ "${2}" "${3}" ]; then
-        mv "${3}" "${3}.$(date +"%y%m%d%H%M%S").old"
-    fi
-    [ "${VERBOSE}" == "true" ] && echo ln -s "${PWD}/${1}" "${3}"
-    ln -s "${PWD}/${1}" "${3}"
+	if [ -L "${3}" ]; then
+		rm -r "${3}"
+	fi
+	if [ "${2}" "${3}" ]; then
+		mv "${3}" "${3}.$(date +"%y%m%d%H%M%S").old"
+	fi
+	[ "${VERBOSE}" == "true" ] && echo ln -s "${PWD}/${1}" "${3}"
+	ln -s "${PWD}/${1}" "${3}"
 }
 
 # Background picture
@@ -80,7 +80,7 @@ createLink Xmodmap -f "${HOME}/.Xmodmap"
 createLink digrc -f "${HOME}/.digrc"
 
 # inputrc
-createLink inputrc  -f "${HOME}/.inputrc"
+createLink inputrc -f "${HOME}/.inputrc"
 
 # gesture
 mkdir -p "${HOME}/.config/fusuma/"
@@ -89,7 +89,7 @@ createLink fusuma.yml -f "${HOME}/.config/fusuma/config.yml"
 # config
 mkdir -p "${HOME}/.config/"
 for FOLDER in config/*; do
-    createLink "${FOLDER}" -d "${HOME}/.${FOLDER}"
+	createLink "${FOLDER}" -d "${HOME}/.${FOLDER}"
 done
 
 # curl
