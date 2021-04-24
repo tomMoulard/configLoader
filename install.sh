@@ -96,4 +96,5 @@ done
 createLink curlrc -f "${HOME}/.curlrc"
 
 # git config
+createLink gitconfig -f "${HOME}/.gitconfig"
 git config --global core.excludesfile "${HOME}/workspace/configLoader/gitignore"

@@ -1,0 +1,22 @@
+[user]
+	name = Tom Moulard
+	email = tom.moulard@epita.fr
+[push]
+	default = simple
+[color]
+	ui = true
+[credential]
+	helper = cache --timeout=360000
+[alias]
+	tree = log --all --decorate --oneline --graph
+	pull = pull --rebase
+	oops = commit --amend --no-edit
+	diff = diff --ignore-all-space
+[diff "bin"]
+	textconv = hexdump -v -C
+[diff "pdf"]
+	textconv = pdfinfo
+[diff "zip"]
+	textconv = unzip -v
+[pull]
+	rebase = true
