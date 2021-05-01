@@ -84,14 +84,14 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 COLOR_OFF="\033[0m" # Text Reset
 
 # Regular Colors
-BLACK="\033[1;30m"  # Black
-RED="\033[1;31m"    # Red
-GREEN="\033[1;32m"  # Green
-YELLOW="\033[1;33m" # Yellow
-BLUE="\033[1;34m"   # Blue
-PURPLE="\033[1;35m" # Purple
-CYAN="\033[1;36m"   # Cyan
-WHITE="\033[1;37m"  # White
+BLACK="\[\033[1;30m\]"  # Black
+RED="\[\033[1;31m\]"    # Red
+GREEN="\[\033[1;32m\]"  # Green
+YELLOW="\[\033[1;33m\]" # Yellow
+BLUE="\[\033[1;34m\]"   # Blue
+PURPLE="\[\033[1;35m\]" # Purple
+CYAN="\[\033[1;36m\]"   # Cyan
+WHITE="\[\033[1;37m\]"  # White
 # }}}
 
 # VAR identification {{{2
@@ -111,70 +111,25 @@ esac
 function parse_git_branch() {
 	BRANCH="$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
 	if [ ! "${BRANCH}" == "" ]; then
-		STAT="$(parse_git_dirty)"
-		if [[ "${STAT}" == "" ]]; then
-			echo -e "${GREEN}[${BRANCH}${GREEN}]${COLOR_OFF}"
-		else
-			echo -e "${GREEN}[${BRANCH}${STAT}${GREEN}]${COLOR_OFF}"
-		fi
+        echo -e "${GREEN}[${BRANCH}$(parse_git_dirty)${GREEN}]${COLOR_OFF}"
 	fi
 }
 
 # get current status of git repo
 function parse_git_dirty() {
-	status=$(git status 2>&1 | tee)
-	dirty=$(
-		echo -n "${status}" 2>/dev/null |
-			grep "modified:" &>/dev/null
-		echo "$?"
-	)
-	untracked=$(
-		echo -n "${status}" 2>/dev/null |
-			grep "Untracked files" &>/dev/null
-		echo "$?"
-	)
-	ahead=$(
-		echo -n "${status}" 2>/dev/null |
-			grep "Your branch is ahead of" &>/dev/null
-		echo "$?"
-	)
-	newfile=$(
-		echo -n "${status}" 2>/dev/null |
-			grep "new file:" &>/dev/null
-		echo "$?"
-	)
-	renamed=$(
-		echo -n "${status}" 2>/dev/null |
-			grep "renamed:" &>/dev/null
-		echo "$?"
-	)
-	deleted=$(
-		echo -n "${status}" 2>/dev/null |
-			grep "deleted:" &>/dev/null
-		echo "$?"
-	)
-	bits=''
-	if [ "${renamed}" == "0" ]; then
-		bits="${GREEN}>${bits}${COLOR_OFF}"
-	fi
-	if [ "${ahead}" == "0" ]; then
-		bits="${GREEN}*${bits}${COLOR_OFF}"
-	fi
-	if [ "${newfile}" == "0" ]; then
-		bits="${GREEN}+${bits}${COLOR_OFF}"
-	fi
-	if [ "${untracked}" == "0" ]; then
-		bits="${GREEN}?${bits}${COLOR_OFF}"
-	fi
-	if [ "${deleted}" == "0" ]; then
-		bits="${RED}x${bits}${COLOR_OFF}"
-	fi
-	if [ "${dirty}" == "0" ]; then
-		bits="${RED}!${bits}${COLOR_OFF}"
-	fi
-	if [ ! "${bits}" == "" ]; then
-		echo " ${bits}"
-	fi
+	STATUS=$(git status 2>&1 | tee)
+	function _grep_git_status() {
+		if [[ "${STATUS}" == *"${1}"* ]]; then
+			echo "${2}"
+		fi
+	}
+	BITS="${GREEN}$(_grep_git_status "renamed:" ">")${COLOR_OFF}"
+	BITS+="${GREEN}$(_grep_git_status "Your branch is ahead of" "*")${COLOR_OFF}"
+	BITS+="${GREEN}$(_grep_git_status "new file:" "+")${COLOR_OFF}"
+	BITS+="${GREEN}$(_grep_git_status "Untracked files" "?")${COLOR_OFF}"
+	BITS+="${RED}$(_grep_git_status "deleted:" "x")${COLOR_OFF}"
+	BITS+="${RED}$(_grep_git_status "modified:" "!")${COLOR_OFF}"
+	echo " ${BITS}"
 }
 # }}}
 
