@@ -4,9 +4,10 @@
 # git clone http://github.com/tommoulard/configLoader.git $HOME/.config
 USAGE="Usage ${0}
 Option:
+\t-c,--config\tPromt user to enter configuration variables
 \t-d,--debug\tActivate debug mode
-\t-v,--verbose\tActivate verbose mode
-\t-h,--help\tShow this help"
+\t-h,--help\tShow this help
+\t-v,--verbose\tActivate verbose mode"
 
 while [[ "${1}" != "" ]]; do
 	case "${1}" in
@@ -15,6 +16,9 @@ while [[ "${1}" != "" ]]; do
 		;;
 	-v | --verbose)
 		VERBOSE=true
+		;;
+	-c | --config)
+		FILL_CONFIG=true
 		;;
 	-h | --help)
 		echo -e "${USAGE}"
@@ -38,6 +42,25 @@ function createLink() {
 	[ "${VERBOSE}" == "true" ] && echo ln -s "${PWD}/${1}" "${3}"
 	ln -s "${PWD}/${1}" "${3}"
 }
+
+# replace_default promt user for a replace value for env vars
+# $1 must be the thing to prompt (i.e. editor)
+# $2 must be the default value (i.e. vim)
+function replace_default() {
+	read -p "Enter your ${1} [${2}]: " VAR
+	sed -i "s/${2}/${VAR:=${2}}/" .env
+}
+
+if [ "${FILL_CONFIG}" == "true" ]; then
+	cp .env.default .env
+	replace_default "email" "changeme@example.com"
+	replace_default "web brower" "google-chrome"
+	replace_default "editor" "vim"
+	replace_default "pager" "less"
+	replace_default "terminal" "urxvtc"
+	# TODO: generate ssh/gpg key and fill configuration
+	source ~/.bashrc
+fi
 
 # Background picture
 timeout 5 wget -q https://tom.moulard.org/picts/background.jpg -O background/background.jpg
@@ -98,3 +121,5 @@ createLink curlrc -f "${HOME}/.curlrc"
 # git config
 createLink gitconfig -f "${HOME}/.gitconfig"
 git config --global core.excludesfile "${HOME}/workspace/configLoader/gitignore"
+
+# vim: noet

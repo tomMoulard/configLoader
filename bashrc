@@ -81,7 +81,7 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 #                 37 white       47 white
 # Separate with ";"
 # Reset
-COLOR_OFF="\033[0m" # Text Reset
+COLOR_OFF="\033[0m"     # Text Reset
 
 # Regular Colors
 BLACK="\[\033[1;30m\]"  # Black
@@ -111,7 +111,7 @@ esac
 function parse_git_branch() {
 	BRANCH="$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/')"
 	if [ ! "${BRANCH}" == "" ]; then
-        echo -e "${GREEN}[${BRANCH}$(parse_git_dirty)${GREEN}]${COLOR_OFF}"
+		echo -e "${GREEN}[${BRANCH}$(parse_git_dirty)${GREEN}]${COLOR_OFF}"
 	fi
 }
 
@@ -222,12 +222,11 @@ date >>~/.terminalLogDate
 # }}}
 
 # Custom ENV var {{{1
-export VISUAL=vim
-export SHELL=bash
-export EDITOR="$VISUAL"
-export PAGER=less
-export BROWSER=google-chrome
-export CDPATH=:..:~:~/workspace:~/.local/opt:~/Documents:~/go/src
+if [ -f ~/workspace/configLoader/.env ]; then
+	set -o allexport
+	source ~/workspace/configLoader/.env
+	set +o allexport
+fi
 # }}}
 
 # Custom bin PATH {{{1
@@ -261,4 +260,4 @@ fi
 [ -f "$(command -v pgrep)" ] && SSH_AGENT_PID="$(pgrep gnome-keyring)" && export SSH_AGENT_PID="${SSH_AGENT_PID?}"
 # }}}
 
-# vim: fdm=marker
+# vim: fdm=marker noet

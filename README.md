@@ -18,14 +18,20 @@ $ git clone --recurse-submodules git@github.com:tomMoulard/configLoader.git $HOM
 $ cd $HOME/workspace/configLoader && make
 ```
 
+Feel free the change configurations with your own taste.
+
+Some environment variables are defined in the `.env` file.
+You can use `cp .env.default .env` to populate your file, or `./install -c`.
+
 ## Options
 When using the `install.sh` script, you can use options to help you during installation:
 ```
 Usage ./install.sh
 Option:
+	-c,--config	Promt user to enter configuration variables
 	-d,--debug	Activate debug mode
-	-v,--verbose	Activate verbose mode
 	-h,--help	Show this help
+	-v,--verbose	Activate verbose mode
 ```
 
 ## Demo

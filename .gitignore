@@ -12,3 +12,9 @@ vim/spell/*
 # ssh
 ssh/known_hosts
 ssh/id_*
+
+# Env vars
+.env
+
+# trash files
+*.swp
