@@ -168,8 +168,8 @@ prompt() {
 
 # enable color support {{{1
 if [ -x /usr/bin/dircolors ]; then
-	if [ -r "$HOME/.dircolors" ]; then
-		eval "$(dircolors -b ~/.dircolors)"
+	if [ -r "${HOME}/.dircolors" ]; then
+		eval "$(dircolors -b "${HOME}/.dircolors")"
 	else
 		eval "$(dircolors -b)"
 	fi
@@ -184,16 +184,16 @@ fi
 # Aliases {{{1
 # Alias definitions.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-if [ -f ~/workspace/configLoader/bash_aliases ]; then
-	source "$HOME/workspace/configLoader/bash_aliases"
+if [ -f "${HOME}/workspace/configLoader/bash_aliases" ]; then
+	source "${HOME}/workspace/configLoader/bash_aliases"
 fi
 # }}}
 
 # Functions {{{1
 # functions definitions.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-if [ -f ~/.bash_functions ]; then
-	source "$HOME/workspace/configLoader/bash_functions"
+if [ -f "${HOME}/.bash_functions" ]; then
+	source "${HOME}/workspace/configLoader/bash_functions"
 fi
 # }}}
 
@@ -218,13 +218,13 @@ bind 'set completion-ignore-case on'
 # }}}
 
 # Loggin {{{1
-date >>~/.terminalLogDate
+date >>"${HOME}/.terminalLogDate"
 # }}}
 
 # Custom ENV var {{{1
-if [ -f ~/workspace/configLoader/.env ]; then
+if [ -f "${HOME}/workspace/configLoader/.env" ]; then
 	set -o allexport
-	source ~/workspace/configLoader/.env
+	source "${HOME}/workspace/configLoader/.env"
 	set +o allexport
 fi
 # }}}
