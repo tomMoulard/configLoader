@@ -4,4 +4,4 @@ services:
     build:
       context: .
     volumes:
-      - ..:/root/workspace/configLoader
+      - ..:/root/workspace/configLoader:ro

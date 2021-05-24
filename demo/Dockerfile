@@ -9,6 +9,7 @@ RUN apt install -y tree
 RUN apt install -y curl
 RUN apt install -y make
 RUN apt install -y wget
+RUN apt install -y whiptail dialog
 
 ADD ./entrypoint.sh /entrypoint.sh
 

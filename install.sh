@@ -6,23 +6,41 @@ USAGE="Usage ${0}
 Option:
 \t-c,--config\tPromt user to enter configuration variables
 \t-d,--debug\tActivate debug mode
+\t-g,--gui\tUse GUI to help with the configuration (implies --config)
 \t-h,--help\tShow this help
 \t-v,--verbose\tActivate verbose mode"
 
+WHIPTAIL="Welcome in the configuration wizzard of ConfigLoader.
+Some file will be changed in order to have most of your configuration in one place: ${PWD}.
+The use of links allow you to only have to modify files in this directory in order to change/update the configuration.
+Thus, in order to update/maintain your configuration, go to this directory and update it.
+
+Do you want to procede ?
+"
+
 while [[ "${1}" != "" ]]; do
 	case "${1}" in
+	-c | --config)
+		FILL_CONFIG=true
+		;;
 	-d | --debug)
 		set -x
 		;;
-	-v | --verbose)
-		VERBOSE=true
-		;;
-	-c | --config)
+	-g | --gui)
 		FILL_CONFIG=true
+		USE_GUI=true
+		whiptail \
+			--backtitle 'Configuration Loader' \
+			--title "Welcome onboard" \
+			--yesno "${WHIPTAIL}" 15 78 --defaultno \
+			|| exit 0
 		;;
 	-h | --help)
 		echo -e "${USAGE}"
 		exit 0
+		;;
+	-v | --verbose)
+		VERBOSE=true
 		;;
 	esac
 	shift
@@ -47,7 +65,16 @@ function createLink() {
 # $1 must be the thing to prompt (i.e. editor)
 # $2 must be the default value (i.e. vim)
 function replace_default() {
+if [ "${USE_GUI}" == "true" ]; then
+	whiptail \
+		--backtitle 'Configuration Loader' \
+		--title "${1}" \
+		--default-item "${2}" \
+		--inputbox "Enter your ${1}" 10 30 "${2}" \
+		|| exit 1
+else
 	read -p "Enter your ${1} [${2}]: " VAR
+fi
 	sed -i "s/${2}/${VAR:=${2}}/" .env
 }
 

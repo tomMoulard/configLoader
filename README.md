@@ -30,9 +30,12 @@ Usage ./install.sh
 Option:
 	-c,--config	Promt user to enter configuration variables
 	-d,--debug	Activate debug mode
+	-g,--gui	Use GUI to help with the configuration (implies --config)
 	-h,--help	Show this help
 	-v,--verbose	Activate verbose mode
 ```
+
+Note that for the `--gui`, you need to have installed `whiptail`.
 
 ## Demo
 If you want to try those configuration, there is a `demo` recipe in the `Makefile`.
