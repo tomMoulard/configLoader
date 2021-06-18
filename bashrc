@@ -129,7 +129,7 @@ function parse_git_dirty() {
 	BITS+="${GREEN}$(_grep_git_status "Untracked files" "?")${COLOR_OFF}"
 	BITS+="${RED}$(_grep_git_status "deleted:" "x")${COLOR_OFF}"
 	BITS+="${RED}$(_grep_git_status "modified:" "!")${COLOR_OFF}"
-	echo " ${BITS}"
+	echo "${BITS}"
 }
 # }}}
 
@@ -219,6 +219,10 @@ bind 'set completion-ignore-case on'
 
 # Loggin {{{1
 date >>"${HOME}/.terminalLogDate"
+# }}}
+
+# Reverse History search (<ctrl>-r) {{{1
+[ -f "$(command -v fzf)" ] && source /usr/share/doc/fzf/examples/key-bindings.bash
 # }}}
 
 # Custom ENV var {{{1
