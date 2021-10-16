@@ -87,6 +87,9 @@ if [ "${FILL_CONFIG}" == "true" ]; then
 	replace_default "terminal" "urxvtc"
 	replace_default "name" "Your Name"
 	# TODO: generate ssh/gpg key and fill configuration
+	# gpg --gen-key
+	# git config --global user.signingkey <key_id>
+	# git config commit.gpgsign true
 	source ~/.bashrc
 fi
 
