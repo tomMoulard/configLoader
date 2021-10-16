@@ -80,10 +80,9 @@ export LESS_TERMCAP_us=$'\E[01;32m'
 #   8 hidden      36 cyan        46 cyan
 #                 37 white       47 white
 # Separate with ";"
-# Reset
-COLOR_OFF="\033[0m"     # Text Reset
-
+#
 # Regular Colors
+COLOR_OFF="\033[0m"     # Text Reset
 BLACK="\[\033[1;30m\]"  # Black
 RED="\[\033[1;31m\]"    # Red
 GREEN="\[\033[1;32m\]"  # Green

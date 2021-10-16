@@ -32,8 +32,8 @@ while [[ "${1}" != "" ]]; do
 		whiptail \
 			--backtitle 'Configuration Loader' \
 			--title "Welcome onboard" \
-			--yesno "${WHIPTAIL}" 15 78 --defaultno \
-			|| exit 0
+			--yesno "${WHIPTAIL}" 15 78 --defaultno ||
+			exit 0
 		;;
 	-h | --help)
 		echo -e "${USAGE}"
@@ -65,16 +65,16 @@ function createLink() {
 # $1 must be the thing to prompt (i.e. editor)
 # $2 must be the default value (i.e. vim)
 function replace_default() {
-if [ "${USE_GUI}" == "true" ]; then
-	whiptail \
-		--backtitle 'Configuration Loader' \
-		--title "${1}" \
-		--default-item "${2}" \
-		--inputbox "Enter your ${1}" 10 30 "${2}" \
-		|| exit 1
-else
-	read -p "Enter your ${1} [${2}]: " VAR
-fi
+	if [ "${USE_GUI}" == "true" ]; then
+		whiptail \
+			--backtitle 'Configuration Loader' \
+			--title "${1}" \
+			--default-item "${2}" \
+			--inputbox "Enter your ${1}" 10 30 "${2}" ||
+			exit 1
+	else
+		read -p "Enter your ${1} [${2}]: " VAR
+	fi
 	sed -i "s/${2}/${VAR:=${2}}/" .env
 }
 

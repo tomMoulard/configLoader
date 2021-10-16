@@ -25,15 +25,15 @@ function extract() {
 		FTYPE="$(file "${n%,}" | awk '{print $2}')"
 		case "${FTYPE}" in
 		"compress'd") uncompress ./"${n}" ;; # compress -f <file*>
-		7-zip) 7z x ./"${n}" ;; # 7z a -t7z <archive.7z> <file*>
+		7-zip) 7z x ./"${n}" ;;              # 7z a -t7z <archive.7z> <file*>
 		Allegro) pack u "${n}" "${n}.out" ;; # pack <files> <file out>
-		LZMA) unlzma ./"${n}" ;; # lzma <file*>
-		PE32) cabextract ./"${n}" ;;
-		RAR) unrar x -ad ./"${n}" ;; # rar a -r <archive.rar> <file*>
-		XZ) unxz ./"${n}" ;; # xz <file>
-		Zip) unzip ./"${n}" ;; # zip <archive.zip> <file*>
-		bzip2) bunzip2 ./"${n}" ;; # bzip2 <file*>
-		gzip) tar xvf "${n}" ;; # tar cfz <archive.tar> <file*>
+		LZMA) unlzma ./"${n}" ;;             # lzma <file*>
+		PE32) cabextract ./"${n}" ;;         # TODO
+		RAR) unrar x -ad ./"${n}" ;;         # rar a -r <archive.rar> <file*>
+		XZ) unxz ./"${n}" ;;                 # xz <file>
+		Zip) unzip ./"${n}" ;;               # zip <archive.zip> <file*>
+		bzip2) bunzip2 ./"${n}" ;;           # bzip2 <file*>
+		gzip) tar xvf "${n}" ;;              # tar cfz <archive.tar> <file*>
 		*)
 			echo "${FUNCNAME[0]}: '${n}': '${FTYPE}' is a unknown archive method"
 			continue
