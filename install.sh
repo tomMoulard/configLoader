@@ -85,6 +85,7 @@ if [ "${FILL_CONFIG}" == "true" ]; then
 	replace_default "editor" "vim"
 	replace_default "pager" "less"
 	replace_default "terminal" "urxvtc"
+	replace_default "name" "Your Name"
 	# TODO: generate ssh/gpg key and fill configuration
 	source ~/.bashrc
 fi
