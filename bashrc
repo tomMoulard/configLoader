@@ -62,7 +62,8 @@ export LESS_TERMCAP_mb=$'\E[01;31m'
 export LESS_TERMCAP_md=$'\E[01;31m'
 export LESS_TERMCAP_me=$'\E[0m'
 export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_so=$'\E[01;44;33m'
+# export LESS_TERMCAP_so=$'\E[01;44;33m'
+export LESS_TERMCAP_so=$'\E[48;5;127m' # purple find
 export LESS_TERMCAP_ue=$'\E[0m'
 export LESS_TERMCAP_us=$'\E[01;32m'
 # }}}
@@ -91,6 +92,15 @@ BLUE="\[\033[1;34m\]"   # Blue
 PURPLE="\[\033[1;35m\]" # Purple
 CYAN="\[\033[1;36m\]"   # Cyan
 WHITE="\[\033[1;37m\]"  # White
+
+BLACK="$(tput setaf 0)"  # Black
+RED="$(tput setaf 1)"    # Red
+GREEN="$(tput setaf 2)"  # Green
+YELLOW="$(tput setaf 3)" # Yellow
+BLUE="$(tput setaf 4)"   # Blue
+PURPLE="$(tput setaf 5)" # Purple
+CYAN="$(tput setaf 6)"   # Cyan
+WHITE="$(tput setaf 7)"  # White
 # }}}
 
 # VAR identification {{{2
@@ -137,10 +147,11 @@ PROMPT_COMMAND=prompt
 prompt() {
 	RETVAL=$?
 	if [[ $RETVAL -ne 0 ]]; then
-		RETVAL="${RED}${RETVAL}${COLOR_OFF} "
+		RETVAL="\[${RED}\]${RETVAL}\[${COLOR_OFF}\] "
 	else
 		RETVAL=""
 	fi
+	# GIT_BRANCH="$(parse_git_branch) "
 
 	# Set terminal title
 	PS1="\\[\\033]0;\\w\\007\\]"
@@ -151,11 +162,15 @@ prompt() {
 		PS1="\[${PS1}[\!]\u@\h:\W > \[${COLOR_OFF}\]\[$(tput sgr0)\]"
 		PS1="\[${PS1}\]"
 	else # normal
-		PS1+="\\[${debian_chroot:+($debian_chroot)}\\]\\[${RETVAL}\\]"
-		PS1="\\[${PS1}\\]$(parse_git_branch)\\[${GREEN}\\][\!]\u@\h:"
-		PS1="\\[${PS1}\\]\\[${BLUE}\\]\W\\[${PURPLE}\\] > "
-		PS1="\\[${PS1}\\]\\[${COLOR_OFF}\\]\\[$(tput sgr0)\\]"
-		PS1="\\[${PS1}\\]"
+		# PS1+="\\[${debian_chroot:+($debian_chroot)}\\]\\[${RETVAL}\\]"
+		# PS1="\\[${PS1}\\]$(parse_git_branch)\\[${GREEN}\\][\!]\u@\h:"
+		# PS1="\\[${PS1}\\]\\[${BLUE}\\]\W\\[${PURPLE}\\] > "
+		# PS1="\\[${PS1}\\]\\[${COLOR_OFF}\\]\\[$(tput sgr0)\\]"
+		# PS1="\\[${PS1}\\]"
+		PS1+="${RETVAL}"
+		# PS1+="${GIT_BRANCH}"
+		PS1+="\[${BLUE}\]\W \[${COLOR_OFF}\]"
+		PS1+="\[${PURPLE}\]> \[${COLOR_OFF}\]"
 	fi
 	export PS1
 
@@ -213,7 +228,13 @@ bind 'set completion-ignore-case on'
 [ -f "/home/tm/go/bin/mc" ] && complete -C /home/tm/go/bin/mc mc
 
 # kubectl autocomplete
-[ -f "$(command -v kubect)" ] && source <(kubectl completion bash)
+[ -f "$(command -v kubectl)" ] && source <(kubectl completion bash)
+
+# Custom autocompletions (docker-compose, ...)
+[ -d "${HOME}/workspace/configLoader/bash_completion" ] && source ${HOME}/workspace/configLoader/bash_completion/*
+
+# terraform autocomplete
+[ -f "$(command -v terraform)" ] && complete -C "$(command -v terraform)" terraform && complete -C "$(command -v terraform)" t
 # }}}
 
 # Loggin {{{1
@@ -246,7 +267,7 @@ if [[ -d "${HOME}/.cargo/bin" ]]; then
 	PATH="$PATH:${HOME}/.cargo/bin"
 	[ -f "${HOME}/.cargo/env" ] && source "${HOME}/.cargo/env"
 	# Zoxide https://github.com/ajeetdsouza/zoxide can be replaced by CDPATH
-	[[ "${CDPATH}" == "" && -f "${HOME}/.cargo/bin/zoxide" ]] && eval "$(zoxide init bash)" && alias cd='z' && _ZO_DATA_DIR="${HOME}/.local/share/zoxide.db"
+	[[ "${CDPATH}" == "" && -f "${HOME}/.cargo/bin/zoxide" ]] && eval "$(zoxide init bash)" && alias cd='z' && export _ZO_DATA_DIR="${HOME}/.local/share/zoxide.db"
 	# Exa https://github.com/ogham/exa
 	[ -f "$(command -v exa)" ] && alias ls='exa'
 fi
@@ -264,3 +285,4 @@ fi
 # }}}
 
 # vim: fdm=marker noet
+

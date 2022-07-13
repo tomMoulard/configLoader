@@ -91,4 +91,21 @@ function notify() {
 	notify-send "Command is finished: ${?}" "$@"
 }
 
+# usage: go-download-version <version>
+# example: go-download-version go1.19rc1
+function go-download-version() {
+	[[ -d "${HOME}/.local/opt/$1" || -f "$(command -v $1)" ]] && echo "$1 already exists" && return
+	mkdir -p ${HOME}/.local/opt/$1
+	set -x
+	aria2c https://go.dev/dl/$1.linux-amd64.tar.gz \
+		--dir ${HOME}/.local/opt/$1 \
+		-o $1.linux-amd64.tar.gz
+	[[ "$?" -ne 0 ]] && rm -fr ${HOME}/.local/opt/$1 && return
+	tar xf ${HOME}/.local/opt/$1/$1.linux-amd64.tar.gz --directory ${HOME}/.local/opt/$1/
+	mv ${HOME}/.local/opt/$1/go/* ${HOME}/.local/opt/$1/
+	rm -r ${HOME}/.local/opt/$1/go
+	ln -s ${HOME}/.local/opt/$1/bin/go ${HOME}/.local/bin/$1
+	set +x
+}
+
 # vim:ft=bash

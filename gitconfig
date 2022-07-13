@@ -3,15 +3,17 @@
 	email = tom.moulard@epita.fr
 [push]
 	default = simple
+	autoSetupRemote = true
 [color]
 	ui = true
 [credential]
 	helper = cache --timeout=360000
 [alias]
-	tree = log --all --decorate --oneline --graph
-	pull = pull --rebase
-	oops = commit --amend --no-edit
+	cehckout = checkout
+	chekcout = checkout
 	diff = diff --ignore-all-space
+	oops = commit --amend --no-edit -S
+	tree = log --all --decorate --oneline --graph
 [diff "bin"]
 	textconv = hexdump -v -C
 [diff "pdf"]
@@ -20,3 +22,11 @@
 	textconv = unzip -v
 [pull]
 	rebase = true
+[rebase]
+	autoStash = true
+[merge]
+	tool = vimdiff
+[core]
+	excludesfile = /home/tm/workspace/configLoader/gitignore
+[init]
+	defaultBranch = main
