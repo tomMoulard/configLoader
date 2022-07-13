@@ -24,13 +24,13 @@ let g:mapleader=" "
 set wildmenu                   " Menu completion in command mode on <Tab>
 set wildmode=full              " <Tab> cycles between all matching choices.
 set path+=**                   " Search down into sub folders
-set completeopt=menuone        " Always show pop up menu
-set completeopt+=longest       " Only insert the longest common text of the matches
-set completeopt+=preview       " Show extra information about the completion
+" set completeopt=menuone        " Always show pop up menu
+" set completeopt+=longest       " Only insert the longest common text of the matches
+" set completeopt+=preview       " Show extra information about the completion
 set pumheight=6                " Keep a small completion window
-set complete+=k./*             " Enable auto complete with words of the current directory, it might take time
-set complete+=kspell           " Auto complete with words of the dictionary
-set complete+=k/usr/share/dict/words " Auto complete with more dictionary
+" set complete+=k./*             " Enable auto complete with words of the current directory, it might take time
+" set complete+=kspell           " Auto complete with words of the dictionary
+" set complete+=k/usr/share/dict/words " Auto complete with more dictionary
 set infercase                  " Match current format when tab complete
 " }}}
 
@@ -85,7 +85,7 @@ set shortmess+=T               " truncate other messages in the middle if they a
 " }}}
 
 " Indentation {{{2
-set expandtab                  " Tab -> spaces
+set noexpandtab                " Tab -> spaces
 set tabstop=4                  " A tab is four spaces
 set autoindent                 " Always set auto indenting on
 set copyindent                 " Copy the previous indentation on auto indenting
@@ -226,17 +226,19 @@ autocmd FileType html setlocal matchpairs+=<:>       " Adding a pair of <>
 " makeprg (for :make) {{{3
 autocmd FileType c        setlocal makeprg=cc\ %\ $*
 " Open a term with interactive python
-autocmd FileType python   nnoremap <F5> :belowright 20split | terminal python -i %<CR>
+" autocmd FileType python   nnoremap <F5> :belowright 20split | terminal python -i %<CR>
 autocmd FileType html     setlocal makeprg=tidy\ -e\ -q\ --gnu-emacs\ 1\ %\ $*
 autocmd FileType markdown setlocal makeprg=pandoc\ %\ $*\ \-o\ %.pdf
 autocmd FileType css      setlocal makeprg=npx\ prettier\ --write\ %
 autocmd FileType sh       setlocal makeprg=shellcheck\ -f\ gcc\ %\ $*
 " }}}
 
-" Markers {{{3
-autocmd FileType python set foldmethod=indent
-autocmd FileType go     set foldmethod=marker
-autocmd FileType go     set foldmarker={,}
+" folds {{{3
+autocmd FileType python	set foldmethod=indent
+autocmd FileType json	set foldmethod=syntax
+autocmd FileType go		set foldmethod=marker
+autocmd FileType go		set foldmarker={,}
+autocmd FileType yaml	set foldmethod=indent nofoldenable
 " }}}
 
 " Proper comments (<leader>cc to comment, <leader>cu to uncomment, <Leader>c<space> to toggle) {{{3
@@ -287,7 +289,7 @@ autocmd FileType c,cpp setlocal path+=/usr/include include&
 " }}}
 
 " To read a skeleton (template) file when opening a new file: {{{3
-autocmd BufNewFile  *.go 0r ~/workspace/default_files/go/main.go
+" autocmd BufNewFile  *.go 0r ~/workspace/default_files/go/main.go
 " }}}
 
 " }}}
@@ -362,7 +364,7 @@ map <F6> :setlocal spell!<CR>
 nnoremap <leader>e ]sz=
 
 " Set dictionary (Its used with C-X C-K to auto complete words)
-set dictionary=/usr/share/dict/words
+" set dictionary=/usr/share/dict/words
 " }}}
 
 " Prettier files command {{{2
@@ -376,6 +378,10 @@ nnoremap <F3> :terminal<CR>
 " Indenting code block stays visualy selected {{{2
 vnoremap < <gv
 vnoremap > >gv
+" }}}
+
+" Openning files even if they don't exists {{{2
+map gf :e <cfile><CR>
 " }}}
 
 " }}}
@@ -397,7 +403,7 @@ let g:markdown_minlines = 100
 nnoremap <F1> :NERDTreeToggle<CR>
 autocmd StdinReadPre * let s:std_in=1
 " Open Nerdtree when no file is provided to vim
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 " }}}
 
 " Nerdcommenter {{{2

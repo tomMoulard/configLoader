@@ -28,7 +28,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |:bn|Go to next buffer|
 |:bp|Go to previous buffer|
 |:cd <dir\>|move vim root dir to <dir\>|
-|:cn|Goto next error|
+|:cn|Goto next error, next quickfix|
 |:copen|Open a windows with a list of errors|
 |:cp|Goto previous error|
 |:e <file\>|Open file|
