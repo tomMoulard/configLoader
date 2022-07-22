@@ -31,6 +31,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |:cn|Goto next error, next quickfix|
 |:copen|Open a windows with a list of errors|
 |:cp|Goto previous error|
+|:dig|Shows special char for <ctrl-k>|
 |:e <file\>|Open file|
 |:h <command\>|Show help for this command|
 |:help <command\>|Show help for this command|
@@ -66,6 +67,7 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |<c-h\>|Move cursor to left split|
 |<c-i\>|Jump to next place|
 |<c-j\>|Move cursor to bottom split|
+|<c-k\>XX(in insert mode)|Insert special char, see :dig|
 |<c-k\>|Move cursor to top split|
 |<c-l\>|Move cursor to right split|
 |<c-o\>|Jump to previous place|
