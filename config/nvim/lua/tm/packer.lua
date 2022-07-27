@@ -1,0 +1,50 @@
+-- packer statup install {{{
+local install_path = vim.fn.stdpath("data").."/site/pack/packer/start/packer.nvim"
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+	packer_bootstrap = vim.fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
+end
+-- }}}
+
+-- todo
+-- vim-go
+return require("packer").startup(function()
+	use("wbthomason/packer.nvim")
+
+	use("tanvirtin/monokai.nvim")
+
+	use("preservim/nerdcommenter")
+	use("preservim/nerdtree")
+
+	use("tpope/vim-fugitive")
+
+	-- grep
+	use("nvim-lua/plenary.nvim")
+	use("nvim-telescope/telescope.nvim")
+
+	use("nvim-treesitter/nvim-treesitter", {
+		run = ":TSUpdate"
+	})
+
+	use("neovim/nvim-lspconfig")
+
+	use("github/copilot.vim")
+
+	use("airblade/vim-gitgutter")
+
+	-- autocomplete
+	use("hrsh7th/cmp-nvim-lsp")
+	use("hrsh7th/cmp-buffer")
+	use("hrsh7th/cmp-path")
+	use("hrsh7th/cmp-cmdline")
+	use("hrsh7th/nvim-cmp")
+	use("sirver/UltiSnips")
+	use("quangnguyen30192/cmp-nvim-ultisnips")
+
+	-- use with browser
+	use("glacambre/firenvim")
+
+	if packer_bootstrap then
+		require("packer").sync()
+	end
+end)
+
