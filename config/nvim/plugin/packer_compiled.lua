@@ -104,6 +104,11 @@ _G.packer_plugins = {
     path = "/home/tm/.local/share/nvim/site/pack/packer/start/copilot.vim",
     url = "https://github.com/github/copilot.vim"
   },
+  firenvim = {
+    loaded = true,
+    path = "/home/tm/.local/share/nvim/site/pack/packer/start/firenvim",
+    url = "https://github.com/glacambre/firenvim"
+  },
   ["monokai.nvim"] = {
     loaded = true,
     path = "/home/tm/.local/share/nvim/site/pack/packer/start/monokai.nvim",

@@ -1,4 +1,5 @@
 local BufReadPost = "BufReadPost"
+local BufNewFile = "BufNewFile"
 local BufWritePre = "BufWritePre"
 local FileType = "FileType"
 
@@ -32,13 +33,14 @@ ft_autocmd({"sql"}, vim.opt.commentstring, "-- %s")
 -- }}}
 
 -- Linting {{{
-vim.api.nvim_create_autocmd(BufWritePre, {
-	desc = "Formating go files on save",
-	pattern = { "*.go" },
-	callback = vim.lsp.buf.formatting,
-})
+-- vim.api.nvim_create_autocmd(BufWritePre, {
+	-- desc = "Formating go files on save",
+	-- pattern = { "*.go" },
+	-- callback = vim.lsp.buf.formatting,
+-- })
 -- }}}
 
+-- Cursor position restore {{{
 -- When editing a file, always jump to the last known cursor position.
 -- Don't do it when the position is invalid or when inside an event handler
 -- (happens when dropping a file on gvim).
@@ -56,5 +58,15 @@ vim.api.nvim_create_autocmd(BufReadPost, {
 	callback = jump_to_last_position,
 	-- command = 'if line("\'\"") > 1 && line("\'\"") <= line("$") | exe "normal! g`\"" | endif',
 })
+-- }}}
+
+-- skeleton files {{{
+-- vim-go already does that
+-- vim.api.nvim_create_autocmd(BufNewFile, {
+	-- desc = "Read skeleton file when opening a new file",
+	-- pattern = { "*.go" },
+	-- command = "lua vim.api.nvim_exec('0r ~/workspace/default_files/go/main.go', true)",
+-- })
+-- }}}
 
 -- vim: fdm=marker

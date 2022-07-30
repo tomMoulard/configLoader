@@ -7,12 +7,12 @@ vim.keymap.set("n", "<Leader><Leader>", ":update<CR>", {silent=true, remap=false
 vim.keymap.set("n", "<Leader>W", ":%s/\\s\\+$//<CR>:let @/=\"\"<CR>", {silent=true, remap=false})
 -- }}}
 
--- splitting windows {{{
+-- Splitting windows {{{
 vim.keymap.set("n", "<F11>", ":split<CR>", {silent=true})
 vim.keymap.set("n", "<F12>", ":vsplit<CR>", {silent=true})
 -- }}}
 
--- auto make {{{
+-- Auto make {{{
 vim.keymap.set("n", "<F5>", ":make<CR><c-w>", {silent=true})
 -- }}}
 

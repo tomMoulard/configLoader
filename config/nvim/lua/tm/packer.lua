@@ -5,8 +5,6 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
 end
 -- }}}
 
--- todo
--- vim-go
 return require("packer").startup(function()
 	use("wbthomason/packer.nvim")
 
@@ -40,8 +38,15 @@ return require("packer").startup(function()
 	use("sirver/UltiSnips")
 	use("quangnguyen30192/cmp-nvim-ultisnips")
 
+	use("fatih/vim-go", {
+		run = ":GoUpdateBinaries"
+	})
+
 	-- use with browser
 	use("glacambre/firenvim")
+
+	-- Link with Discord
+	use('andweeb/presence.nvim')
 
 	if packer_bootstrap then
 		require("packer").sync()
