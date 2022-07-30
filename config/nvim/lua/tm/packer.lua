@@ -3,6 +3,15 @@ local install_path = vim.fn.stdpath("data").."/site/pack/packer/start/packer.nvi
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
 	packer_bootstrap = vim.fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
 end
+
+function packer_sync()
+	require("packer").sync()
+end
+vim.api.nvim_create_autocmd("BufWritePost", {
+	desc = "automatically install plugins when updating this file",
+	pattern = { os.getenv("HOME") .. "/workspace/configLoader/config/nvim/lua/tm/packer.lua" },
+	callback = packer_sync,
+})
 -- }}}
 
 return require("packer").startup(function()
@@ -49,7 +58,7 @@ return require("packer").startup(function()
 	use('andweeb/presence.nvim')
 
 	if packer_bootstrap then
-		require("packer").sync()
+		packer_sync()
 	end
 end)
 
