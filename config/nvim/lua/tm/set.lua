@@ -63,7 +63,9 @@ vim.opt.ruler = true
 vim.opt.rulerformat = "%15(%c%V %p%%%)"
 vim.opt.scrolloff = 5
 vim.opt.sidescroll = 5
+vim.opt.sidescrolloff = 5
 vim.opt.statusline = "%<%f (%{&ft})%=%-19(%3l,%02c-0x%02B%)"
+vim.opt.termguicolors = true
 vim.opt.title = true
 
 -- if (vim.fn.exists("g:started_by_firenvim")) then
@@ -73,6 +75,12 @@ vim.opt.title = true
 
 -- complete {{{
 vim.opt.infercase = true
+-- }}}
+
+
+-- timeouts {{{
+vim.opt.timeoutlen = 1500
+vim.opt.ttimeoutlen = 1500
 -- }}}
 
 -- vim: foldmethod=marker
