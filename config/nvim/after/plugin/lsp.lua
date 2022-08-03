@@ -88,3 +88,14 @@ lspconfig.vimls.setup{
 	flags = lsp_flags,
 	on_attach = on_attach,
 }
+
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#sumneko_lua
+-- if (vim.fn.executable("vim-language-server") == 0 ) then
+	-- print("Installing vim-language-server")
+	-- print(vim.fn.system({"npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "vim-language-server"}))
+-- end
+-- lspconfig.vimls.setup{
+	-- capabilities = capabilities,
+	-- flags = lsp_flags,
+	-- on_attach = on_attach,
+-- }

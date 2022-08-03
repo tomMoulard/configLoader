@@ -24,7 +24,16 @@ cmp.setup({
 	sources = cmp.config.sources(
 		{
 			{ name = "nvim_lsp" },
-			-- { name = "ultisnips" },
+			{ name = "nvim_lua" },
+			{ name = "ultisnips" },
+			{
+				name = "path",
+				options = {
+					trailing_slash = true
+				},
+			},
+			{ name = 'nvim_lsp_signature_help' },
+			{ name = "buffer" },
 		},
 		{
 			{ name = "buffer" },
@@ -32,4 +41,4 @@ cmp.setup({
 	)
 })
 
-vim.opt.completeopt = "menu,menuone,noselect"
+vim.opt.completeopt = {"menu", "menuone", "noselect"}

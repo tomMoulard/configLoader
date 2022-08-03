@@ -17,10 +17,10 @@ vim.keymap.set("n", "<F5>", ":make<CR><c-w>", {silent=true})
 -- }}}
 
 -- Add a matching char {{{
-vim.keymap.set("i", "(", "()<C-[>i", {silent=true})
-vim.keymap.set("i", "[", "[]<C-[>i", {silent=true})
-vim.keymap.set("i", "{", "{}<C-[>i", {silent=true})
-vim.keymap.set("i", "<", "<><C-[>i", {silent=true})
+-- vim.keymap.set("i", "(", "()<C-[>i", {silent=true})
+-- vim.keymap.set("i", "[", "[]<C-[>i", {silent=true})
+-- vim.keymap.set("i", "{", "{}<C-[>i", {silent=true})
+-- vim.keymap.set("i", "<", "<><C-[>i", {silent=true})
 -- }}}
 
 -- Turn off search highlighting {{{
