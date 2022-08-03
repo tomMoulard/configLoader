@@ -1,9 +1,9 @@
 local BufReadPost = "BufReadPost"
-local BufNewFile = "BufNewFile"
-local BufWritePre = "BufWritePre"
+-- local BufNewFile = "BufNewFile"
+-- local BufWritePre = "BufWritePre"
 local FileType = "FileType"
 
-function ft_autocmd(pattern, command, value)
+local function ft_autocmd(pattern, command, value)
 	vim.api.nvim_create_autocmd(FileType, {
 		pattern = pattern,
 		callback = function() command:append(value) end,
@@ -46,7 +46,7 @@ ft_autocmd({"sql"}, vim.opt.commentstring, "-- %s")
 -- (happens when dropping a file on gvim).
 -- Also don't do it when the mark is in the first line, that is the default
 -- position when opening a file.
-function jump_to_last_position()
+local function jump_to_last_position()
 	local curr_line = vim.fn.line("'\"")
 	if (curr_line > 1 and curr_line <= vim.fn.line("$")) then
 		print(vim.api.nvim_exec("normal! g`\"", true))
