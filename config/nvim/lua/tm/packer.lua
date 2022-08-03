@@ -55,7 +55,9 @@ return require("packer").startup(function()
 		run = ":GoUpdateBinaries"
 	})
 
-	use("glacambre/firenvim") -- use with browser
+	use("glacambre/firenvim", {
+		run = function() vim.fn['firenvim#install'](0) end
+	}) -- use with browser
 
 	use('andweeb/presence.nvim') -- Link with Discord
 

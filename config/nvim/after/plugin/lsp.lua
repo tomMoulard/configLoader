@@ -19,6 +19,7 @@ local on_attach = function(client, bufnr)
 	local bufopts = { noremap=true, silent=true, buffer=bufnr }
 	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
 	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+	vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, bufopts)
 	vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
 	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
 	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
@@ -90,12 +91,35 @@ lspconfig.vimls.setup{
 }
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#sumneko_lua
--- if (vim.fn.executable("vim-language-server") == 0 ) then
-	-- print("Installing vim-language-server")
-	-- print(vim.fn.system({"npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "vim-language-server"}))
--- end
--- lspconfig.vimls.setup{
-	-- capabilities = capabilities,
-	-- flags = lsp_flags,
-	-- on_attach = on_attach,
--- }
+-- Get lua-language-server from release and put it in $PATH
+-- https://github.com/sumneko/lua-language-server/releases/latest
+if (vim.fn.executable("lua-language-server") == 1 ) then
+	lspconfig.sumneko_lua.setup{
+		capabilities = capabilities,
+		flags = lsp_flags,
+		on_attach = on_attach,
+		settings = {
+			Lua = {
+				runtime = {
+					-- Tell the language server which version of Lua you"re using (most likely LuaJIT in the case of Neovim)
+					version = "LuaJIT",
+				},
+				diagnostics = {
+					-- Get the language server to recognize the `vim` global
+					globals = {
+					"vim",
+					"use",
+					},
+				},
+				workspace = {
+					-- Make the server aware of Neovim runtime files
+					library = vim.api.nvim_get_runtime_file("", true),
+				},
+				telemetry = {
+					-- Do not send telemetry data
+					enable = false,
+				},
+			},
+		}
+	}
+end
