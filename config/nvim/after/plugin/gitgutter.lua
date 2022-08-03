@@ -1,1 +1,0 @@
--- vim.cmd("highlight SignColumn guibg=none")

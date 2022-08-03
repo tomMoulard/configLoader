@@ -1,11 +1,11 @@
 -- packer statup install {{{
 local install_path = vim.fn.stdpath("data").."/site/pack/packer/start/packer.nvim"
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-	packer_bootstrap = vim.fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
+	local packer_bootstrap = vim.fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
 end
 
 -- TODO: source file before sync
-function packer_sync()
+local function packer_sync()
 	require("packer").sync()
 end
 -- FIXME: solve packer_sync TODO
@@ -17,18 +17,18 @@ end
 -- }}}
 
 return require("packer").startup(function()
-	use("wbthomason/packer.nvim") -- plugin manager
+	use("wbthomason/packer.nvim") -- plugin manager.
 
-	use("tanvirtin/monokai.nvim") -- color scheme
+	use("tanvirtin/monokai.nvim") -- color scheme.
 
-	use("preservim/nerdcommenter") -- comment input
+	use("preservim/nerdcommenter") -- comment input.
 	use("preservim/nerdtree") -- <F1>
 
 	use("tpope/vim-fugitive")
 
 	-- grep
 	use("nvim-lua/plenary.nvim")
-	use("nvim-telescope/telescope.nvim") -- find files or content
+	use("nvim-telescope/telescope.nvim") -- find files or content.
 
 	-- parser generator tool and an incremental parsing library.
 	use("nvim-treesitter/nvim-treesitter", {
@@ -38,9 +38,9 @@ return require("packer").startup(function()
 
 	use("neovim/nvim-lspconfig")
 
-	use("github/copilot.vim") -- AI powered completion
+	use("github/copilot.vim") -- AI powered completion.
 
-	use("airblade/vim-gitgutter") -- shows git diffs in gutter
+	use("lewis6991/gitsigns.nvim") -- shows git status.
 
 	-- autocomplete
 	use("hrsh7th/cmp-buffer") -- autocomplete strings in buffer.
