@@ -17,6 +17,7 @@ vim.opt.tabstop = 4
 
 -- Folds {{{
 vim.opt.foldenable = false
+vim.opt.foldlevel = 999
 vim.opt.foldmethod = "expr"
 -- }}}
 
@@ -73,14 +74,18 @@ if vim.g.started_by_firenvim then
 end
 -- }}}
 
--- complete {{{
+-- Complete {{{
 vim.opt.infercase = true
 -- }}}
 
 
--- timeouts {{{
+-- Timeouts {{{
 vim.opt.timeoutlen = 1500
 vim.opt.ttimeoutlen = 1500
+-- }}}
+
+-- Clipboard {{{
+vim.opt.clipboard = "unnamedplus"
 -- }}}
 
 -- vim: foldmethod=marker
