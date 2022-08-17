@@ -79,4 +79,5 @@ require('gitsigns').setup {
 	yadm = {
 		enable = false
 	},
+	on_attach = on_attach,
 }
