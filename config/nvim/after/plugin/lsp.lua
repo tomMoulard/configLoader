@@ -109,8 +109,8 @@ if (vim.fn.executable("lua-language-server") == 1 ) then
 				diagnostics = {
 					-- Get the language server to recognize the `vim` global
 					globals = {
-					"vim",
-					"use",
+						"vim",
+						"use",
 					},
 				},
 				workspace = {
@@ -125,3 +125,33 @@ if (vim.fn.executable("lua-language-server") == 1 ) then
 		}
 	}
 end
+
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#yamlls
+if (vim.fn.executable("yaml-language-server") == 0 ) then
+	print("Installing yaml-language-server")
+	print(vim.fn.system({"yarn", "global", "add", "yaml-language-server"}))
+end
+local home = os.getenv("HOME")
+lspconfig.yamlls.setup{
+	capabilities = capabilities,
+	flags = lsp_flags,
+	on_attach = on_attach,
+	settings = {
+		yaml = {
+			schemas = {
+				["https://goreleaser.com/static/schema.json"] = ".goreleaser*.ya?ml",
+				["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*.ya?ml",
+				["https://json.schemastore.org/golangci-lint.json"] = ".golangci_lint.ya?ml",
+				["https://json.schemastore.org/traefik-v2-file-provider.json"] = "traefik*.ya?ml",
+				["https://json.schemastore.org/traefik-v2.json"] = "traefik*.ya?ml",
+				["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose.*ya?ml",
+				[home .. "/go/src/github.com/traefik/hub-agent-kubernetes/hub.traefik.io_accesscontrolpolicies.yaml"] = ".*ya?ml",
+			},
+		},
+		redhat = {
+			telemetry = {
+				enabled = false
+			}
+		},
+	}
+}
