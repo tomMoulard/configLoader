@@ -1,10 +1,8 @@
-local BufReadPost = "BufReadPost"
--- local BufNewFile = "BufNewFile"
--- local BufWritePre = "BufWritePre"
-local FileType = "FileType"
+local const = require("tm.const")
+local event = const.Autocmd_event
 
 local function ft_autocmd(pattern, command, value)
-	vim.api.nvim_create_autocmd(FileType, {
+	vim.api.nvim_create_autocmd(event.FileType, {
 		pattern = pattern,
 		callback = function() command:append(value) end,
 	})
@@ -52,7 +50,7 @@ local function jump_to_last_position()
 		print(vim.api.nvim_exec("normal! g`\"", true))
 	end
 end
-vim.api.nvim_create_autocmd(BufReadPost, {
+vim.api.nvim_create_autocmd(event.BufReadPost, {
 	desc = "Jump to last known cursor position when opening a file",
 	pattern = { "*" },
 	callback = jump_to_last_position,
