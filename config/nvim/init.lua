@@ -11,8 +11,11 @@
 
 require("tm")
 
+-- Do you have internet ?
 -- vim.g.degraded_mode = true
 vim.g.degraded_mode = false
+
+-- Are you pairing with someone ?
 -- vim.g.pairing_mode = true
 vim.g.pairing_mode = false
 
