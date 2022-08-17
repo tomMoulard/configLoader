@@ -43,7 +43,7 @@ return require("packer").startup(function()
 	use("lewis6991/gitsigns.nvim") -- shows git status.
 
 	-- autocomplete
-	use("hrsh7th/nvim-cmp", {
+	use({"hrsh7th/nvim-cmp",
 		requires = {
 			"hrsh7th/cmp-buffer", -- autocomplete strings in buffer.
 			"hrsh7th/cmp-cmdline", -- nvim-cmp source for vim's cmdline.
@@ -62,10 +62,10 @@ return require("packer").startup(function()
 	})
 
 	use("glacambre/firenvim", {
-		run = function() vim.fn['firenvim#install'](0) end
+		run = function() vim.fn["firenvim#install"](0) end
 	}) -- use with browser
 
-	use('andweeb/presence.nvim') -- Link with Discord.
+	use("andweeb/presence.nvim") -- Link with Discord.
 
 	-- Debug Adapter Protocol
 	use({
