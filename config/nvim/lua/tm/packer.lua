@@ -43,15 +43,19 @@ return require("packer").startup(function()
 	use("lewis6991/gitsigns.nvim") -- shows git status.
 
 	-- autocomplete
-	use("hrsh7th/cmp-buffer") -- autocomplete strings in buffer.
-	use("hrsh7th/cmp-cmdline") -- nvim-cmp source for vim's cmdline.
-	use("hrsh7th/cmp-nvim-lsp") -- nvim-cmp source for neovim's built-in language server client.
-	use("hrsh7th/cmp-nvim-lsp-signature-help") -- nvim-cmp source for displaying function signatures with the current parameter emphasized.
-	use("hrsh7th/cmp-nvim-lua") -- nvim-cmp source for neovim Lua API.
-	use("hrsh7th/cmp-path") -- autocomplete file paths.
-	use("hrsh7th/nvim-cmp")
-	use("quangnguyen30192/cmp-nvim-ultisnips") -- use snippets from UltiSnips in nvim-cmp.
-	use("sirver/UltiSnips") -- snippets
+	use("hrsh7th/nvim-cmp", {
+		requires = {
+			"hrsh7th/cmp-buffer", -- autocomplete strings in buffer.
+			"hrsh7th/cmp-cmdline", -- nvim-cmp source for vim's cmdline.
+			"hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for neovim's built-in language server client.
+			"hrsh7th/cmp-nvim-lsp-signature-help", -- nvim-cmp source for displaying function signatures with the current parameter emphasized.
+			"hrsh7th/cmp-nvim-lua", -- nvim-cmp source for neovim Lua API.
+			"hrsh7th/cmp-path", -- autocomplete file paths.
+			"quangnguyen30192/cmp-nvim-ultisnips", -- use snippets from UltiSnips in nvim-cmp.
+			"ray-x/cmp-treesitter", -- nvim-cmp source for treesitter nodes.
+			"sirver/UltiSnips", -- snippets
+		}
+	})
 
 	use("fatih/vim-go", {
 		run = ":GoUpdateBinaries"
