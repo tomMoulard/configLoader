@@ -9,7 +9,6 @@ local function ft_autocmd(pattern, command, value)
 end
 
 -- Matchpairs {{{
-ft_autocmd({"c", "cpp", "java"}, vim.opt.matchpairs, ":;")
 ft_autocmd({"html"}, vim.opt.matchpairs, "<:>")
 -- }}}
 
