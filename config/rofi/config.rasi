@@ -5,7 +5,7 @@ configuration {
 /*	case-sensitive: false;*/
 /*	click-to-exit: true;*/
 /*	combi-hide-mode-prefix: false;*/
-/*	combi-modi: "window,run";*/
+	combi-modi: "window,windowcd,drun,run,ssh,combi";
 /*	cycle: true;*/
 /*	disable-history: false;*/
 /*	display-combi: ;*/
@@ -146,3 +146,4 @@ configuration {
   }
 }
 @theme "/usr/share/rofi/themes/Monokai.rasi"
+// vim: filetype=conf commentstring=/*%s*/
