@@ -1,5 +1,5 @@
 local const = require("tm.const")
-local event = const.Autocmd_event
+local event = const.autocmd.event
 
 local function ft_autocmd(pattern, command, value)
 	vim.api.nvim_create_autocmd(event.FileType, {

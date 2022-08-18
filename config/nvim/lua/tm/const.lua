@@ -5,7 +5,14 @@ local autocmd_event = {
 	FileType = "FileType",
 }
 
-local mapping = {
+local key_mode = {
+	all = "",
+	normal = "n",
+	visual = "v",
+	insert = "i",
+}
+
+local key_mapping = {
 	f11 = "<F11>",
 	f12 = "<F12>",
 	f2 = "<F2>",
@@ -16,8 +23,13 @@ local mapping = {
 }
 
 local consts = {
-	Autocmd_event = autocmd_event,
-	Mapping = mapping,
+	autocmd = {
+		event = autocmd_event,
+	},
+	key = {
+		mapping = key_mapping,
+		mode = key_mode,
+	},
 }
 
 return consts
