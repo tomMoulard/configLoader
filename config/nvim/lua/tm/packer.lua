@@ -75,6 +75,8 @@ return require("packer").startup(function()
 		requires = {"mfussenegger/nvim-dap"}
 	})
 
+	use("akinsho/bufferline.nvim")
+
 	if Packer_bootstrap then
 		packer_sync()
 	end
