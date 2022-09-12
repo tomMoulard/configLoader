@@ -37,6 +37,24 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<space>f", vim.lsp.buf.formatting, bufopts)
 end
 
+if pcall(require, "lua-dev") then
+	-- IMPORTANT: make sure to setup lua-dev BEFORE lspconfig
+	require("lua-dev").setup({
+		library = {
+			enabled = true, -- when not enabled, lua-dev will not change any settings to the LSP server
+			-- these settings will be used for your Neovim config directory
+			runtime = true, -- runtime path
+			types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
+			plugins = true, -- installed opt or start plugins in packpath
+		},
+		setup_jsonls = true, -- configures jsonls to provide completion for project specific .luarc.json files
+		-- for your Neovim config directory, the config.library settings will be used as is
+		-- for plugin directories (root_dirs having a /lua directory), config.library.plugins will be disabled
+		-- for any other directory, config.library.enabled will be set to false
+		-- override = function(root_dir, options) end,
+	})
+end
+
 local lsp_flags = {
 	-- This is the default in Nvim 0.7+
 	debounce_text_changes = 150,
@@ -46,11 +64,11 @@ local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#gopls
-lspconfig.gopls.setup{
+lspconfig.gopls.setup({
 	capabilities = capabilities,
 	flags = lsp_flags,
 	on_attach = on_attach,
-}
+})
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#golangci_lint_ls
 if (vim.fn.executable("golangci-lint-langserver") == 0 ) then
@@ -58,45 +76,45 @@ if (vim.fn.executable("golangci-lint-langserver") == 0 ) then
 	print(vim.fn.system({"go", "install", "github.com/nametake/golangci-lint-langserver@latest"}))
 	print(vim.fn.system({"go", "install", "github.com/golangci/golangci-lint/cmd/golangci-lint@latest"}))
 end
-lspconfig.golangci_lint_ls.setup{
+lspconfig.golangci_lint_ls.setup({
 	capabilities = capabilities,
 	flags = lsp_flags,
 	on_attach = on_attach,
 	settings = {
 		command = { "golangci-lint", "run", "--out-format", "json" }
 	}
-}
+})
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#bashls
 if (vim.fn.executable("bash-language-server") == 0 ) then
 	print("Installing bash-language-server")
 	print(vim.fn.system({"npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "bash-language-server"}))
 end
-lspconfig.bashls.setup{
+lspconfig.bashls.setup({
 	capabilities = capabilities,
 	flags = lsp_flags,
 	on_attach = on_attach,
 	settings = {
 		filetypes = { "sh", "bash"}
 	}
-}
+})
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#vimls
 if (vim.fn.executable("vim-language-server") == 0 ) then
 	print("Installing vim-language-server")
 	print(vim.fn.system({"npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "vim-language-server"}))
 end
-lspconfig.vimls.setup{
+lspconfig.vimls.setup({
 	capabilities = capabilities,
 	flags = lsp_flags,
 	on_attach = on_attach,
-}
+})
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#sumneko_lua
 -- Get lua-language-server from release and put it in $PATH
 -- https://github.com/sumneko/lua-language-server/releases/latest
 if (vim.fn.executable("lua-language-server") == 1 ) then
-	lspconfig.sumneko_lua.setup{
+	local sumneko_lua_setup = {
 		capabilities = capabilities,
 		flags = lsp_flags,
 		on_attach = on_attach,
@@ -124,6 +142,12 @@ if (vim.fn.executable("lua-language-server") == 1 ) then
 			},
 		}
 	}
+
+	if pcall(require, "lua-dev") then
+		sumneko_lua_setup.settings.Lua.completion = { callSnippet = "Replace" }
+	end
+
+	lspconfig.sumneko_lua.setup(sumneko_lua_setup)
 end
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#yamlls
@@ -132,7 +156,7 @@ if (vim.fn.executable("yaml-language-server") == 0 ) then
 	print(vim.fn.system({"yarn", "global", "add", "yaml-language-server"}))
 end
 local home = os.getenv("HOME")
-lspconfig.yamlls.setup{
+lspconfig.yamlls.setup({
 	capabilities = capabilities,
 	flags = lsp_flags,
 	on_attach = on_attach,
@@ -154,4 +178,4 @@ lspconfig.yamlls.setup{
 			}
 		},
 	}
-}
+})
