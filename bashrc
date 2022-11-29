@@ -224,6 +224,10 @@ fi
 # Allow not case sensitive autocompletion
 bind 'set completion-ignore-case on'
 
+# Enter completion when tab
+bind 'set show-all-if-ambiguous on'
+bind 'TAB:menu-complete'
+
 # Minio Completion
 [ -f "/home/tm/go/bin/mc" ] && complete -C /home/tm/go/bin/mc mc
 
@@ -284,5 +288,8 @@ fi
 [ -f "$(command -v pgrep)" ] && SSH_AGENT_PID="$(pgrep gnome-keyring)" && export SSH_AGENT_PID="${SSH_AGENT_PID?}"
 # }}}
 
-# vim: fdm=marker noet
+# nvim {{{1
+[ -d "${HOME}/.local/share/nvim/bin" ] && PATH="$PATH:${HOME}/.local/share/nvim/bin"
+# }}}
 
+# vim: fdm=marker noet
