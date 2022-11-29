@@ -9,31 +9,31 @@ local function ft_autocmd(pattern, command, value)
 end
 
 -- Matchpairs {{{
-ft_autocmd({"html"}, vim.opt.matchpairs, "<:>")
+ft_autocmd({ "html" }, vim.opt.matchpairs, "<:>")
 -- }}}
 
 -- Make {{{
-ft_autocmd({"html"}, vim.opt.makeprg, "tidy -e -q --gnu-emacs 1 % $*")
-ft_autocmd({"markdown"}, vim.opt.makeprg, "pandoc % $* -o %.pdf")
-ft_autocmd({"css"}, vim.opt.makeprg, "npx prettier --write %")
-ft_autocmd({"sh"}, vim.opt.makeprg, "shellcheck -f gcc % $*")
+ft_autocmd({ "html" }, vim.opt.makeprg, "tidy -e -q --gnu-emacs 1 % $*")
+ft_autocmd({ "markdown" }, vim.opt.makeprg, "pandoc % $* -o %.pdf")
+ft_autocmd({ "css" }, vim.opt.makeprg, "npx prettier --write %")
+ft_autocmd({ "sh" }, vim.opt.makeprg, "shellcheck -f gcc % $*")
 -- }}}
 
 -- Proper comments {{{
-ft_autocmd({"python", "sh"}, vim.opt.commentstring, "# %s")
-ft_autocmd({"html"}, vim.opt.commentstring, "<!-- %s -->")
-ft_autocmd({"c"}, vim.opt.commentstring, "/* %s */")
-ft_autocmd({"go"}, vim.opt.commentstring, "// %s")
-ft_autocmd({"xdefaults"}, vim.opt.commentstring, "! %s")
-ft_autocmd({"vim"}, vim.opt.commentstring, "\" %s")
-ft_autocmd({"sql"}, vim.opt.commentstring, "-- %s")
+ft_autocmd({ "python", "sh" }, vim.opt.commentstring, "# %s")
+-- ft_autocmd({"html"}, vim.opt.commentstring, "<!-- %s -->")
+ft_autocmd({ "c" }, vim.opt.commentstring, "/* %s */")
+ft_autocmd({ "go" }, vim.opt.commentstring, "// %s")
+ft_autocmd({ "xdefaults" }, vim.opt.commentstring, "! %s")
+ft_autocmd({ "vim" }, vim.opt.commentstring, "\" %s")
+ft_autocmd({ "sql" }, vim.opt.commentstring, "-- %s")
 -- }}}
 
 -- Linting {{{
 -- vim.api.nvim_create_autocmd(BufWritePre, {
-	-- desc = "Formating go files on save",
-	-- pattern = { "*.go" },
-	-- callback = vim.lsp.buf.formatting,
+-- desc = "Formating go files on save",
+-- pattern = { "*.go" },
+-- callback = vim.lsp.buf.formatting,
 -- })
 -- }}}
 
@@ -49,6 +49,7 @@ local function jump_to_last_position()
 		print(vim.api.nvim_exec("normal! g`\"", true))
 	end
 end
+
 vim.api.nvim_create_autocmd(event.BufReadPost, {
 	desc = "Jump to last known cursor position when opening a file",
 	pattern = { "*" },
@@ -60,9 +61,9 @@ vim.api.nvim_create_autocmd(event.BufReadPost, {
 -- skeleton files {{{
 -- vim-go already does that
 -- vim.api.nvim_create_autocmd(BufNewFile, {
-	-- desc = "Read skeleton file when opening a new file",
-	-- pattern = { "*.go" },
-	-- command = "lua vim.api.nvim_exec('0r ~/workspace/default_files/go/main.go', true)",
+-- desc = "Read skeleton file when opening a new file",
+-- pattern = { "*.go" },
+-- command = "lua vim.api.nvim_exec('0r ~/workspace/default_files/go/main.go', true)",
 -- })
 -- }}}
 

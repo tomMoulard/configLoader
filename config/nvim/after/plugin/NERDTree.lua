@@ -6,4 +6,4 @@ vim.g.NERDTreeIgnore = {
 	"*.pyc",
 }
 
-vim.keymap.set("n", "<F1>", ":NERDTreeToggle<CR>", {silent=true})
+vim.keymap.set("n", "<F1>", ":NERDTreeToggle<CR>", { silent = true })

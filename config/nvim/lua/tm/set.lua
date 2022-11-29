@@ -34,10 +34,10 @@ vim.opt.autowrite = false
 vim.opt.autowriteall = false
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
-vim.opt.fileformats = {"unix", "dos", "mac"}
+vim.opt.fileformats = { "unix", "dos", "mac" }
 vim.opt.linebreak = false
 vim.opt.secure = true
-vim.opt.spelllang = {"fr", "en_us"}
+vim.opt.spelllang = { "fr", "en_us" }
 vim.opt.wrap = false
 -- }}}
 
