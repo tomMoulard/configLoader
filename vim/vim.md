@@ -75,7 +75,10 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |<c-r\><register\>|In INSERT mode, paste the content of the <register\> (a macro, ...)|
 |<c-r\>|Redo|
 |<c-w\>=|Resize all split to default value|
-|<c-w\>\_|Full screen current split to default value|
+|<c-w\>H|change split to vertical|
+|<c-w\>K|change split to horizontal|
+|<c-w\>\_|Full screen current horizontal split|
+|<c-w\>\||Full screen current vertical split|
 |<c-w\>w|Move to next split|
 |<c-x\><c-f\>|When on INSERT mode, autocomplete file names|
 |<c-x\><c-l\>|When on INSERT mode, autocomplete whole sentences|
