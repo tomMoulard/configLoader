@@ -2,18 +2,41 @@
 	name = Tom Moulard
 	email = tom.moulard@epita.fr
 [push]
-	default = simple
+	; https://git-scm.com/docs/git-config#Documentation/git-config.txt-pushdefault
+	default = current
 	autoSetupRemote = true
 [color]
 	ui = true
 [credential]
 	helper = cache --timeout=360000
 [alias]
+	# List all aliases.
+	# Stolen from here:
+	# https://twitter.com/TrevorBramble/status/774292970681937920
+	aliases = "!git config -l | grep ^alias | cut -c 7- | sort"
+
+	# fix typos
 	cehckout = checkout
 	chekcout = checkout
+
+	# fix diff
 	diff = diff --ignore-all-space
+
+	# fix commit
 	oops = commit --amend --no-edit -S
+
+	# display commit history
 	tree = log --all --decorate --oneline --graph
+
+	# A slightly-less-destructive and risky git push --force
+	# --force-with-lease ensures you won't overwrite any work on the remote
+	# branch if more commits were added to the remote branch (by another
+	# team-member or coworker, etc.). It ensures you do not overwrite
+	# someone elses work by --force pushing.
+	# Stolen from here:
+	# https://github.com/jsatk/dotfiles/blob/ck/tag-git/gitconfig
+	please = push --force-with-lease
+	poule = pull
 [diff "bin"]
 	textconv = hexdump -v -C
 [diff "pdf"]
@@ -30,3 +53,17 @@
 	excludesfile = /home/tm/workspace/configLoader/gitignore
 [init]
 	defaultBranch = main
+[blame]
+	coloring = highlightRecent
+[checkout]
+	; https://git-scm.com/docs/git-config#Documentation/git-config.txt-checkoutworkers
+	workers = -1
+[fetch]
+	parallel = 0
+[grep]
+	column = true
+	lineNumber = true
+[format]
+	signOff = true
+
+; vim: set ft=gitconfig:
