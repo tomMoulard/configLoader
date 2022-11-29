@@ -46,7 +46,7 @@ return require("packer").startup(function()
 	-- autocomplete
 	use({"hrsh7th/nvim-cmp",
 		requires = {
-			"folke/lua-dev.nvim", -- docs and completion for the nvim lua API.
+			"folke/neodev.nvim", -- docs and completion for the nvim lua API.
 			"hrsh7th/cmp-buffer", -- autocomplete strings in buffer.
 			"hrsh7th/cmp-cmdline", -- nvim-cmp source for vim's cmdline.
 			"hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for neovim's built-in language server client.

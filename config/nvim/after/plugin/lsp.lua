@@ -37,11 +37,11 @@ local on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<space>f", vim.lsp.buf.formatting, bufopts)
 end
 
-if pcall(require, "lua-dev") then
-	-- IMPORTANT: make sure to setup lua-dev BEFORE lspconfig
-	require("lua-dev").setup({
+if pcall(require, "neodev") then
+	-- IMPORTANT: make sure to setup neodev BEFORE lspconfig
+	require("neodev").setup({
 		library = {
-			enabled = true, -- when not enabled, lua-dev will not change any settings to the LSP server
+			enabled = true, -- when not enabled, neodev will not change any settings to the LSP server
 			-- these settings will be used for your Neovim config directory
 			runtime = true, -- runtime path
 			types = true, -- full signature, docs and completion of vim.api, vim.treesitter, vim.lsp and others
