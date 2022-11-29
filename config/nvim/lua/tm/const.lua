@@ -10,9 +10,11 @@ local key_mode = {
 	normal = "n",
 	visual = "v",
 	insert = "i",
+	command = "c",
 }
 
 local key_mapping = {
+	cr = "<CR>",
 	f11 = "<F11>",
 	f12 = "<F12>",
 	f2 = "<F2>",
