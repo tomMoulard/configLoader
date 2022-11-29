@@ -143,7 +143,7 @@ if (vim.fn.executable("lua-language-server") == 1 ) then
 		}
 	}
 
-	if pcall(require, "lua-dev") then
+	if pcall(require, "neodev") then
 		sumneko_lua_setup.settings.Lua.completion = { callSnippet = "Replace" }
 	end
 
