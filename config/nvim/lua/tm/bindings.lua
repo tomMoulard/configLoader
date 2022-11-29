@@ -49,4 +49,7 @@ vim.keymap.set(mode.visual, ">", ">gv", {silent=true})
 vim.keymap.set(mode.all, "gf", ":e <cfile><CR>", {silent=true})
 -- }}}
 
+vim.keymap.set(mode.normal, "gcc", ":GoCoverageToggle"..mapping.cr, {})
+vim.keymap.set(mode.normal, "gtt", ":GoTest"..mapping.cr, {})
+vim.keymap.set(mode.normal, "gtf", ":GoTestFunc"..mapping.cr, {})
 -- vim: foldmethod=marker

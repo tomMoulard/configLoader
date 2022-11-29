@@ -1,5 +1,15 @@
 if not pcall(require, "cmp") then return end
 
+local function format(entry, vim_item)
+	if entry.source.name == "nvim_lsp" then
+		vim_item.menu = '{' .. entry.source.source.client.name .. '}'
+	else
+		vim_item.menu = '[' .. entry.source.name .. ']'
+	end
+
+	return vim_item
+end
+
 local cmp = require("cmp")
 
 cmp.setup({
@@ -39,7 +49,10 @@ cmp.setup({
 		{
 			{ name = "buffer" },
 		}
-	)
+	),
+	formatting = {
+		format = format,
+	}
 })
 
 vim.opt.completeopt = {"menu", "menuone", "noselect"}
