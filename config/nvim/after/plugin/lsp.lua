@@ -10,31 +10,32 @@ if not pcall(require, "cmp_nvim_lsp") then return end
 
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
-local on_attach = function(client, bufnr)
+local on_attach = function(_, bufnr)
 	-- Enable completion triggered by <c-x><c-o>
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
 	-- Mappings.
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
-	local bufopts = { noremap=true, silent=true, buffer=bufnr }
-	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-	vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, bufopts)
-	vim.keymap.set("n", "gI", vim.lsp.buf.implementation, bufopts)
-	vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-	vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
+	vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
+	vim.keymap.set("n", "<space>f", vim.lsp.buf.formatting, bufopts)
+	vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
 	vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
-	vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
 	vim.keymap.set("n", "<space>wl", function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-		end, bufopts)
-	vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, bufopts)
-	vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
-	vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
+	end, bufopts)
+	vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
+	vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
 	vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-	vim.keymap.set("n", "<space>f", vim.lsp.buf.formatting, bufopts)
+	vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, bufopts)
+	vim.keymap.set("n", "<space>D", vim.diagnostic.open_float, bufopts)
+	vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, bufopts)
+	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, bufopts)
+	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, bufopts)
 end
 
 if pcall(require, "neodev") then
@@ -71,10 +72,10 @@ lspconfig.gopls.setup({
 })
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#golangci_lint_ls
-if (vim.fn.executable("golangci-lint-langserver") == 0 ) then
+if (vim.fn.executable("golangci-lint-langserver") == 0) then
 	print("Installing golangci-lint-langserver")
-	print(vim.fn.system({"go", "install", "github.com/nametake/golangci-lint-langserver@latest"}))
-	print(vim.fn.system({"go", "install", "github.com/golangci/golangci-lint/cmd/golangci-lint@latest"}))
+	print(vim.fn.system({ "go", "install", "github.com/nametake/golangci-lint-langserver@latest" }))
+	print(vim.fn.system({ "go", "install", "github.com/golangci/golangci-lint/cmd/golangci-lint@latest" }))
 end
 lspconfig.golangci_lint_ls.setup({
 	capabilities = capabilities,
@@ -86,23 +87,23 @@ lspconfig.golangci_lint_ls.setup({
 })
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#bashls
-if (vim.fn.executable("bash-language-server") == 0 ) then
+if (vim.fn.executable("bash-language-server") == 0) then
 	print("Installing bash-language-server")
-	print(vim.fn.system({"npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "bash-language-server"}))
+	print(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "bash-language-server" }))
 end
 lspconfig.bashls.setup({
 	capabilities = capabilities,
 	flags = lsp_flags,
 	on_attach = on_attach,
 	settings = {
-		filetypes = { "sh", "bash"}
+		filetypes = { "sh", "bash" }
 	}
 })
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#vimls
-if (vim.fn.executable("vim-language-server") == 0 ) then
+if (vim.fn.executable("vim-language-server") == 0) then
 	print("Installing vim-language-server")
-	print(vim.fn.system({"npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "vim-language-server"}))
+	print(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "vim-language-server" }))
 end
 lspconfig.vimls.setup({
 	capabilities = capabilities,
@@ -113,7 +114,7 @@ lspconfig.vimls.setup({
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#sumneko_lua
 -- Get lua-language-server from release and put it in $PATH
 -- https://github.com/sumneko/lua-language-server/releases/latest
-if (vim.fn.executable("lua-language-server") == 1 ) then
+if (vim.fn.executable("lua-language-server") == 1) then
 	local sumneko_lua_setup = {
 		capabilities = capabilities,
 		flags = lsp_flags,
@@ -151,9 +152,9 @@ if (vim.fn.executable("lua-language-server") == 1 ) then
 end
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#yamlls
-if (vim.fn.executable("yaml-language-server") == 0 ) then
+if (vim.fn.executable("yaml-language-server") == 0) then
 	print("Installing yaml-language-server")
-	print(vim.fn.system({"yarn", "global", "add", "yaml-language-server"}))
+	print(vim.fn.system({ "yarn", "global", "add", "yaml-language-server" }))
 end
 local home = os.getenv("HOME")
 lspconfig.yamlls.setup({
