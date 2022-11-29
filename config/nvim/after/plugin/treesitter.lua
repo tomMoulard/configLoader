@@ -1,6 +1,5 @@
 if not pcall(require, "nvim-treesitter.configs") then return end
-
-require("nvim-treesitter.configs").setup {
+local ts_setup = {
 	ensure_installed = {
 		"dockerfile",
 		"go",
@@ -43,6 +42,8 @@ require("nvim-treesitter.configs").setup {
 		enable = true
 	}
 }
+
+require("nvim-treesitter.configs").setup(ts_setup)
 
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
