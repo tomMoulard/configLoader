@@ -15,6 +15,11 @@ for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
 	alias ${method}="lwp-request -m \"${method}\""
 done
 
+alias -- -='cd -'
+alias ....='cd ../../..'
+alias ...='cd ../..'
+alias ..='cd ..'
+alias _='sudo'
 alias aria2c='aria2c --conf-path=$HOME/workspace/configLoader/aria2.conf'
 alias bettercap='docker run -it --privileged --net=host bettercap/bettercap'
 alias c='docker-compose'
@@ -65,6 +70,7 @@ alias mkae='ma'
 alias mkea='ma'
 alias mmdc='npx -p @mermaid-js/mermaid-cli mmdc'
 alias myip='curl http://ipecho.net/plain; echo'
+alias nvrc='cd $HOME/workspace/configLoader/config/nvim && $EDITOR $HOME/.config/nvim/init.lua'
 alias py='python'
 alias q='exit'
 alias qrcode='curl qrcode.show -d'
@@ -79,7 +85,6 @@ alias sudo='sudo '
 alias t='terraform'
 alias tor='docker run -it --rm -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=unix$DISPLAY -v /dev/snd:/dev/snd --privileged --name tor-browser jess/tor-browser'
 alias tree='tree -C'
-alias nvrc='$EDITOR $HOME/.config/nvim/init.lua'
 alias varc='$EDITOR $HOME/workspace/configLoader/bash_aliases'
 alias vbpf='$EDITOR $HOME/workspace/configLoader/profile'
 alias vbrc='$EDITOR $HOME/workspace/configLoader/bashrc'
@@ -92,16 +97,11 @@ alias xs='cd'
 alias xt='extract'
 alias yaegi='rlwrap yaegi'
 
+[ ! -f  "${HOME}/workspace/configLoader/complete_alias" ] && return
 source "${HOME}/workspace/configLoader/complete_alias"
 for a in $(alias | tail -n +2 | cut -c 7- | cut -d'=' -f 1); do
     # echo $a
     complete -F _complete_alias "$a"
 done
-
-alias -- -='cd -'
-alias ....='cd ../../..'
-alias ...='cd ../..'
-alias ..='cd ..'
-alias _='sudo'
 
 # vim:ft=bash
