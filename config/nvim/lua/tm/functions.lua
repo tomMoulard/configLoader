@@ -94,6 +94,7 @@ M.gh = gh
 function Update()
 	vim.api.nvim_command(":PackerUpdate")
 	vim.api.nvim_command(":TSUpdate")
+	print(vim.fn.system({ "go", "install", "golang.org/x/tools/gopls@latest" }))
 end
 
 vim.api.nvim_create_user_command("Update", Update, {})
