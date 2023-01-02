@@ -29,6 +29,13 @@ ft_autocmd({ "vim" }, vim.opt.commentstring, "\" %s")
 ft_autocmd({ "sql" }, vim.opt.commentstring, "-- %s")
 -- }}}
 
+-- indenting {{{
+vim.api.nvim_create_autocmd(event.FileType, {
+	pattern = { "vue" },
+	callback = function() vim.opt.expandtab = true end,
+})
+-- }}}
+
 -- Linting {{{
 -- vim.api.nvim_create_autocmd(BufWritePre, {
 -- desc = "Formating go files on save",
