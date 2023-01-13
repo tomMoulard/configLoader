@@ -154,11 +154,12 @@ prompt() {
 	# GIT_BRANCH="$(parse_git_branch) "
 
 	# Set terminal title
-	PS1="\\[\\033]0;\\w\\007\\]"
+	GIT_BRANCH="$(git branch 2>/dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ - \1/')"
+	PS1="\\[\\033]0;\\w${GIT_BRANCH}\\007\\]"
 
 	# If id command returns zero, you have root access.
 	if [ "$(id -u)" -eq 0 ]; then
-		PS1+="\[${debian_chroot:+($debian_chroot)}\[${GREEN}\]"
+		PS1="${PS1}\[${debian_chroot:+($debian_chroot)}\[${GREEN}\]"
 		PS1="\[${PS1}[\!]\u@\h:\W > \[${COLOR_OFF}\]\[$(tput sgr0)\]"
 		PS1="\[${PS1}\]"
 	else # normal
