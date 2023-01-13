@@ -42,24 +42,10 @@ function extract() {
 	done
 }
 
-# Generate a "password"
-function genpwd() {
-	tr </dev/urandom -dc _A-Z-a-z-0-9 | head -c"${1:-16}"
-	echo
-}
-
 function _disown() {
 	bash -c "$1" >&/dev/null &
 	disown $!
 }
-
-TMP=$(mktemp)
-
-for fun in firefox chromium google-chrome thunderbird evince; do
-	echo "function ${fun} { _disown \"${fun} \$@\"; };" >>"${TMP}"
-done
-
-source "${TMP}" && rm "${TMP}"
 
 function dc() {
 	docker-compose $(find . -name 'docker-compose*.yml' -type f -printf '%p\t%d\n' 2>/dev/null | sort -n -k2 | cut -f 1 | awk '{print "-f "$0}') "$@"
@@ -94,18 +80,18 @@ function notify() {
 # usage: go-download-version <version>
 # example: go-download-version go1.19rc1
 function go-download-version() {
-	[[ -d "${HOME}/.local/opt/$1" || -f "$(command -v $1)" ]] && echo "$1 already exists" && return
-	mkdir -p ${HOME}/.local/opt/$1
-	set -x
-	aria2c https://go.dev/dl/$1.linux-amd64.tar.gz \
-		--dir ${HOME}/.local/opt/$1 \
-		-o $1.linux-amd64.tar.gz
-	[[ "$?" -ne 0 ]] && rm -fr ${HOME}/.local/opt/$1 && return
-	tar xf ${HOME}/.local/opt/$1/$1.linux-amd64.tar.gz --directory ${HOME}/.local/opt/$1/
-	mv ${HOME}/.local/opt/$1/go/* ${HOME}/.local/opt/$1/
-	rm -r ${HOME}/.local/opt/$1/go
-	ln -s ${HOME}/.local/opt/$1/bin/go ${HOME}/.local/bin/$1
-	set +x
+	[[ -d "${HOME}/.local/opt/${1}" || -f "$(command -v "${1}")" ]] && echo "${1} already exists" && return
+	mkdir -p "${HOME}/.local/opt/${1}"
+	aria2c "https://go.dev/dl/${1}.linux-amd64.tar.gz" \
+		--dir "${HOME}/.local/opt/${1}" \
+		-o "${1}.linux-amd64.tar.gz" \
+		|| (rm -fr "${HOME}/.local/opt/${1}" && echo "Failed to download ${1}" && return)
+	tar xf "${HOME}/.local/opt/${1}/${1}.linux-amd64.tar.gz" --directory "${HOME}/.local/opt/${1}/"
+	mv ${HOME}/.local/opt/${1}/go/* "${HOME}/.local/opt/${1}/"
+	rm -r "${HOME}/.local/opt/${1}/go"
+	ln -s "${HOME}/.local/opt/${1}/bin/go" "${HOME}/.local/bin/${1}"
 }
 
-# vim:ft=bash
+}
+
+# vim:ft=bash noet
