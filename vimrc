@@ -94,6 +94,7 @@ set shiftround                 " Use multiple of shift width when indenting with
 set smarttab                   " Insert tabs on the start of a line according to shift width, not tab stop
 set cinoptions=(0,u0,U0,t0,g0  " Fixing indent, see :help cinoptions-values
 filetype indent on             " Allow indent customization from file type
+set breakindent                " wrapped lines will be indented
 " }}}
 
 " Searching and Patterns {{{2
@@ -254,6 +255,7 @@ autocmd FileType sql       setlocal commentstring=--\ %s
 " Settings {{{3
 autocmd FileType dockerfile set noexpandtab
 autocmd FileType go         setlocal noet ts=4 sw=4 sts=4
+autocmd FileType go         nnoremap <buffer> <silent> gD :GoCaller<cr>
 autocmd FileType markdown   setlocal spell
 autocmd FileType gitcommit  setlocal spell
 autocmd FileType nginx      setlocal noet ts=4 sw=4 sts=4
@@ -342,7 +344,7 @@ nnoremap <C-s> :update<CR>
 nnoremap <F5> :make<CR><c-w>   " Auto make
 " }}}
 
-" Add ad matching char {{{2
+" Add a matching char {{{2
 imap ( ()<C-[>i
 imap [ []<C-[>i
 imap { {}<C-[>i
