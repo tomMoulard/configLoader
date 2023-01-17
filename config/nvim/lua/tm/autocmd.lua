@@ -74,4 +74,23 @@ vim.api.nvim_create_autocmd(event.BufReadPost, {
 -- })
 -- }}}
 
+-- Set relativenumber when entering insert mode {{{
+vim.opt.relativenumber = false
+vim.api.nvim_create_autocmd({event.BufLeave, event.InsertEnter}, {
+	desc = "Set relativenumber when entering insert mode",
+	pattern = { "*" },
+	callback = function()
+		vim.opt.relativenumber = true
+	end,
+})
+
+vim.api.nvim_create_autocmd({event.BufEnter, event.InsertLeave}, {
+	desc = "Set norelativenumber when exiting insert mode",
+	pattern = { "*" },
+	callback = function()
+		vim.opt.relativenumber = false
+	end,
+})
+-- }}}
+
 -- vim: fdm=marker

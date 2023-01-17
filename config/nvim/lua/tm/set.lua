@@ -63,7 +63,6 @@ vim.opt.lazyredraw = true
 vim.opt.list = true
 vim.opt.listchars = "tab:»·,trail:¶,eol: ,extends:>,precedes:<,nbsp:¤"
 vim.opt.number = true
-vim.opt.relativenumber = true
 vim.opt.ruler = true
 vim.opt.rulerformat = "%15(%c%V %p%%%)"
 vim.opt.scrolloff = 5
