@@ -180,3 +180,15 @@ lspconfig.yamlls.setup({
 		},
 	}
 })
+
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#dockerls
+if (vim.fn.executable("docker-langserver") == 0) then
+	print("Installing docker-langserver")
+	print(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "dockerfile-language-server-nodejs" }))
+end
+lspconfig.dockerls.setup({
+	capabilities = capabilities,
+	flags = lsp_flags,
+	on_attach = on_attach,
+})
+
