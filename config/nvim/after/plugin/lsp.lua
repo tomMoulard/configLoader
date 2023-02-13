@@ -171,6 +171,7 @@ lspconfig.yamlls.setup({
 				["https://json.schemastore.org/traefik-v2.json"] = "traefik*.ya?ml",
 				["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose.*ya?ml",
 				[home .. "/go/src/github.com/traefik/hub-agent-kubernetes/hub.traefik.io_accesscontrolpolicies.yaml"] = ".*ya?ml",
+				["kubernetes"] = ".*ya?ml",
 			},
 		},
 		redhat = {
