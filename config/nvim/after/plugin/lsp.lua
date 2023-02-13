@@ -111,11 +111,11 @@ lspconfig.vimls.setup({
 	on_attach = on_attach,
 })
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#sumneko_lua
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#lua_ls
 -- Get lua-language-server from release and put it in $PATH
--- https://github.com/sumneko/lua-language-server/releases/latest
+-- https://github.com/LuaLs/lua-language-server/releases/latest
 if (vim.fn.executable("lua-language-server") == 1) then
-	local sumneko_lua_setup = {
+	local lua_ls_setup = {
 		capabilities = capabilities,
 		flags = lsp_flags,
 		on_attach = on_attach,
@@ -145,10 +145,10 @@ if (vim.fn.executable("lua-language-server") == 1) then
 	}
 
 	if pcall(require, "neodev") then
-		sumneko_lua_setup.settings.Lua.completion = { callSnippet = "Replace" }
+		lua_ls_setup.settings.Lua.completion = { callSnippet = "Replace" }
 	end
 
-	lspconfig.sumneko_lua.setup(sumneko_lua_setup)
+	lspconfig.lua_ls.setup(lua_ls_setup)
 end
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#yamlls
