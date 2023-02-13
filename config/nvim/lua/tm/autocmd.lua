@@ -51,9 +51,10 @@ vim.api.nvim_create_autocmd(event.FileType, {
 -- Also don't do it when the mark is in the first line, that is the default
 -- position when opening a file.
 local function jump_to_last_position()
-	local curr_line = vim.fn.line("'\"")
-	if (curr_line > 1 and curr_line <= vim.fn.line("$")) then
-		print(vim.api.nvim_exec("normal! g`\"", true))
+	local mark = vim.api.nvim_buf_get_mark(0, '"')
+	local lcount = vim.api.nvim_buf_line_count(0)
+	if mark[1] > 0 and mark[1] <= lcount then
+		pcall(vim.api.nvim_win_set_cursor, 0, mark)
 	end
 end
 
