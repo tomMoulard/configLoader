@@ -12,6 +12,8 @@
 #  github.com/tommoulard/configloader
 
 # Extract the content of an achive
+# Might replace with https://github.com/ouch-org/ouch
+# alias extract="ouch decompress"
 function extract() {
 	if [ -z "$1" ]; then
 		echo "Usage: ${FUNCNAME[0]} <path/file...>"
