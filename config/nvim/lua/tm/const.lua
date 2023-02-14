@@ -3,6 +3,7 @@ local autocmd_event = {
 	BufReadPost = "BufReadPost",
 	BufWritePre = "BufWritePre",
 	FileType = "FileType",
+	WinResized = "WinResized",
 }
 
 local key_mode = {

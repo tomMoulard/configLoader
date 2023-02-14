@@ -94,4 +94,15 @@ vim.api.nvim_create_autocmd({event.InsertLeave}, {
 })
 -- }}}
 
+-- <c-w>= on resize {{{
+-- See :help CTRL-W_= for more information
+vim.api.nvim_create_autocmd({event.WinResized}, {
+	desc = "Equalize window sizes when resizing",
+	pattern = { "*" },
+	callback = function()
+		vim.cmd.wincmd("=")
+	end,
+})
+-- }}}
+
 -- vim: fdm=marker
