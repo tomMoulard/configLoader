@@ -78,7 +78,8 @@ return require("packer").startup(function()
 		requires = { "mfussenegger/nvim-dap" }
 	})
 
-	use("akinsho/bufferline.nvim")
+	-- match pairs ( '"[{}]"' ), see :h insx
+	use("hrsh7th/nvim-insx")
 
 	if Packer_bootstrap then
 		packer_sync()
