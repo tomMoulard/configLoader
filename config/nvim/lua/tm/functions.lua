@@ -21,8 +21,7 @@ vim.api.nvim_create_user_command("JsonPretty", JsonPretty, {})
 local gh = {}
 -- helper{{{
 function gh.parse_and_put(lines)
-	local json = vim.json.decode(lines)
-	for _, value in ipairs(json) do
+	for _, value in ipairs(vim.json.decode(lines)) do
 		vim.api.nvim_put({ string.format("|%6d|%s|%s||", value.number, value.updatedAt, value.title) }, "l", true, false)
 	end
 end

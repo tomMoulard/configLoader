@@ -136,6 +136,7 @@ local plugins = {
 local opts = { -- Lazy options
 	checker = {
 		enabled = true,
+		notify = false,
 	}
 }
 
