@@ -1,14 +1,20 @@
--- packer statup install {{{
-local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-	Packer_bootstrap = vim.fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim",
-		install_path })
-end
-
 -- TODO: source file before sync
 local function packer_sync()
 	require("packer").sync()
 end
+
+-- packer statup install {{{
+local install_path = vim.fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+	print("installing packer")
+	Packer_bootstrap = vim.fn.system({
+		"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim",
+		install_path })
+
+	packer_sync()
+end
+
+if not pcall(require, "packer") then print("skipping packer") return end
 
 -- FIXME: solve packer_sync TODO
 -- vim.api.nvim_create_autocmd("BufWritePost", {
@@ -37,7 +43,7 @@ return require("packer").startup(function()
 		run = ":TSUpdate"
 	})
 	use("nvim-treesitter/nvim-treesitter-context")
-	use("p00f/nvim-ts-rainbow")
+	-- use("p00f/nvim-ts-rainbow")
 
 	use("neovim/nvim-lspconfig")
 
@@ -80,8 +86,4 @@ return require("packer").startup(function()
 
 	-- match pairs ( '"[{}]"' ), see :h insx
 	use("hrsh7th/nvim-insx")
-
-	if Packer_bootstrap then
-		packer_sync()
-	end
 end)
