@@ -10,7 +10,7 @@
 !  You can file the updated version on the git repository
 !  github.com/tommoulard/configloader
 
-#define base00 #272822
+#define base00 #000000
 #define base01 #383830
 #define base02 #49483e
 #define base03 #75715e
@@ -103,7 +103,7 @@ Urxvt.letterSpace:                  0
 
 ! True transparency
 URxvt*depth:                        32
-URxvt*background:                   [90]base00
+URxvt*background:                   [80]base00
 ! Fade the text by the given percentage when focus is lost
 URxvt*fadeing:                      30
 URxvt*scrollBar:                    false
