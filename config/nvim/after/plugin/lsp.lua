@@ -40,7 +40,7 @@ end
 
 if pcall(require, "neodev") then
 	-- IMPORTANT: make sure to setup neodev BEFORE lspconfig
-	require("neodev").setup({
+	local cfg = {
 		library = {
 			enabled = true, -- when not enabled, neodev will not change any settings to the LSP server
 			-- these settings will be used for your Neovim config directory
@@ -53,7 +53,13 @@ if pcall(require, "neodev") then
 		-- for plugin directories (root_dirs having a /lua directory), config.library.plugins will be disabled
 		-- for any other directory, config.library.enabled will be set to false
 		-- override = function(root_dir, options) end,
-	})
+	}
+
+	if pcall(require, "nvim-dap-ui") then
+		cfg.library.plugins:append("nvim-dap-ui")
+	end
+
+	require("neodev").setup(cfg)
 end
 
 local lsp_flags = {

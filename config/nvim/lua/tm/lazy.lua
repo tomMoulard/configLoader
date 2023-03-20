@@ -105,6 +105,21 @@ local plugins = {
 	},
 
 	-- Debug Adapter Protocol
+	{
+		"mfussenegger/nvim-dap",
+		ft = {"go"}, -- lazy load on filetypes. TODO: add more filetypes when needed.
+		keys = {
+		},
+		dependencies = {
+			"theHamsta/nvim-dap-virtual-text",
+			{
+				"rcarriga/nvim-dap-ui", -- UI for DAP.
+				keys = {
+					{ "<F9>", function () require('dapui').toggle() end, mode = "n", desc = "Toggle DAP UI", silent = true },
+				},
+			},
+		},
+	},
 	{ -- Go Delve debugger.
 		"leoluz/nvim-dap-go",
 		ft = "go", -- lazy load on go filetype.

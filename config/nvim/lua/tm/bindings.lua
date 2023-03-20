@@ -54,4 +54,7 @@ vim.keymap.set(mode.all, "gf", ":e <cfile><CR>", { silent = true })
 vim.keymap.set(mode.normal, "gcc", ":GoCoverageToggle" .. mapping.cr, {})
 vim.keymap.set(mode.normal, "gtt", ":GoTest" .. mapping.cr, {})
 vim.keymap.set(mode.normal, "gtf", ":GoTestFunc" .. mapping.cr, {})
+if pcall(require, "dap-go") then
+	vim.keymap.set(mode.normal, 'gdt', function() require('dap-go').debug_test() end)
+end
 -- vim: foldmethod=marker

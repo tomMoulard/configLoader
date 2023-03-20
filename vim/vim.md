@@ -50,13 +50,17 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |:wq|Save and exit|
 |:w|Save file|
 |:x|Save and close file|
+|<F10\>|DAP: step over|
+|<F11\>|DAP: step into|
 |<F11\>|Do a horizontal split|
+|<F12\>|DAP: step out|
 |<F12\>|Do a vertical split|
 |<F1\>|Toggle NerdTree|
 |<F2\>|Toggle PASTE mode|
 |<F3\>|Open a terminal|
-|<F5\>|Make file|
+|<F5\>|Make file or start DAP|
 |<F6\>|Toggle spelling|
+|<F9\>|Toggle DAP UI|
 |<Tab\>|Auto complete + snippets|
 |<[0-9]+\>@<char\>|Applies a number of time a macro (<char\>)|
 |<[0-9]+\>G|Move cursor to line|
@@ -87,10 +91,19 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |<c-z\>|Halt vim to cli, revert with fg|
 |<leader\>,|Turn off search highlighting|
 |<leader\><leader\>|Save file|
+|<leader\>B|DAP: set breakpoint|
 |<leader\>W|Remove trailing white space|
+|<leader\>b|DAP: toggle breakpoint|
 |<leader\>c<space\>|Toggle selected area comment|
 |<leader\>cc|Comment selected area|
 |<leader\>cu|Uncomment selected area|
+|<leader\>df|DAP: Opens frames in a centered floating window|
+|<leader\>df|DAP: Opens scopes in a centered floating window|
+|<leader\>dh|DAP: View the value for the expression under the cursor in a floating window|
+|<leader\>dl|DAP: run last|
+|<leader\>dp|DAP: Like <leader\>dh but uses the preview window|
+|<leader\>dr|DAP: open REPL|
+|<leader\>lp|DAP: set log message|
 |<|Indent down line (or selected area)|
 |==|Indent the line|
 |=|In VISUAL mode, indent the selected area|
@@ -123,9 +136,13 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |echo &<command\>|Display <command\> value|
 |e|Move cursor at the end of next word|
 |g??|Do rot13 on selected text|
+|gcc|go coverage toggle|
+|gdt|go debug test|
 |ge|Move cursor at the end of previous word|
 |gf|open file from path under the cursor|
 |gg|Go to the beginning of the file|
+|gtf|go test func|
+|gtt|go test|
 |gww|Format current line using wrap|
 |gw|Format selected text using wrap|
 |h|Move cursor left|

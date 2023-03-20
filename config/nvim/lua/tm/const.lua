@@ -18,6 +18,7 @@ local key_mode = {
 
 local key_mapping = {
 	cr = "<CR>",
+	f10 = "<F10>",
 	f11 = "<F11>",
 	f12 = "<F12>",
 	f2 = "<F2>",
