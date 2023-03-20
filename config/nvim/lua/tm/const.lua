@@ -1,8 +1,10 @@
+-- see :help events for more information
 local autocmd_event = {
 	BufNewFile = "BufNewFile",
 	BufReadPost = "BufReadPost",
 	BufWritePre = "BufWritePre",
 	FileType = "FileType",
+	InsertEnter = "InsertEnter",
 	WinResized = "WinResized",
 }
 

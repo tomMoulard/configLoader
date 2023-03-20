@@ -92,7 +92,7 @@ M.gh = gh
 --
 -- Update nvim components {{{
 function Update()
-	vim.api.nvim_command(":PackerUpdate")
+	require("lazy").update()
 	vim.api.nvim_command(":TSUpdate")
 	print(vim.fn.system({ "go", "install", "golang.org/x/tools/gopls@latest" }))
 end

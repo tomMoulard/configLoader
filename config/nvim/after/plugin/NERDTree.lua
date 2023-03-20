@@ -5,5 +5,3 @@ vim.g.NERDTreeIgnore = {
 	"*.out",
 	"*.pyc",
 }
-
-vim.keymap.set("n", "<F1>", ":NERDTreeToggle<CR>", { silent = true })

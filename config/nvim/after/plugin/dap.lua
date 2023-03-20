@@ -1,6 +1,6 @@
 if not pcall(require, "dap") then return end
 
-local mapping = require("tm.mapping").Mapping
+local mapping = require("tm.const").key.mapping
 
 if pcall(require, "dapui") then
 	local dapui = require("dapui")
