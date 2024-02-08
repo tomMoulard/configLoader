@@ -4,4 +4,4 @@ vim.g.copilot_filetypes = {
 	["markdown"] = true,
 }
 
-vim.keymap.set("i", "<C-j>", vim.fn["copilot#Accept"], { silent = true, expr = true, script = true })
+vim.keymap.set("i", "<C-j>", vim.fn["copilot#Accept"], { silent = true, expr = true, script = true, replace_keycodes = false })
