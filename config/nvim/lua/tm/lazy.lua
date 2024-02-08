@@ -1,6 +1,6 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
-	print("Installing lazy.nvim")
+	vim.notify("Installing lazy.nvim: " .. lazypath, vim.log.levels.INFO)
 	vim.fn.system({
 		"git",
 		"clone",
@@ -12,7 +12,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-if not pcall(require, "lazy") then print("warning: skipping lazy") return end
+if not pcall(require, "lazy") then vim.notify("Lazy.nvim failed to load, skipping", vim.log.levels.ERROR) return end
 
 local const = require("tm.const")
 local event = const.autocmd.event
@@ -45,7 +45,7 @@ local plugins = {
 	{ -- parser generator tool and an incremental parsing library.
 		"nvim-treesitter/nvim-treesitter",
 		build = function ()
-			print("Building treesitter")
+			vim.notify("Building treesitter", vim.log.levels.INFO)
 			require("nvim-treesitter.install").update({ with_sync = true })
 		end,
 		dependencies = {

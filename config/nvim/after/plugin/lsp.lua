@@ -79,9 +79,9 @@ lspconfig.gopls.setup({
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#golangci_lint_ls
 if (vim.fn.executable("golangci-lint-langserver") == 0) then
-	print("Installing golangci-lint-langserver")
-	print(vim.fn.system({ "go", "install", "github.com/nametake/golangci-lint-langserver@latest" }))
-	print(vim.fn.system({ "go", "install", "github.com/golangci/golangci-lint/cmd/golangci-lint@latest" }))
+	vim.notify("Installing golangci-lint-langserver", vim.log.levels.INFO)
+	vim.notify(vim.fn.system({ "go", "install", "github.com/nametake/golangci-lint-langserver@latest" }), vim.log.levels.DEBUG)
+	-- vim.notify(vim.fn.system({ "go", "install", "github.com/golangci/golangci-lint/cmd/golangci-lint@latest" }), vim.log.levels.DEBUG)
 end
 lspconfig.golangci_lint_ls.setup({
 	capabilities = capabilities,
@@ -94,8 +94,8 @@ lspconfig.golangci_lint_ls.setup({
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#bashls
 if (vim.fn.executable("bash-language-server") == 0) then
-	print("Installing bash-language-server")
-	print(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "bash-language-server" }))
+	vim.notify("Installing bash-language-server", vim.log.levels.INFO)
+	vim.notify(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "bash-language-server" }), vim.log.levels.DEBUG)
 end
 lspconfig.bashls.setup({
 	capabilities = capabilities,
@@ -108,8 +108,8 @@ lspconfig.bashls.setup({
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#vimls
 if (vim.fn.executable("vim-language-server") == 0) then
-	print("Installing vim-language-server")
-	print(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "vim-language-server" }))
+	vim.notify("Installing vim-language-server", vim.log.levels.INFO)
+	vim.notify(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "vim-language-server" }), vim.log.levels.DEBUG)
 end
 lspconfig.vimls.setup({
 	capabilities = capabilities,
@@ -161,8 +161,8 @@ end
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#yamlls
 if (vim.fn.executable("yaml-language-server") == 0) then
-	print("Installing yaml-language-server")
-	print(vim.fn.system({ "yarn", "global", "add", "yaml-language-server" }))
+	vim.notify("Installing yaml-language-server", vim.log.levels.INFO)
+	vim.notify(vim.fn.system({ "yarn", "global", "add", "yaml-language-server" }), vim.log.levels.DEBUG)
 end
 local home = os.getenv("HOME")
 lspconfig.yamlls.setup({
@@ -192,8 +192,8 @@ lspconfig.yamlls.setup({
 
 -- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#dockerls
 if (vim.fn.executable("docker-langserver") == 0) then
-	print("Installing docker-langserver")
-	print(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "dockerfile-language-server-nodejs" }))
+	vim.notify("Installing docker-langserver", vim.log.levels.INFO)
+	vim.notify(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "dockerfile-language-server-nodejs" }), vim.log.levels.DEBUG)
 end
 lspconfig.dockerls.setup({
 	capabilities = capabilities,

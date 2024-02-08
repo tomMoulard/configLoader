@@ -28,7 +28,6 @@ end
 
 function gh.get_current_date()
 	local num_of_days = 1
-	print("Today is Tuesday", os.date("*t").wday)
 	if os.date("*t").wday == 2 then
 		num_of_days = 3
 	end
@@ -93,7 +92,7 @@ M.gh = gh
 function Update()
 	require("lazy").update()
 	vim.api.nvim_command(":TSUpdate")
-	print(vim.fn.system({ "go", "install", "golang.org/x/tools/gopls@latest" }))
+	vim.notify(vim.fn.system({ "go", "install", "golang.org/x/tools/gopls@latest" }), vim.log.levels.DEBUG)
 end
 
 vim.api.nvim_create_user_command("Update", Update, {})
