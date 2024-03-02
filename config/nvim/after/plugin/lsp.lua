@@ -201,3 +201,40 @@ lspconfig.dockerls.setup({
 	on_attach = on_attach,
 })
 
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#eslint
+if (vim.fn.executable("vscode-eslint-language-server") == 0) then
+	vim.notify("Installing eslint", vim.log.levels.INFO)
+	vim.notify(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "vscode-langservers-extracted" }), vim.log.levels.DEBUG)
+end
+lspconfig.eslint.setup({
+	capabilities = capabilities,
+	flags = lsp_flags,
+	on_attach = function(client, bufnr)
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			buffer = bufnr,
+			command = "EslintFixAll",
+		})
+	end,
+})
+
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#tsserver
+if (vim.fn.executable("typescript-language-server") == 0) then
+	vim.notify("Installing tsserver", vim.log.levels.INFO)
+	vim.notify(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "typescript-language-server" }), vim.log.levels.DEBUG)
+end
+lspconfig.tsserver.setup({
+	capabilities = capabilities,
+	flags = lsp_flags,
+	on_attach = on_attach,
+})
+
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#tailwindcss
+if (vim.fn.executable("tailwindcss-language-server") == 0) then
+	vim.notify("Installing tailwindcss", vim.log.levels.INFO)
+	vim.notify(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "@tailwindcss/language-server" }), vim.log.levels.DEBUG)
+end
+lspconfig.tailwindcss.setup({
+	capabilities = capabilities,
+	flags = lsp_flags,
+	on_attach = on_attach,
+})
