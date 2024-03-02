@@ -98,7 +98,7 @@ Xft.lcdfilter:                      lcddefault
 ! Urxvt
 ! Font, see fc-list(1), live testing fonts with `printf '\e]710;%s\007' "xft:Terminus:pixelsize=12"`
 ! See live urxvtc by: `urxvtc -fn "xft:Terminus:pixelsize=12"`
-URxvt*font:                         xft:Menlo:style=Regular, xft:Meslo GSDZ NFxft:Menlo Nerd Font:style=Regular, xft:Roboto, xft:DejaVu Sans Mono, xft:Unifont, xft:NotoColorEmoji, xft: Noto Emoji:size=
+URxvt*font:                         xft:Menlo:style=Regular, xft:Meslo GSDZ NFxft:Menlo Nerd Font:style=Regular, xft:Roboto, xft:DejaVu Sans Mono, xft:Unifont, xft:NotoColorEmoji, xft: Noto Emoji:size=12
 Urxvt.letterSpace:                  0
 
 ! True transparency
