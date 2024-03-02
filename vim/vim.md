@@ -123,9 +123,13 @@ This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), y
 |R|REPLACE mode until <Esc\>|
 |V|VISUAL mode with whole lines|
 |ZZ|Save and exit|
+|[M|go to end of previous function|
+|[m|go to previous function|
 |[s|go to previous misspelled word|
 |\*|Highlight word under cursor and jump to next occurrence|
 |\>|Indent line (or selected area)|
+|]M|go to end of next function|
+|]m|go to next function|
 |]s|go to next misspelled word|
 |^|Move cursor at the beginning of a line|
 |a|INSERT mode after cursor|
