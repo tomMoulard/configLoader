@@ -11,6 +11,7 @@ local setup = {
 
 	pickers = {
 		find_files = {
+			hidden = true,
 			-- theme = "dropdown",
 		}
 	},
@@ -37,5 +38,6 @@ telescope.setup(setup)
 local tb = require("telescope.builtin")
 
 vim.keymap.set("n", "<C-P>", tb.find_files, { silent = true })
+vim.keymap.set("n", "<C-f>", tb.find_files, { silent = true })
 vim.keymap.set("n", "<S-R>", tb.live_grep, { silent = true })
 vim.keymap.set("n", "<C-D>", tb.diagnostics, { silent = true })
