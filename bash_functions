@@ -50,12 +50,24 @@ function _disown() {
 }
 
 function upgrade() {
+	set -x
 	apt list --upgradable
-	for x in update upgrade; do
+	snap refresh --list
+	for x in update upgrade dist-upgrade; do
 		sudo apt $x -y
 	done
 	sudo apt autoremove -y
 	sudo snap refresh
+	rustup update stable # update rust version
+	cargo install-update -a
+	flatpak update -y
+	# go install github.com/tsenart/vegeta@latest
+	# go install github.com/hashicorp/terraform@latest
+	sudo npm update --location=global
+	sudo n latest
+	bob install nightly
+	nvim --headless "+Lazy! sync" +qa
+	set +x
 }
 
 # Removes spaces from a file name (can use globing)
