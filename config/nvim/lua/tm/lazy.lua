@@ -107,13 +107,14 @@ local plugins = {
 	-- Debug Adapter Protocol
 	{
 		"mfussenegger/nvim-dap",
-		ft = {"go"}, -- lazy load on filetypes. TODO: add more filetypes when needed.
+		ft = {"go"}, -- lazy load on filetypes.
 		keys = {
 		},
 		dependencies = {
 			"theHamsta/nvim-dap-virtual-text",
 			{
 				"rcarriga/nvim-dap-ui", -- UI for DAP.
+				ft = {"go"}, -- lazy load on filetypes.
 				keys = {
 					{ "<F9>", function () require('dapui').toggle() end, mode = "n", desc = "Toggle DAP UI", silent = true },
 				},
@@ -122,15 +123,22 @@ local plugins = {
 	},
 	{ -- Go Delve debugger.
 		"leoluz/nvim-dap-go",
-		ft = "go", -- lazy load on go filetype.
+		ft = {"go"}, -- lazy load on filetypes.
 	},
 	{
 		"rcarriga/nvim-dap-ui", -- UI for DAP.
+		ft = {"go"}, -- lazy load on filetypes.
 		dependencies = { "mfussenegger/nvim-dap" }
 	},
 
 	-- match pairs ( '"[{}]"' ), see :h insx
 	{"hrsh7th/nvim-insx"},
+
+	-- csv
+	{
+		"mechatroner/rainbow_csv",
+		ft = {"csv"}, -- lazy load on filetypes.
+	},
 }
 
 local opts = { -- Lazy options
