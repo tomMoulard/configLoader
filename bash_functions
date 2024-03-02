@@ -49,10 +49,6 @@ function _disown() {
 	disown $!
 }
 
-function dc() {
-	docker-compose $(find . -name 'docker-compose*.yml' -type f -printf '%p\t%d\n' 2>/dev/null | sort -n -k2 | cut -f 1 | awk '{print "-f "$0}') "$@"
-}
-
 function upgrade() {
 	apt list --upgradable
 	for x in update upgrade; do
