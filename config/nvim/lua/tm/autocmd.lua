@@ -16,7 +16,6 @@ ft_autocmd({ "html" }, vim.opt.matchpairs, "<:>")
 ft_autocmd({ "html" }, vim.opt.makeprg, "tidy -e -q --gnu-emacs 1 % $*")
 ft_autocmd({ "markdown" }, vim.opt.makeprg, "pandoc % $* -o %.pdf")
 ft_autocmd({ "css" }, vim.opt.makeprg, "npx prettier --write %")
-ft_autocmd({ "sh" }, vim.opt.makeprg, "shellcheck -f gcc % $*")
 -- }}}
 
 -- Proper comments {{{
