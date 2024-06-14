@@ -71,10 +71,6 @@ vim.opt.sidescrolloff = 5
 vim.opt.statusline = "%<%f (%{&ft})%=%-19(%3l,%02c-0x%02B%)"
 vim.opt.termguicolors = true
 vim.opt.title = true
-
-if vim.g.started_by_firenvim then
-	vim.opt.laststatus = 0
-end
 -- }}}
 
 -- Complete {{{
