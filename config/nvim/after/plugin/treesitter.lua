@@ -1,3 +1,4 @@
+-- cargo install tree-sitter-cli
 if not pcall(require, "nvim-treesitter.configs") then return end
 local ts_setup = {
 	ensure_installed = {
