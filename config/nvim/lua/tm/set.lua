@@ -56,12 +56,21 @@ vim.opt.smartcase = true
 
 -- Styles {{{
 vim.opt.cmdheight = 1
-vim.opt.colorcolumn = "80,+0"
+vim.opt.colorcolumn = {"80", "+0"}
 vim.opt.cursorcolumn = false
 vim.opt.cursorline = true
 vim.opt.lazyredraw = true
 vim.opt.list = true
-vim.opt.listchars = "tab:»·,trail:¶,eol: ,extends:>,precedes:<,nbsp:¤"
+vim.opt.listchars = {
+	eol = ' ',
+	extends = '>',
+	lead = '·',
+	multispace = '·',
+	nbsp = '¤',
+	precedes = '<',
+	tab = '»·',
+	trail = '¶',
+}
 vim.opt.number = true
 vim.opt.ruler = true
 vim.opt.rulerformat = "%15(%c%V %p%%%)"
