@@ -32,7 +32,7 @@ if pcall(require, "dap-go") then
 			port = "${port}"
 		},
 	})
-	vim.keymap.set("n", mapping.leader .. "td", dapgo.debug_test, { silent = true })
+	-- vim.keymap.set("n", mapping.leader .. "td", dapgo.debug_test, { silent = true })
 end
 
 if pcall(require, "nvim-dap-virtual-text") then
