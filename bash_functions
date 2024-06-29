@@ -102,6 +102,47 @@ function go-download-version() {
 	ln -s "${HOME}/.local/opt/${1}/bin/go" "${HOME}/.local/bin/${1}"
 }
 
+# Merge back ${1} branch into ${2}
+function merge_back() {
+	[[ "${1}" = "" || "${2}" = "" ]] && echo -e "usage:\n\tmerge_back <from> <to>\nExample:\n\tmerge_back \$(git rev-parse --abbrev-ref HEAD) upstream/master" && return 1
+	git fetch --all
+	git stash
+	CURRBR=$(git rev-parse --abbrev-ref HEAD)
+
+	git checkout "${1}"
+	git pull
+	git checkout "${2}"
+	git pull
+
+	FROM="${1#*/}" # upstream/v2.9 -> v2.9
+	TO="${2#*/}" # upstream/master -> master
+	git branch -D "merge-current-${FROM}-into-${TO}"
+	git checkout -b "merge-current-${FROM}-into-${TO}"
+	git push -fu tom "merge-current-${FROM}-into-${TO}"
+
+	git merge "${1}" -m "Merge current ${FROM} into ${TO}"
+	if [ $? ]; then
+		echo -e "It seems that you have merge errors to fix.\nOnce you resovled all of them, simply do this:"
+		TO_ECHO="true"
+	fi
+
+	ARGS="--title 'Merge current ${FROM} into ${TO}'"
+	ARGS+=" --body '<h3> What does this PR do?</h3><br/>Merge current ${FROM} branch into ${TO}.<br/><br/><h3>Motivation</h3><br/>Be synced.'"
+	ARGS+=" --base ${2}"
+	ARGS+=" --head merge-current-${FROM}-into-${TO}"
+	if [[ "$(git remote -v)" = *"traefik/traefik"* ]]; then
+		ARGS+=" --label status/2-needs-review --label bot/light-review --label bot/merge-method-ff"
+		ARGS+=" --milestone ${TO}"
+	fi
+
+	if [ "${TO_ECHO}" == "true" ]; then
+		echo -e "gh pr create ${ARGS}"
+	else
+		echo -e "${ARGS}" | xargs gh pr create
+		git checkout "${CURRBR}"
+	fi
+
+	git stash apply
 }
 
 # vim:ft=bash noet
