@@ -5,7 +5,8 @@ This is a list of vim commands sorted alphabetically (`:12kt<CR\>V't:sort<CR\>`)
 
 `<leader>` is set to <space\>
 
-This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>), you might want to look at `:help` and `:map`
+This is a non exhaustive list not all sub commands are shown (i.e. V'<mark\>),
+you might want to look at `:help` and `:map`
 
 |Command|Description|
 |-------|-----------|
