@@ -1,10 +1,13 @@
 -- see :help events for more information
 local autocmd_event = {
+	BufEnter = "BufEnter",
+	BufLeave = "BufLeave",
 	BufNewFile = "BufNewFile",
 	BufReadPost = "BufReadPost",
 	BufWritePre = "BufWritePre",
 	FileType = "FileType",
 	InsertEnter = "InsertEnter",
+	InsertLeave = "InsertLeave",
 	WinResized = "WinResized",
 }
 
@@ -18,6 +21,7 @@ local key_mode = {
 
 local key_mapping = {
 	cr = "<CR>",
+	f1 = "<F1>",
 	f10 = "<F10>",
 	f11 = "<F11>",
 	f12 = "<F12>",
