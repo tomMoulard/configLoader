@@ -139,6 +139,9 @@ local plugins = {
 		"mechatroner/rainbow_csv",
 		ft = {"csv"}, -- lazy load on filetypes.
 	},
+
+	-- open file.txt:42:69 to jump to line 42 and column 69
+	{"wsdjeg/vim-fetch"},
 }
 
 local opts = { -- Lazy options
