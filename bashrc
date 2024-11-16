@@ -224,7 +224,7 @@ bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'
 
 # Minio Completion
-[ -f "/home/tm/go/bin/mc" ] && complete -C /home/tm/go/bin/mc mc
+[ -f "/home/tm/go/bin/mc" ] && complete -C ${HOME}/go/bin/mc mc
 
 # kubectl autocomplete
 [ -f "$(command -v kubectl)" ] && source <(kubectl completion bash)

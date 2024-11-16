@@ -6,6 +6,7 @@ local ts_setup = {
 		"go",
 		"html",
 		"javascript",
+		"java",
 		"json",
 		"latex",
 		"lua",

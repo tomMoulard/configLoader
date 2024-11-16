@@ -140,8 +140,12 @@ local plugins = {
 		ft = {"csv"}, -- lazy load on filetypes.
 	},
 
+
 	-- open file.txt:42:69 to jump to line 42 and column 69
 	{"wsdjeg/vim-fetch"},
+
+	-- diff on two parts of text
+	{"andrewradev/linediff.vim"},
 }
 
 local opts = { -- Lazy options
