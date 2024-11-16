@@ -1,6 +1,5 @@
 [user]
 	name = Tom Moulard
-	email = tom.moulard@epita.fr
 [push]
 	; https://git-scm.com/docs/git-config#Documentation/git-config.txt-pushdefault
 	default = current

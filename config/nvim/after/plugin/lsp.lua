@@ -70,14 +70,14 @@ local lsp_flags = {
 local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#gopls
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#gopls
 lspconfig.gopls.setup({
 	capabilities = capabilities,
 	flags = lsp_flags,
 	on_attach = on_attach,
 })
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#golangci_lint_ls
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#golangci_lint_ls
 if (vim.fn.executable("golangci-lint-langserver") == 0) then
 	vim.notify("Installing golangci-lint-langserver", vim.log.levels.INFO)
 	vim.notify(vim.fn.system({ "go", "install", "github.com/nametake/golangci-lint-langserver@latest" }), vim.log.levels.DEBUG)
@@ -88,11 +88,11 @@ lspconfig.golangci_lint_ls.setup({
 	flags = lsp_flags,
 	on_attach = on_attach,
 	settings = {
-		command = { "golangci-lint", "run", "--out-format", "json" }
+		command = { "golangci-lint", "run", "--out-format", "json", "--allow-parallel-runners"}
 	}
 })
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#bashls
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#bashls
 -- Can add the following line to disable shellchecks on a given file:
 -- # shellcheck disable=SC2034
 if (vim.fn.executable("bash-language-server") == 0) then
@@ -108,7 +108,7 @@ lspconfig.bashls.setup({
 	}
 })
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#vimls
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#vimls
 if (vim.fn.executable("vim-language-server") == 0) then
 	vim.notify("Installing vim-language-server", vim.log.levels.INFO)
 	vim.notify(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "vim-language-server" }), vim.log.levels.DEBUG)
@@ -119,7 +119,7 @@ lspconfig.vimls.setup({
 	on_attach = on_attach,
 })
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#lua_ls
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#lua_ls
 -- Get lua-language-server from release and put it in $PATH
 -- https://github.com/LuaLs/lua-language-server/releases/latest
 if (vim.fn.executable("lua-language-server") == 1) then
@@ -161,7 +161,7 @@ if (vim.fn.executable("lua-language-server") == 1) then
 	lspconfig.lua_ls.setup(lua_ls_setup)
 end
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#yamlls
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#yamlls
 -- Can add the following line to enable yaml schema support on a given file:
 -- # yaml-language-server: $schema=https://json.schemastore.org/yamllint.json
 if (vim.fn.executable("yaml-language-server") == 0) then
@@ -181,6 +181,7 @@ lspconfig.yamlls.setup({
 				["https://json.schemastore.org/golangci-lint.json"] = ".golangci_lint.ya?ml",
 				["https://json.schemastore.org/traefik-v2-file-provider.json"] = "traefik*.ya?ml",
 				["https://json.schemastore.org/traefik-v2.json"] = "traefik*.ya?ml",
+				["https://gitlab.com/gitlab-org/gitlab/-/raw/master/app/assets/javascripts/editor/schema/ci.json"] = ".gitlab-ci.ya?ml",
 				["https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json"] = "docker-compose.*ya?ml",
 				[home .. "/go/src/github.com/traefik/hub-agent-kubernetes/hub.traefik.io_accesscontrolpolicies.yaml"] = ".*ya?ml",
 				["kubernetes"] = ".*ya?ml",
@@ -195,7 +196,7 @@ lspconfig.yamlls.setup({
 	}
 })
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#dockerls
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#dockerls
 if (vim.fn.executable("docker-langserver") == 0) then
 	vim.notify("Installing docker-langserver", vim.log.levels.INFO)
 	vim.notify(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "dockerfile-language-server-nodejs" }), vim.log.levels.DEBUG)
@@ -206,7 +207,7 @@ lspconfig.dockerls.setup({
 	on_attach = on_attach,
 })
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#eslint
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#eslint
 if (vim.fn.executable("vscode-eslint-language-server") == 0) then
 	vim.notify("Installing eslint", vim.log.levels.INFO)
 	vim.notify(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "vscode-langservers-extracted" }), vim.log.levels.DEBUG)
@@ -222,18 +223,18 @@ lspconfig.eslint.setup({
 	end,
 })
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#tsserver
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#ts_ls
 if (vim.fn.executable("typescript-language-server") == 0) then
-	vim.notify("Installing tsserver", vim.log.levels.INFO)
+	vim.notify("Installing ts_ls", vim.log.levels.INFO)
 	vim.notify(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "typescript-language-server" }), vim.log.levels.DEBUG)
 end
-lspconfig.tsserver.setup({
+lspconfig.ts_ls.setup({
 	capabilities = capabilities,
 	flags = lsp_flags,
 	on_attach = on_attach,
 })
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#tailwindcss
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#tailwindcss
 if (vim.fn.executable("tailwindcss-language-server") == 0) then
 	vim.notify("Installing tailwindcss", vim.log.levels.INFO)
 	vim.notify(vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "@tailwindcss/language-server" }), vim.log.levels.DEBUG)
@@ -244,7 +245,7 @@ lspconfig.tailwindcss.setup({
 	on_attach = on_attach,
 })
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#pylsp
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#pylsp
 if (vim.fn.executable("pylsp") == 0) then
 	vim.notify("Installing pytlsp", vim.log.levels.INFO)
 	vim.notify(vim.fn.system({ "pip", "install", "python-lsp-server[all]" }), vim.log.levels.DEBUG)
@@ -286,7 +287,7 @@ lspconfig.pylsp.setup({
 	}
 })
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#dartls
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#dartls
 -- if (vim.fn.executable("pylsp") == 0) then
 	-- vim.notify("Installing pytlsp", vim.log.levels.INFO)
 	-- vim.notify(vim.fn.system({ "pip", "install", "python-lsp-server[all]" }), vim.log.levels.DEBUG)
@@ -308,7 +309,18 @@ lspconfig.dartls.setup({
 	}
 })
 
--- https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.txt#terraformls
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#java_language_server
+lspconfig.java_language_server.setup({
+	capabilities = capabilities,
+	flags = lsp_flags,
+	on_attach = on_attach,
+	cmd = {"/Users/tom.moulard/workspace/java-language-server/dist/lang_server_mac.sh"},
+	root_dir = lspconfig.util.root_pattern("pom.xml", "gradle.build", ".git"),
+	filetypes = { "java" },
+	settings = {},
+})
+
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.txt#terraform_lsp
 if (vim.fn.executable("terraform-ls") == 0) then
 	vim.notify("Installing terraform-ls", vim.log.levels.INFO)
 	vim.notify(vim.fn.system({ "go", "install", "github.com/hashicorp/terraform-ls@latest" }), vim.log.levels.DEBUG)
@@ -317,4 +329,11 @@ lspconfig.terraformls.setup({
 	capabilities = capabilities,
 	flags = lsp_flags,
 	on_attach = on_attach,
+})
+
+vim.api.nvim_create_autocmd({"BufWritePre"}, {
+	pattern = {"*.tf", "*.tfvars"},
+	callback = function()
+		vim.lsp.buf.format()
+	end,
 })
