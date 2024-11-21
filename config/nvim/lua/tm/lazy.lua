@@ -134,6 +134,9 @@ local plugins = {
 	-- match pairs ( '"[{}]"' ), see :h insx
 	{"hrsh7th/nvim-insx"},
 
+	-- better `%` motion + add `g%`
+	{"andymass/vim-matchup"},
+
 	-- csv
 	{
 		"mechatroner/rainbow_csv",

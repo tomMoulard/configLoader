@@ -42,7 +42,12 @@ local ts_setup = {
 	-- NOTE: This is an experimental feature.
 	indent = {
 		enable = true
-	}
+	},
+
+	-- https://github.com/andymass/vim-matchup?tab=readme-ov-file#tree-sitter-integration
+	matchup = {
+		enable = true, -- mandatory, false will disable the whole extension
+	},
 }
 
 require("nvim-treesitter.configs").setup(ts_setup)
