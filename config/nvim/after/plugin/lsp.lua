@@ -187,6 +187,9 @@ lspconfig.yamlls.setup({
 				["kubernetes"] = ".*ya?ml",
 				["https://json.schemastore.org/yamllint.json"] = ".yamllint.ya?ml",
 			},
+			customTags = {
+				"!reference sequence",
+			},
 		},
 		redhat = {
 			telemetry = {
