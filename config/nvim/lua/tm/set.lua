@@ -23,6 +23,8 @@ vim.opt.tabstop = 2
 vim.opt.foldenable = false
 vim.opt.foldlevel = 999
 vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.lsp.foldexpr()"
+vim.opt.foldtext = "v:lua.vim.lsp.foldtext()"
 -- }}}
 
 -- Undo {{{
