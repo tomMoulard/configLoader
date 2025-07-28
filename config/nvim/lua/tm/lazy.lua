@@ -90,7 +90,7 @@ local plugins = {
 	{
 		"fatih/vim-go",
 		build = ":GoUpdateBinaries",
-		ft = "go", -- lazy load on go filetype.
+		ft = { "go", "gohtmltmpl" }, -- lazy load on go filetype.
 	},
 
 	{
