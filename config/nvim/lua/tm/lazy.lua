@@ -12,7 +12,10 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
-if not pcall(require, "lazy") then vim.notify("Lazy.nvim failed to load, skipping", vim.log.levels.ERROR) return end
+if not pcall(require, "lazy") then
+	vim.notify("Lazy.nvim failed to load, skipping", vim.log.levels.ERROR)
+	return
+end
 
 local const = require("tm.const")
 local event = const.autocmd.event
@@ -24,16 +27,16 @@ local plugins = {
 		priority = 1000, -- load colorscheme before other plugins.
 	},
 
-	{"preservim/nerdcommenter"}, -- comment input.
+	{ "preservim/nerdcommenter" }, -- comment input.
 	{
 		"preservim/nerdtree",
 		keys = {
 			-- vim.keymap.set("n", "<F1>", ":NERDTreeToggle<CR>", { silent = true })
-			{ "<F1>", ":NERDTreeToggle<CR>", mode = "n", desc = "Toggle NERDTree",  silent = true },
+			{ "<F1>", ":NERDTreeToggle<CR>", mode = "n", desc = "Toggle NERDTree", silent = true },
 		},
 	},
 
-	{"tpope/vim-fugitive"},
+	{ "tpope/vim-fugitive" },
 
 	{ -- find files or content.
 		"nvim-telescope/telescope.nvim",
@@ -44,7 +47,7 @@ local plugins = {
 
 	{ -- parser generator tool and an incremental parsing library.
 		"nvim-treesitter/nvim-treesitter",
-		build = function ()
+		build = function()
 			vim.notify("Building treesitter", vim.log.levels.INFO)
 			require("nvim-treesitter.install").update({ with_sync = true })
 		end,
@@ -54,7 +57,7 @@ local plugins = {
 		},
 	},
 
-	{"neovim/nvim-lspconfig"},
+	{ "neovim/nvim-lspconfig" },
 
 	{ -- AI powered completion.
 		"github/copilot.vim",
@@ -74,16 +77,16 @@ local plugins = {
 		lazy = false,
 		-- event = event.InsertEnter, -- load cmp on InsertEnter.
 		dependencies = {
-			"folke/neodev.nvim", -- docs and completion for the nvim lua API.
-			"hrsh7th/cmp-buffer", -- autocomplete strings in buffer.
-			"hrsh7th/cmp-cmdline", -- nvim-cmp source for vim's cmdline.
-			"hrsh7th/cmp-nvim-lsp", -- nvim-cmp source for neovim's built-in language server client.
+			"folke/neodev.nvim",                -- docs and completion for the nvim lua API.
+			"hrsh7th/cmp-buffer",               -- autocomplete strings in buffer.
+			"hrsh7th/cmp-cmdline",              -- nvim-cmp source for vim's cmdline.
+			"hrsh7th/cmp-nvim-lsp",             -- nvim-cmp source for neovim's built-in language server client.
 			"hrsh7th/cmp-nvim-lsp-signature-help", -- nvim-cmp source for displaying function signatures with the current parameter emphasized.
-			"hrsh7th/cmp-nvim-lua", -- nvim-cmp source for neovim Lua API.
-			"hrsh7th/cmp-path", -- autocomplete file paths.
+			"hrsh7th/cmp-nvim-lua",             -- nvim-cmp source for neovim Lua API.
+			"hrsh7th/cmp-path",                 -- autocomplete file paths.
 			"quangnguyen30192/cmp-nvim-ultisnips", -- use snippets from UltiSnips in nvim-cmp.
-			"ray-x/cmp-treesitter", -- nvim-cmp source for treesitter nodes.
-			"sirver/UltiSnips", -- snippets
+			"ray-x/cmp-treesitter",             -- nvim-cmp source for treesitter nodes.
+			"sirver/UltiSnips",                 -- snippets
 		},
 	},
 
@@ -114,14 +117,14 @@ local plugins = {
 			"theHamsta/nvim-dap-virtual-text",
 			{
 				"rcarriga/nvim-dap-ui", -- UI for DAP.
-				ft = {"go"}, -- lazy load on filetypes.
+				ft = { "go" },      -- lazy load on filetypes.
 				keys = {
-					{ "<F9>", function () require('dapui').toggle() end, mode = "n", desc = "Toggle DAP UI", silent = true },
+					{ "<F9>", function() require('dapui').toggle() end, mode = "n", desc = "Toggle DAP UI", silent = true },
 				},
 			},
 		},
 	},
-	{ -- Go Delve debugger.
+	{                -- Go Delve debugger.
 		"leoluz/nvim-dap-go",
 		ft = {"go"}, -- lazy load on filetypes.
 	},
@@ -132,23 +135,23 @@ local plugins = {
 	},
 
 	-- match pairs ( '"[{}]"' ), see :h insx
-	{"hrsh7th/nvim-insx"},
+	{ "hrsh7th/nvim-insx" },
 
 	-- better `%` motion + add `g%`
-	{"andymass/vim-matchup"},
+	{ "andymass/vim-matchup" },
 
 	-- csv
 	{
 		"mechatroner/rainbow_csv",
-		ft = {"csv"}, -- lazy load on filetypes.
+		ft = { "csv" }, -- lazy load on filetypes.
 	},
 
 
 	-- open file.txt:42:69 to jump to line 42 and column 69
-	{"wsdjeg/vim-fetch"},
+	{ "wsdjeg/vim-fetch" },
 
 	-- diff on two parts of text
-	{"andrewradev/linediff.vim"},
+	{ "andrewradev/linediff.vim" },
 }
 
 local opts = { -- Lazy options
