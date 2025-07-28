@@ -27,8 +27,8 @@ esac
 HISTCONTROL=ignoreboth
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=-1
-HISTFILESIZE=-1
+HISTSIZE=1000000
+HISTFILESIZE=1000000
 
 # append to the history file, don't overwrite it
 shopt -s histappend
@@ -216,6 +216,14 @@ if ! shopt -oq posix; then
 	[ -r /etc/bash_completion ] && source /etc/bash_completion
 fi
 
+if type brew &>/dev/null; then
+	export HOMEBREW_PREFIX="$(brew --prefix)"
+	export BASH_COMPLETION_COMPAT_DIR="/opt/homebrew/etc/bash_completion.d/"
+	if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+		source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+	fi
+fi
+
 # Allow not case sensitive autocompletion
 bind 'set completion-ignore-case on'
 
@@ -238,6 +246,12 @@ bind 'TAB:menu-complete'
 
 # Loggin {{{1
 date >>"${HOME}/.terminalLogDate"
+# }}}
+
+# macos stuff {{{2
+[ -d "/opt/homebrew/bin" ] && PATH=$PATH:/opt/homebrew/bin
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
 # }}}
 
 # Reverse History search (<ctrl>-r) {{{1
@@ -285,6 +299,14 @@ fi
 
 # nvim {{{1
 [ -d "${HOME}/.local/share/nvim/bin" ] && PATH="$PATH:${HOME}/.local/share/nvim/bin"
+
+# ghostty {{{1
+# Ghostty shell integration for Bash. This must be at the top of your bashrc!
+if [ -n "${GHOSTTY_RESOURCES_DIR}" ]; then
+    builtin source "${GHOSTTY_RESOURCES_DIR}/shell-integration/bash/ghostty.bash"
+fi
 # }}}
+
+[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && . "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
 # vim: fdm=marker noet
