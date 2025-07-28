@@ -11,8 +11,9 @@ local setup = {
 
 	pickers = {
 		find_files = {
-			hidden = true,
+			-- hidden = true,
 			-- theme = "dropdown",
+			find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
 		}
 	},
 }
