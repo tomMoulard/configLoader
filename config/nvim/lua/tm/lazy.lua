@@ -57,8 +57,6 @@ local plugins = {
 		},
 	},
 
-	{ "neovim/nvim-lspconfig" },
-
 	{ -- AI powered completion.
 		"github/copilot.vim",
 		event = event.InsertEnter, -- load cmp on InsertEnter.
@@ -77,7 +75,7 @@ local plugins = {
 		lazy = false,
 		-- event = event.InsertEnter, -- load cmp on InsertEnter.
 		dependencies = {
-			"folke/neodev.nvim",                -- docs and completion for the nvim lua API.
+			"folke/lazydev.nvim",                -- docs and completion for the nvim lua API.
 			"hrsh7th/cmp-buffer",               -- autocomplete strings in buffer.
 			"hrsh7th/cmp-cmdline",              -- nvim-cmp source for vim's cmdline.
 			"hrsh7th/cmp-nvim-lsp",             -- nvim-cmp source for neovim's built-in language server client.
@@ -87,6 +85,18 @@ local plugins = {
 			"quangnguyen30192/cmp-nvim-ultisnips", -- use snippets from UltiSnips in nvim-cmp.
 			"ray-x/cmp-treesitter",             -- nvim-cmp source for treesitter nodes.
 			"sirver/UltiSnips",                 -- snippets
+		},
+	},
+
+	{
+		"folke/lazydev.nvim",
+		ft = "lua", -- only load on lua files
+		opts = {
+			library = {
+				-- See the configuration section for more details
+				-- Load luvit types when the `vim.uv` word is found
+				{ path = "${3rd}/luv/library", words = { "vim%.uv" } },
+			},
 		},
 	},
 
