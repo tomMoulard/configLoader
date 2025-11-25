@@ -153,4 +153,7 @@ createLink curlrc -f "${HOME}/.curlrc"
 createLink gitconfig -f "${HOME}/.gitconfig"
 git config --global core.excludesfile "${HOME}/workspace/configLoader/gitignore"
 
+# opencode
+createLink opencode -d "${HOME}/.config/opencode"
+
 # vim: noet

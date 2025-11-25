@@ -1,0 +1,10 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "system",
+  "lsp": {
+    "golangci-lint": {
+      "command": [ "go", "run", "github.com/nametake/golangci-lint-langserver@latest" ],
+      "extensions": [ ".go", ".mod" ]
+    }
+  }
+}
