@@ -1,13 +1,16 @@
 ## Agent Workflow Overview
 
-The agent system follows an iterative workflow to ensure high-quality code generation:
+The agent system follows an enhanced iterative workflow to ensure high-quality, performant, well-tested code generation:
 
 1. **Prompt Enhancement** (@prompt-engineer) - Transforms user requests into detailed, comprehensive prompts with best practices
 2. **Execution** (main agent) - Executes the enhanced prompt to implement the requested changes
-3. **Dual Code Review** (parallel execution):
+3. **Triple Code Review** (parallel execution):
    - **3a. Quality Review** (@code-quality-reviewer) - Reviews code for quality, architecture, style, and best practices
    - **3b. Error Analysis** (@error-analyzer) - Reviews code for potential runtime errors, logic bugs, and error-prone patterns
-4. **Feedback Loop** (conditional) - If critical issues are found by either reviewer, re-invoke @prompt-engineer with combined feedback and repeat the cycle (max 3 iterations)
+   - **3c. Performance Analysis** (@performance-analyzer) - Reviews code for performance bottlenecks, scalability issues, and optimization opportunities
+4. **Feedback Loop** (conditional) - If critical issues are found by any reviewer, re-invoke @prompt-engineer with combined feedback and repeat the cycle (max 3 iterations)
+5. **Test Generation** (conditional) - For new features or significant logic changes, invoke @test-engineer to generate comprehensive tests
+6. **Documentation** (conditional) - For complex features or public APIs, invoke @documenter to generate technical documentation
 
 ### Agent Reference Syntax
 
@@ -15,6 +18,9 @@ Agents are invoked using the `@agent-name` syntax, which corresponds to files in
 - `@prompt-engineer` → `agent/prompt-engineer.md`
 - `@code-quality-reviewer` → `agent/code-quality-reviewer.md`
 - `@error-analyzer` → `agent/error-analyzer.md`
+- `@performance-analyzer` → `agent/performance-analyzer.md`
+- `@test-engineer` → `agent/test-engineer.md`
+- `@documenter` → `agent/documenter.md`
 
 ### Critical Context Management
 
@@ -113,28 +119,32 @@ The @prompt-engineer will transform vague or ambiguous requests into comprehensi
 
 ---
 
-## Automatic Dual Code Review
+## Automatic Triple Code Review
 
 After generating, modifying, or refactoring ANY code (except trivial changes), you MUST:
 
-1. **Invoke BOTH review agents IN PARALLEL** (single message with two Task tool calls):
+1. **Invoke ALL THREE review agents IN PARALLEL** (single message with three Task tool calls):
    - @code-quality-reviewer - Reviews quality, architecture, style, best practices
    - @error-analyzer - Reviews for runtime errors, logic bugs, error-prone patterns
+   - @performance-analyzer - Reviews for performance bottlenecks, scalability, optimization opportunities
    
-   **CRITICAL**: Provide complete context to BOTH agents including:
+   **CRITICAL**: Provide complete context to ALL agents including:
    - The full code you just generated (include the entire implementation)
    - The user's original request
    - Any relevant project context, constraints, or patterns
    - File paths and names for reference
    
-2. Wait for BOTH review results to complete
-3. **Aggregate findings** from both agents:
-   - Collect all CRITICAL issues from both reviewers
-   - Collect all IMPORTANT issues from both reviewers
+2. Wait for ALL THREE review results to complete
+3. **Aggregate findings** from all three agents:
+   - Collect all CRITICAL issues from all reviewers
+   - Collect all IMPORTANT issues from all reviewers
    - Deduplicate any overlapping issues (present as single issue with combined context)
 4. **Evaluate severity** of aggregated issues (see Severity Classification below)
-5. **If CRITICAL issues found BY EITHER AGENT AND iteration limit not reached**: Re-invoke @prompt-engineer with combined feedback from both agents and repeat the workflow
-6. **If no critical issues OR max iterations reached**: Present the final code along with a summary of both reviews
+5. **If CRITICAL issues found BY ANY AGENT AND iteration limit not reached**: Re-invoke @prompt-engineer with combined feedback from all agents and repeat the workflow
+6. **If no critical issues OR max iterations reached**: 
+   - Present the final code along with a summary of all three reviews
+   - **If new feature or significant logic changes**: Invoke @test-engineer to generate tests
+   - **If complex feature or public API**: Invoke @documenter to generate documentation
 
 ### When to Auto-Review:
 
@@ -176,7 +186,14 @@ When the @code-quality-reviewer identifies critical issues, the system automatic
 - Off-by-one errors or boundary condition failures (array index errors, loop bounds)
 - Infinite loops or non-terminating recursion
 
-*Common to both:*
+*From @performance-analyzer:*
+- O(n²) or worse algorithmic complexity in critical paths (nested loops, inefficient algorithms)
+- N+1 query problems (database queries in loops)
+- Blocking operations that prevent scaling (synchronous I/O in async contexts)
+- Memory growth patterns that will cause OOM errors (unbounded caches, memory leaks)
+- Database queries without indexes on frequently queried columns
+
+*Common to all:*
 - Missing essential error handling that could crash the application
 
 **IMPORTANT Issues** (fix if possible, but don't trigger iteration):
@@ -203,13 +220,20 @@ After receiving reports from BOTH @code-quality-reviewer and @error-analyzer, yo
    - Iteration 1: First code generation attempt
    - Iteration 2: First refinement after reviewer feedback
    - Iteration 3: Second refinement after reviewer feedback
-   - Maximum: 3 iterations total
+   - Iteration 4: Third refinement after reviewer feedback
+   - Iteration 5: Fourth refinement after reviewer feedback
+   - Maximum: 5 iterations total
 
    **Implementation**: Track iteration count by:
    - Maintaining a counter variable in your internal reasoning for this user request
    - Including iteration number in all feedback to @prompt-engineer
    - Verifying iteration count before each @code-quality-reviewer invocation
-   - If state is lost, default to assuming iteration 3 (max) to prevent loops
+   - If state is lost, default to assuming iteration 5 (max) to prevent loops
+   
+   **Iteration Strategy**:
+   - Iterations 1-3: Address all CRITICAL issues aggressively
+   - Iterations 4-5: Focus on the most impactful remaining CRITICAL issues
+   - If same CRITICAL issues persist for 2 consecutive iterations: Break loop and escalate to user
 
 2. **Evaluate severity of issues found**:
    - **If NO CRITICAL issues found BY EITHER AGENT**:
@@ -217,14 +241,14 @@ After receiving reports from BOTH @code-quality-reviewer and @error-analyzer, yo
      - Fix any IMPORTANT issues directly if quick and straightforward (from either agent)
      - Present final code to user with combined review summary
 
-   - **If CRITICAL issues found BY EITHER AGENT AND iteration count < 3**:
+   - **If CRITICAL issues found BY EITHER AGENT AND iteration count < 5**:
      - Re-invoke @prompt-engineer with enhanced feedback from BOTH agents (see Information Passing Protocol below)
      - Execute the NEW enhanced prompt to generate revised code implementation
      - Increment iteration counter
      - Re-invoke BOTH @code-quality-reviewer AND @error-analyzer on the newly generated code (parallel invocation)
      - Return to step 2 of this decision logic to evaluate the new reviews
 
-   - **If CRITICAL issues found BY EITHER AGENT AND iteration count = 3**:
+   - **If CRITICAL issues found BY EITHER AGENT AND iteration count = 5**:
      - Attempt to fix critical issues directly using best judgment
      - Prioritize error-analyzer critical issues first (runtime safety > style issues)
      - Present code to user with honest assessment
@@ -251,7 +275,7 @@ When re-invoking @prompt-engineer due to critical issues, you MUST provide:
 ```
 Original user request: [original request - include full user message]
 
-Iteration: [N] of 3
+Iteration: [N] of 5
 
 Previous code generated had these CRITICAL issues identified by dual code review:
 
@@ -263,6 +287,10 @@ ERROR ANALYSIS ISSUES (@error-analyzer):
 - [Critical issue 1 with details]
 - [Critical issue 2 with details]
 
+PERFORMANCE ISSUES (@performance-analyzer):
+- [Critical issue 1 with details]
+- [Critical issue 2 with details]
+
 Code that was reviewed:
 [previous code - INCLUDE THE FULL CODE, not just references]
 
@@ -271,6 +299,9 @@ Code Quality Reviewer's complete feedback:
 
 Error Analyzer's complete feedback:
 [full error-analyzer output]
+
+Performance Analyzer's complete feedback:
+[full performance-analyzer output]
 
 Project context:
 [Any relevant project information, framework, language, existing patterns]
@@ -293,6 +324,11 @@ When evaluating output from BOTH agents:
 - Issues marked "High Likelihood" with runtime/logic errors → CRITICAL severity (triggers iteration)
 - Issues marked "Medium Likelihood" or missing error handling → IMPORTANT severity
 - Issues marked "Low Likelihood" or potential edge cases → MINOR severity
+
+**@performance-analyzer output:**
+- Issues marked "Critical" with O(n²)+ complexity or severe bottlenecks → CRITICAL severity (triggers iteration)
+- Issues marked "Important" with optimization opportunities → IMPORTANT severity
+- Issues marked "Minor" with small optimizations → MINOR severity
 
 **Conflict resolution:**
 - If error-analyzer marks something CRITICAL but code-quality-reviewer marks it MINOR: Treat as CRITICAL (fail-safe approach)
@@ -345,9 +381,17 @@ If uncertain whether an IMPORTANT issue can be fixed quickly, present code as-is
 
 **Iteration 3:**
 1. New implementation still has critical issue (race condition in transaction)
-2. Iteration limit reached (3 of 3)
-3. Main agent fixes race condition directly using best judgment
-4. Present to user with message: "Implemented payment processing. Note: This is a security-critical feature that went through 3 refinement cycles. Final implementation includes transaction locking to prevent race conditions. Recommend thorough security audit before production deployment."
+2. Re-invoke @prompt-engineer with specific focus on race condition handling
+
+**Iteration 4:**
+1. Implementation improved but edge case in error handling discovered
+2. Re-invoke @prompt-engineer with focus on comprehensive error handling
+
+**Iteration 5:**
+1. Final implementation still has minor critical issue
+2. Iteration limit reached (5 of 5)
+3. Main agent fixes issue directly using best judgment
+4. Present to user with message: "Implemented payment processing with 5 refinement cycles to ensure quality. The implementation [brief description]. Note: This is a security-critical feature. Recommend thorough security audit before production deployment."
 
 **Result:** Best-effort implementation with transparent communication about limitations.
 
@@ -364,7 +408,8 @@ If uncertain whether an IMPORTANT issue can be fixed quickly, present code as-is
 ```
 [After 1 iteration]: Present normally with review summary
 [After 2-3 iterations]: "I've implemented [feature] with [N] refinement cycles to ensure quality. The implementation [brief description]. Code quality review: [summary of final review]."
-[After max iterations with remaining issues]: "I've implemented [feature] through 3 refinement cycles. The implementation [description]. Note: [honest assessment of any remaining limitations]. Recommendation: [suggested next steps]."
+[After 4-5 iterations]: "I've implemented [feature] through [N] refinement cycles to achieve high quality standards. The implementation [description]. Code quality review: [summary of final review]."
+[After max iterations with remaining issues]: "I've implemented [feature] through 5 refinement cycles. The implementation [description]. Note: [honest assessment of any remaining limitations]. Recommendation: [suggested next steps]."
 ```
 
 ---
