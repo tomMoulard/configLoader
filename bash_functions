@@ -50,30 +50,45 @@ function _disown() {
 }
 
 function upgrade() {
+	trap _cleanup_tem_set_x SIGINT SIGTERM
+	case "$(uname -s)" in
+	# Linux) # TODO: implement this
+		# upgrade_Linux
+		# ;;
+	Darwin)
+		upgrade_OSx
+		;;
+	*)
+		echo "Unsupported OS: $(uname -s)"
+		;;
+	esac
+
+	trap - SIGINT SIGTERM
+}
+
+function _cleanup_tem_set_x() {
+	set +x
+	trap - SIGINT SIGTERM
+}
+
+function upgrade_OSx() {
 	set -x
-	apt list --upgradable
-	snap refresh --list
-	for x in update upgrade dist-upgrade; do
-		sudo apt $x -y
-	done
-	sudo apt autoremove -y
-	sudo snap refresh
+	sudo rm -rf /opt/homebrew/lib/node_modules/corepack # to properly install node
+	brew upgrade
+	brew upgrade --cask --greedy
 	rustup update stable # update rust version
 	cargo install-update -a
-	flatpak update -y
-	# go install github.com/tsenart/vegeta@latest
-	# go install github.com/hashicorp/terraform@latest
 	sudo npm update --location=global
 	sudo n latest
-	bob install nightly
 	nvim --headless "+Lazy! sync" +qa
+	go run github.com/nao1215/gup@latest update
 	set +x
 }
 
 # Removes spaces from a file name (can use globing)
 # file\ with \spaces.py -> file-with-spaces.py
 # file\ - \stuff.py -> file-stuff.py
-function remove-spaces() {
+function remove_spaces() {
 	for INPUT in "$@"; do
 		FILE="${INPUT// /-}"
 		FILE="${FILE//+(-)/-}"
