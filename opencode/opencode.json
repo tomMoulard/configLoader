@@ -4,7 +4,10 @@
   "lsp": {
     "golangci-lint": {
       "command": [ "go", "run", "github.com/nametake/golangci-lint-langserver@latest" ],
-      "extensions": [ ".go", ".mod" ]
+      "extensions": [
+        ".go",
+        ".mod"
+      ]
     }
-  }
+  },
 }

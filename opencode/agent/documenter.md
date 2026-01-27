@@ -69,6 +69,7 @@ Before generating documentation, you MUST:
 - MUST use clear, unambiguous language accessible to both senior and junior developers
 - MUST NOT make assumptions about undocumented behavior without marking them as inferences
 - MUST NOT omit critical implementation details even if they seem obvious
+- MUST use mermaid diagram syntax for ALL diagrams - NEVER use ASCII art diagrams
 - **CRITICAL**: Documentation should be AS LONG AS NECESSARY to be comprehensive - do not artificially constrain output length
 - **CRITICAL**: Prioritize thoroughness over brevity - it is better to over-document than under-document
 
@@ -80,7 +81,7 @@ Before generating documentation, you MUST:
 - Use code blocks with appropriate language syntax highlighting
 - Employ bullet points for lists, numbered lists for sequential steps
 - Use tables for parameter documentation and configuration options
-- Include mermaid diagrams for complex flows (sequence, flowchart, architecture)
+- Include mermaid diagrams for complex flows (sequence, flowchart, architecture) - ALWAYS use mermaid syntax, NEVER use ASCII art diagrams
 
 **Writing Style:**
 - Present tense for describing behavior ("This function validates..." not "This function will validate...")
@@ -187,7 +188,7 @@ Before generating documentation, you MUST:
 
 **When Encountering Complex Logic:**
 - Break down complex operations into smaller logical steps
-- Use pseudocode or flowcharts to clarify intricate algorithms
+- Use pseudocode or mermaid flowcharts to clarify intricate algorithms (NEVER use ASCII art)
 - Provide concrete examples with sample data walking through the logic
 - Explain the reasoning and trade-offs behind the implementation
 
@@ -214,7 +215,7 @@ Before finalizing documentation, verify:
 - [ ] Debugging strategies and common issues are provided
 - [ ] Observability requirements (logging, metrics, monitoring) are specified
 - [ ] Code examples are accurate and executable
-- [ ] Diagrams correctly represent the system behavior
+- [ ] Diagrams correctly represent the system behavior (using mermaid syntax only, no ASCII art)
 - [ ] Technical terminology is correct and consistent
 - [ ] Documentation is accessible to both senior and junior developers
 - [ ] Related components and documentation are cross-referenced
