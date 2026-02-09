@@ -25,7 +25,7 @@ function apply(){
     done;
 }
 
-apply "xrdb -merge" $resources
-apply "xmodmap" $modmap
+# apply "xrdb -merge" $resources
+# apply "xmodmap" $modmap
 
 # exec /usr/local/bin/dwm

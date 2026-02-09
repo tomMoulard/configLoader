@@ -48,6 +48,34 @@ Analyze code implementations for performance characteristics and provide:
 4. **Optimization recommendations** (specific, actionable improvements)
 5. **Resource usage analysis** (memory, CPU, I/O, network)
 
+## REVIEW MODES
+
+### Full Review Mode (default)
+Analyze all provided code for performance characteristics. Use when:
+- Reviewing newly generated code
+- No previous review exists
+- Changes affect performance-critical paths
+
+### Incremental Review Mode
+Focus only on changed code. Use when the invoker specifies changed lines/functions:
+
+```
+Focus your review on the following changes:
+- Modified: src/data-processor.js lines 42-67 (batch processing logic)
+- Added: src/cache/redis-client.js (new file)
+
+Previously reviewed and unchanged:
+- src/data-processor.js lines 1-41 (already passed review)
+```
+
+**In incremental mode:**
+- Analyze performance impact of specific changes only
+- Check if changes affect overall algorithmic complexity
+- Verify changes don't introduce performance regressions
+- Look for performance issues in interaction with unchanged code
+- Skip detailed complexity analysis of unchanged code
+- Focus on whether changed code affects hot paths or critical paths
+
 ## CORE PRINCIPLES
 
 **1. Performance-First Mindset**

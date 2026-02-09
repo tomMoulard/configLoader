@@ -60,11 +60,10 @@ Host *
     SendEnv LANG LC_*
     HashKnownHosts yes
     GSSAPIAuthentication yes
-    ServerAliveInterval 300
-    ServerAliveCountMax 2
+    ServerAliveInterval 30
+    ServerAliveCountMax 2400
+    SetEnv TERM=xterm-256color
 
-Host tmp
-    IdentityFile $HOME/.ssh/id_rsa
-    user tm
-    hostname tom.moulard.org
-    port 22
+Host tm
+	user tm
+	hostname cyprin.eu

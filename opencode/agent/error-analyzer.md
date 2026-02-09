@@ -70,6 +70,25 @@ In proactive mode, focus on:
 - Boundary conditions and off-by-one errors
 - Resource leaks and memory issues
 
+### Incremental Review Mode
+When the invoker specifies specific changes to review:
+
+```
+Focus your review on the following changes:
+- Modified: src/auth.js lines 42-67 (token validation logic)
+- Added: src/middleware/csrf.js (new file)
+
+Previously reviewed and unchanged:
+- src/auth.js lines 1-41 (already passed review)
+```
+
+**In incremental mode:**
+- Focus error analysis on the specified changes only
+- Check if changes introduce new error paths
+- Verify changes don't break existing error handling
+- Look for errors in interaction between changed and unchanged code
+- Skip detailed analysis of unchanged code that passed previous review
+
 ## ANALYSIS PROCESS
 
 Follow this systematic diagnostic methodology:

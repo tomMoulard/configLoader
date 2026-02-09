@@ -8,7 +8,7 @@
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		local bufnr = args.buf
-		vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+		vim.lsp.inlay_hint.enable(true)
 
 		local const = require("tm.const")
 		local event = const.autocmd.event
@@ -64,6 +64,7 @@ vim.lsp.enable("gopls")
 
 
 -- GolangCI-Lint language server configuration
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#golangci_lint_ls
 if (vim.fn.executable("golangci-lint-langserver") == 0) then
 	vim.notify("Installing golangci-lint-langserver", vim.log.levels.INFO)
 	vim.notify(vim.fn.system({ "go", "install", "github.com/nametake/golangci-lint-langserver@latest" }),
@@ -74,9 +75,10 @@ vim.lsp.config["golangci_lint_ls"] = {
 	cmd = { "golangci-lint-langserver" },
 	filetypes = { "go", "gomod" },
 	capabilities = capabilities,
-	-- root_dir = vim.fs.find_patterns('.git', 'go.mod'),
+	root_markers = { ".golangci.yml", ".golangci.yaml", ".golangci.toml", ".golangci.json", "go.work", "go.mod", ".git" },
 	init_options = {
-		command = { "golangci-lint", "run", "--output.json.path", "stdout", "--show-stats=false", "--issues-exit-code=1" },
+		command = { "golangci-lint", "run", "--output.json.path=stdout", "--show-stats=false" },
+
 	}
 }
 vim.lsp.enable("golangci_lint_ls")
@@ -104,6 +106,7 @@ if (vim.fn.executable("vim-language-server") == 0) then
 end
 vim.lsp.config["vimls"] = {
 	cmd = { "vim-language-server", "--stdio" },
+	filetypes = { "vim", "vimdoc" },
 	capabilities = capabilities,
 }
 vim.lsp.enable("vimls")
@@ -265,12 +268,14 @@ vim.lsp.config["dockerls"] = {
 vim.lsp.enable("dockerls")
 
 -- ESLint language server configuration
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#eslint
 if (vim.fn.executable("vscode-eslint-language-server") == 0) then
 	vim.notify("Installing eslint", vim.log.levels.INFO)
 	vim.notify(
 		vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "vscode-langservers-extracted" }),
 		vim.log.levels.DEBUG)
 end
+
 vim.lsp.config["eslint"] = {
 	cmd = { "vscode-eslint-language-server", "--stdio" },
 	filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte" },
@@ -278,11 +283,23 @@ vim.lsp.config["eslint"] = {
 	on_attach = function(client, bufnr)
 		vim.api.nvim_create_autocmd("BufWritePre", {
 			buffer = bufnr,
-			command = "EslintFixAll",
+			callback = function()
+			client:request_sync('workspace/executeCommand', {
+				command = 'eslint.applyAllFixes',
+				arguments = {
+					{
+						uri = vim.uri_from_bufnr(bufnr),
+						version = vim.lsp.util.buf_versions[bufnr],
+					},
+				},
+			}, nil, bufnr)
+		end,
 		})
 	end,
+	settings = {
+	},
 }
-vim.lsp.enable("eslint")
+-- vim.lsp.enable("eslint")
 
 -- TypeScript language server configuration
 if (vim.fn.executable("typescript-language-server") == 0) then
@@ -380,13 +397,14 @@ end
 vim.lsp.config["java_language_server"] = {
 	capabilities = capabilities,
 	cmd = { "/Users/tom.moulard/workspace/java-language-server/dist/lang_server_mac.sh" },
-	-- root_dir = vim.fs.find_patterns("pom.xml", "gradle.build", ".git"),
+	root_markers = { '.git', 'pom.xml', 'gradle.build' },
 	filetypes = { "java" },
 	settings = {},
 }
 vim.lsp.enable("java_language_server")
 
 -- Terraform language server configuration
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#terraformls
 if (vim.fn.executable("terraform-ls") == 0) then
 	vim.notify("Installing terraform-ls", vim.log.levels.INFO)
 	vim.notify(vim.fn.system({ "go", "install", "github.com/hashicorp/terraform-ls@latest" }), vim.log.levels.DEBUG)
@@ -395,13 +413,24 @@ vim.lsp.config["terraformls"] = {
 	cmd = { "terraform-ls", "serve" },
 	filetypes = { "terraform", "tf", "tfvars" },
 	capabilities = capabilities,
-	settings = {
-		["terraform-ls"] = {
-			ignoreSingleFileWarning = true
-		}
-	}
+	init_options = {
+		ignoreSingleFileWarning = true,
+	},
 }
 vim.lsp.enable("terraformls")
+
+-- tflint language server configuration
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#tflint
+if (vim.fn.executable("tflint") == 0) then
+	vim.notify("Installing tflint", vim.log.levels.INFO)
+	vim.notify(vim.fn.system({ "go", "install", "github.com/terraform-linters/tflint@latest" }), vim.log.levels.DEBUG)
+end
+vim.lsp.config["tflint"] = {
+	cmd = { "tflint", "--langserver" },
+	filetypes = { "terraform", "tf", "tfvars", "terraform-vars" },
+	capabilities = capabilities,
+}
+vim.lsp.enable("tflint")
 
 -- Rust analyzer language server configuration
 if (vim.fn.executable("rust-analyzer") == 0) then

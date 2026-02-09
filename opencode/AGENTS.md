@@ -1,16 +1,20 @@
 ## Agent Workflow Overview
 
-The agent system follows an enhanced iterative workflow to ensure high-quality, performant, well-tested code generation:
+The agent system follows an enhanced iterative workflow to ensure high-quality, performant, well-tested code generation. The workflow adapts based on task complexity to balance thoroughness with efficiency.
 
-1. **Prompt Enhancement** (@prompt-engineer) - Transforms user requests into detailed, comprehensive prompts with best practices
-2. **Execution** (main agent) - Executes the enhanced prompt to implement the requested changes
-3. **Triple Code Review** (parallel execution):
-   - **3a. Quality Review** (@code-quality-reviewer) - Reviews code for quality, architecture, style, and best practices
-   - **3b. Error Analysis** (@error-analyzer) - Reviews code for potential runtime errors, logic bugs, and error-prone patterns
-   - **3c. Performance Analysis** (@performance-analyzer) - Reviews code for performance bottlenecks, scalability issues, and optimization opportunities
-4. **Feedback Loop** (conditional) - If critical issues are found by any reviewer, re-invoke @prompt-engineer with combined feedback and repeat the cycle (max 3 iterations)
-5. **Test Generation** (conditional) - For new features or significant logic changes, invoke @test-engineer to generate comprehensive tests
-6. **Documentation** (conditional) - For complex features or public APIs, invoke @documenter to generate technical documentation
+### Workflow Steps
+
+1. **Task Classification** - Determine task complexity to select appropriate workflow path
+2. **Prompt Enhancement** (@prompt-engineer) - Transform requests into detailed prompts (for MODERATE/COMPLEX tasks)
+3. **Execution** (main agent) - Implement the requested changes
+4. **Smoke Test** - Quick automated verification (type check, lint, tests)
+5. **Triple Code Review** (parallel, for MODERATE/COMPLEX tasks):
+   - **5a. Quality Review** (@code-quality-reviewer) - Reviews code for quality, architecture, style, and best practices
+   - **5b. Error Analysis** (@error-analyzer) - Reviews code for potential runtime errors, logic bugs, and error-prone patterns
+   - **5c. Performance Analysis** (@performance-analyzer) - Reviews code for performance bottlenecks, scalability issues, and optimization opportunities
+6. **Feedback Loop** (conditional) - If critical issues are found, re-invoke @prompt-engineer with combined feedback (max 3 iterations)
+7. **Test Generation** (conditional) - For new features or significant logic changes, invoke @test-engineer
+8. **Documentation Check** - Verify documentation is updated for public APIs and complex logic
 
 ### Agent Reference Syntax
 
@@ -22,16 +26,189 @@ Agents are invoked using the `@agent-name` syntax, which corresponds to files in
 - `@test-engineer` → `agent/test-engineer.md`
 - `@documenter` → `agent/documenter.md`
 
-### Critical Context Management
+---
 
-**IMPORTANT**: Subagents operate in isolated sessions and DO NOT have access to:
+## Task Classification (REQUIRED First Step)
+
+Before any coding task, classify its complexity to determine the appropriate workflow path:
+
+### TRIVIAL Tasks (Minimal Workflow)
+
+Skip prompt enhancement and full review. Execute directly with smoke test only.
+
+**Examples:**
+- Single-line fixes (typos, simple corrections)
+- Continuing previous work with clear, documented next steps
+- Fixing specific, already-documented issues (e.g., "Fix CR-1 from TODO.md")
+- Running tests, builds, or other commands
+- Simple questions or information requests
+- Adding simple comments or documentation updates
+- Formatting-only changes
+
+**Workflow:** Execute → Smoke Test → Done
+
+### MODERATE Tasks (Standard Workflow)
+
+Use lightweight prompt enhancement and targeted review.
+
+**Examples:**
+- Fixing 2-5 specific, well-defined issues
+- Small feature additions (< 50 lines)
+- Targeted refactoring within a single file
+- Adding error handling to existing code
+- Implementing a well-specified interface
+
+**Workflow:** Prompt Enhancement (lightweight) → Execute → Smoke Test → Triple Review → Done
+
+### COMPLEX Tasks (Full Workflow)
+
+Use full prompt enhancement, comprehensive review, and potentially multiple iterations.
+
+**Examples:**
+- New feature implementations
+- Large refactoring across multiple files
+- Architectural changes
+- Security-critical code (authentication, authorization, encryption)
+- Database schema changes
+- API design and implementation
+- Performance-critical optimizations
+
+**Workflow:** Prompt Enhancement (full) → Execute → Smoke Test → Triple Review → Iterate if needed → Test Generation → Documentation
+
+### Classification Decision Tree
+
+```
+Is it a simple question or command?
+  YES → TRIVIAL
+  NO  ↓
+
+Is it fixing already-documented issues (from TODO, code review, etc.)?
+  YES → Use FIX VERIFICATION MODE (see below)
+  NO  ↓
+
+Does it involve < 20 lines of code changes?
+  YES → TRIVIAL or MODERATE (use judgment)
+  NO  ↓
+
+Does it involve security, architecture, or new features?
+  YES → COMPLEX
+  NO  → MODERATE
+```
+
+---
+
+## Fix Verification Mode
+
+When fixing **already-identified issues** (from TODO.md, code review findings, or previous analysis), use this streamlined workflow:
+
+### When to Use
+
+- Fixing issues documented in TODO.md (e.g., "Fix CR-1", "Address performance issue in X")
+- Fixing issues from a previous code review session
+- Applying suggested fixes from @code-quality-reviewer, @error-analyzer, or @performance-analyzer
+- Fixing linter or type checker errors
+
+### Workflow
+
+1. **Skip prompt enhancement** - The issue is already well-defined
+2. **Apply the fix directly** - Use the documented solution or apply best judgment
+3. **Run targeted verification**:
+   - Type check: `tsc --noEmit` or equivalent
+   - Lint: `eslint .` or equivalent  
+   - Run relevant tests (not full suite if targeted tests exist)
+   - Verify the specific issue is resolved
+4. **Skip full triple review** - The issue was already analyzed
+
+### When to Escalate to Full Review
+
+Invoke full triple review ONLY if:
+- Fix required significant code changes (>20 lines)
+- Fix touched security-critical code
+- Fix had unexpected side effects (tests failing, type errors)
+- User explicitly requests review
+
+### Batch Fix Pattern
+
+When fixing multiple similar issues:
+
+1. **Group similar fixes** by pattern, file type, or category
+2. **Apply all fixes in one pass** before any verification
+3. **Run single verification** after all fixes are applied
+4. **Report batch results** with summary
+
+**Example:**
+```
+Fixing callback dependency issues (CR-4a, CR-4b, CR-4c):
+- All three use the same pattern: functional state update
+- Applied all fixes to PersonContext.tsx
+- Verification: Type check passed, tests passed
+- Result: All 3 issues resolved
+```
+
+---
+
+## Smoke Test (REQUIRED After Code Generation)
+
+Before invoking the triple code review, run quick automated checks to catch obvious issues early:
+
+### Smoke Test Steps
+
+1. **Type Check** (if TypeScript/typed language):
+   ```bash
+   tsc --noEmit  # TypeScript
+   mypy .        # Python
+   go build ./...  # Go
+   ```
+
+2. **Lint**:
+   ```bash
+   eslint .      # JavaScript/TypeScript
+   ruff check .  # Python
+   golangci-lint run  # Go
+   ```
+
+3. **Run Tests** (fast subset or affected tests):
+   ```bash
+   npm test              # Full suite if fast
+   npm test -- --changed # Or just changed files
+   pytest -x --ff        # Python: fail fast, failed first
+   ```
+
+### Smoke Test Decision Logic
+
+**If smoke test FAILS:**
+- Fix the obvious issues directly (type errors, lint errors, test failures)
+- Re-run smoke test
+- Only proceed to triple review after smoke test passes
+- Do NOT invoke triple review on broken code
+
+**If smoke test PASSES:**
+- Proceed to triple review for deeper analysis (MODERATE/COMPLEX tasks)
+- Or mark task complete (TRIVIAL tasks)
+
+### Smoke Test Skip Conditions
+
+Skip smoke test only for:
+- Pure documentation changes
+- Configuration file changes (unless they affect build)
+- Non-code file changes (images, assets)
+
+---
+
+## Context Management
+
+### Critical Context Requirements
+
+Subagents operate in isolated sessions and DO NOT have access to:
 - The main conversation history
 - Files you've previously read
 - Code you've just generated
 - User context from earlier messages
 - Your internal reasoning or memory
 
-**When invoking any subagent, you MUST provide complete, self-contained context including**:
+### Context Provision Protocol
+
+**First invocation** in a session - Provide complete context:
 1. **The full code** being reviewed (not just file paths - include the actual code)
 2. **All relevant file contents** that the subagent needs to analyze
 3. **User's original request** for context on intent
@@ -39,14 +216,17 @@ Agents are invoked using the `@agent-name` syntax, which corresponds to files in
 5. **Previous iteration feedback** if re-invoking after iteration
 6. **Explicit instructions** on what to analyze or generate
 
-**Performance Optimization**:
-- Provide all necessary context in the FIRST invocation to avoid back-and-forth
-- Include code snippets directly in prompts rather than expecting subagents to read files
-- For code review: Pass the complete code being reviewed, not just references
-- For prompt engineering: Include user request + any relevant project context
-- For error analysis: Include full error messages, stack traces, and relevant code
+**Subsequent invocations** (same task, same session) - Provide delta context:
+```
+Previous analysis: [1-2 sentence summary of findings]
+Changes since then: [specific changes made]
+Focus area: [what specifically needs review now]
+New constraints: [any new requirements]
+```
 
-**Example of GOOD context provision**:
+### Context Examples
+
+**Good context provision:**
 ```
 Review the following authentication implementation:
 
@@ -57,118 +237,114 @@ Project context: Express.js API, using MongoDB, existing users table
 Requirements: JWT-based auth, secure token storage, rate limiting
 ```
 
-**Example of BAD context provision** (DO NOT DO THIS):
+**Bad context provision (DO NOT DO THIS):**
 ```
 Review the authentication code in src/auth.js
 ```
 
+**Good delta context (subsequent invocation):**
+```
+Previous analysis: Found XSS vulnerability in token storage, suggested httpOnly cookies
+Changes made: Switched from localStorage to httpOnly cookies, added CSRF protection
+Focus area: Verify the security fix is correct and complete
+```
+
 ---
 
-## Automatic Prompt Enhancement for ALL User Requests
+## Prompt Enhancement (MODERATE/COMPLEX Tasks Only)
 
-At the START of EVERY user request (before performing any other actions), you MUST:
+At the START of MODERATE or COMPLEX tasks (before performing any other actions), invoke @prompt-engineer:
 
-1. Immediately invoke the @prompt-engineer subagent with complete context:
+1. Invoke @prompt-engineer with complete context:
    - The user's original request (full message)
    - Any code snippets the user provided
    - Relevant project context you've gathered
-   - Files or codebase information if applicable
+   - Task classification (MODERATE or COMPLEX)
 2. Wait for the enhanced, optimized prompt
-3. Use the enhanced prompt as your actual instructions for completing the task
-4. Execute the task based on the enhanced prompt (do NOT show the enhanced prompt to the user unless they explicitly request it)
+3. Use the enhanced prompt as your actual instructions
+4. Execute the task based on the enhanced prompt
 
-The @prompt-engineer will transform vague or ambiguous requests into comprehensive, structured instructions that ensure:
-- Best practices are applied (SOLID, DRY, KISS)
-- Code style consistency is maintained
-- Error handling is comprehensive
-- Security and performance are considered
-- Edge cases are handled
-- All necessary context is inferred from the codebase
+### When to Skip Prompt Enhancement
 
-### When to Auto-Enhance Prompts:
+- **TRIVIAL tasks** - Execute directly
+- **Fix Verification Mode** - Issue already well-defined
+- **Continuation requests** - "Continue", "Keep going", "What's next?"
+- **Requests with extremely detailed specifications** - Already comprehensive
 
-- ALL code addition requests
-- ALL code modification requests
-- ALL refactoring requests
-- ALL bug fix requests
-- ALL feature implementation requests
-- ANY request that involves writing or modifying code
+### Prompt Enhancement Levels
 
-### When to Skip:
+**Lightweight (MODERATE tasks):**
+- Focus on immediate requirements
+- Infer coding style from existing code
+- Add basic error handling requirements
+- Skip extensive edge case enumeration
 
-- Simple informational questions (e.g., "What does this function do?")
-- File reading requests without modification (e.g., "Show me the config file")
-- Conversational or clarification requests
-- Requests that are already extremely detailed and comprehensive
-
-### Example Usage Pattern:
-
-**User**: "Add authentication to my API"
-**You**:
-1. [Silently invoke @prompt-engineer with: "Add authentication to my API"]
-2. [Receive enhanced prompt with detailed requirements: infer auth type, add error handling, follow project patterns, implement rate limiting, add logging, etc.]
-3. [Execute the task using the enhanced prompt as your instructions]
-4. [Present the completed implementation to the user]
-
-**User**: "Refactor this code"
-**You**:
-1. [Silently invoke @prompt-engineer with: "Refactor this code"]
-2. [Receive enhanced prompt specifying: apply SOLID principles, extract duplicated code, improve naming, add error handling, optimize performance, etc.]
-3. [Execute the refactoring using the enhanced prompt]
-4. [Present the refactored code to the user]
+**Full (COMPLEX tasks):**
+- Comprehensive requirements analysis
+- Security and performance considerations
+- Edge case enumeration
+- Integration requirements
+- Testing considerations
 
 ---
 
-## Automatic Triple Code Review
+## Triple Code Review (MODERATE/COMPLEX Tasks)
 
-After generating, modifying, or refactoring ANY code (except trivial changes), you MUST:
+After code generation passes smoke test, invoke all three review agents IN PARALLEL:
 
-1. **Invoke ALL THREE review agents IN PARALLEL** (single message with three Task tool calls):
-   - @code-quality-reviewer - Reviews quality, architecture, style, best practices
-   - @error-analyzer - Reviews for runtime errors, logic bugs, error-prone patterns
-   - @performance-analyzer - Reviews for performance bottlenecks, scalability, optimization opportunities
+### Invocation
+
+Send a single message with three Task tool calls:
+- @code-quality-reviewer - Quality, architecture, style, best practices
+- @error-analyzer - Runtime errors, logic bugs, error-prone patterns
+- @performance-analyzer - Performance bottlenecks, scalability, optimization
+
+### Required Context for All Agents
+
+Include in EACH agent invocation:
+- The full code you just generated (complete implementation)
+- The user's original request
+- Any relevant project context, constraints, or patterns
+- File paths and names for reference
+
+### Incremental Review Mode
+
+When reviewing code after modifications (not new code):
+
+1. **Identify changed lines/functions** using git diff or description
+2. **Instruct reviewers to focus on changes**:
+   ```
+   Focus your review on the following changes:
+   - Modified: src/auth.js lines 42-67 (token validation logic)
+   - Added: src/middleware/csrf.js (new file)
    
-   **CRITICAL**: Provide complete context to ALL agents including:
-   - The full code you just generated (include the entire implementation)
-   - The user's original request
-   - Any relevant project context, constraints, or patterns
-   - File paths and names for reference
-   
-2. Wait for ALL THREE review results to complete
-3. **Aggregate findings** from all three agents:
+   Previously reviewed and unchanged:
+   - src/auth.js lines 1-41 (already passed review)
+   ```
+3. **Carry forward previous analysis** for context
+4. **Skip re-reviewing unchanged code** that passed previous review
+
+### Review Aggregation
+
+After receiving all three reports:
+
+1. **Aggregate findings**:
    - Collect all CRITICAL issues from all reviewers
    - Collect all IMPORTANT issues from all reviewers
-   - Deduplicate any overlapping issues (present as single issue with combined context)
-4. **Evaluate severity** of aggregated issues (see Severity Classification below)
-5. **If CRITICAL issues found BY ANY AGENT AND iteration limit not reached**: Re-invoke @prompt-engineer with combined feedback from all agents and repeat the workflow
-6. **If no critical issues OR max iterations reached**: 
-   - Present the final code along with a summary of all three reviews
-   - **If new feature or significant logic changes**: Invoke @test-engineer to generate tests
-   - **If complex feature or public API**: Invoke @documenter to generate documentation
+   - Deduplicate overlapping issues (present once with combined context)
 
-### When to Auto-Review:
+2. **Evaluate severity** using the classification below
 
-- New feature implementations
-- Bug fixes that change logic
-- Refactoring operations
-- Any code changes spanning 5+ lines
-
-### When to Skip:
-
-- Single-line typo fixes
-- Adding simple comments
-- Formatting-only changes
-- Documentation updates
+3. **Make decision**:
+   - No CRITICAL issues → Accept code, fix IMPORTANT issues if quick
+   - CRITICAL issues found AND iterations < 3 → Enter feedback loop
+   - CRITICAL issues found AND iterations = 3 → Fix directly, present with limitations
 
 ---
 
-## Iterative Feedback Loop Workflow
+## Severity Classification System
 
-When the @code-quality-reviewer identifies critical issues, the system automatically enters a feedback loop to improve the code quality.
-
-### Severity Classification System
-
-**CRITICAL Issues** (triggers re-engineering):
+### CRITICAL Issues (Triggers Re-engineering)
 
 *From @code-quality-reviewer:*
 - Security vulnerabilities (SQL injection, XSS, authentication bypass, etc.)
@@ -177,26 +353,24 @@ When the @code-quality-reviewer identifies critical issues, the system automatic
 - Violations of project architecture that would cause integration failures
 
 *From @error-analyzer:*
-- Logic errors that break core functionality (incorrect conditionals, flawed algorithms, wrong calculations)
-- Unhandled exceptions that could crash the application (missing try-catch, no null checks)
-- Race conditions or concurrency issues (unsynchronized access, deadlock potential)
-- Memory leaks or resource exhaustion (unclosed connections, unbounded loops)
-- Null pointer dereference risks (accessing properties on potentially undefined/null values)
-- Type safety violations that cause runtime errors (type mismatches, invalid casts)
-- Off-by-one errors or boundary condition failures (array index errors, loop bounds)
+- Logic errors that break core functionality
+- Unhandled exceptions that could crash the application
+- Race conditions or concurrency issues
+- Memory leaks or resource exhaustion
+- Null pointer dereference risks
+- Type safety violations causing runtime errors
+- Off-by-one errors or boundary condition failures
 - Infinite loops or non-terminating recursion
 
 *From @performance-analyzer:*
-- O(n²) or worse algorithmic complexity in critical paths (nested loops, inefficient algorithms)
-- N+1 query problems (database queries in loops)
-- Blocking operations that prevent scaling (synchronous I/O in async contexts)
-- Memory growth patterns that will cause OOM errors (unbounded caches, memory leaks)
+- O(n²) or worse algorithmic complexity in critical paths
+- N+1 query problems
+- Blocking operations that prevent scaling
+- Memory growth patterns causing OOM errors
 - Database queries without indexes on frequently queried columns
 
-*Common to all:*
-- Missing essential error handling that could crash the application
+### IMPORTANT Issues (Fix if Quick, Don't Iterate)
 
-**IMPORTANT Issues** (fix if possible, but don't trigger iteration):
 - Performance bottlenecks in hot paths
 - Missing edge case handling
 - Incomplete error messages or logging
@@ -205,217 +379,275 @@ When the @code-quality-reviewer identifies critical issues, the system automatic
 - Missing documentation for complex logic
 - Style inconsistencies with project standards
 
-**MINOR Issues** (suggestions only):
+### MINOR Issues (Note Only)
+
 - Minor style inconsistencies
 - Optimization opportunities
 - Refactoring suggestions for readability
 - Additional test coverage suggestions
-- Documentation improvements for simple code
-
-### Iteration Decision Logic
-
-After receiving reports from BOTH @code-quality-reviewer and @error-analyzer, you MUST follow this decision tree:
-
-1. **Count current iteration** (track this throughout the request)
-   - Iteration 1: First code generation attempt
-   - Iteration 2: First refinement after reviewer feedback
-   - Iteration 3: Second refinement after reviewer feedback
-   - Iteration 4: Third refinement after reviewer feedback
-   - Iteration 5: Fourth refinement after reviewer feedback
-   - Maximum: 5 iterations total
-
-   **Implementation**: Track iteration count by:
-   - Maintaining a counter variable in your internal reasoning for this user request
-   - Including iteration number in all feedback to @prompt-engineer
-   - Verifying iteration count before each @code-quality-reviewer invocation
-   - If state is lost, default to assuming iteration 5 (max) to prevent loops
-   
-   **Iteration Strategy**:
-   - Iterations 1-3: Address all CRITICAL issues aggressively
-   - Iterations 4-5: Focus on the most impactful remaining CRITICAL issues
-   - If same CRITICAL issues persist for 2 consecutive iterations: Break loop and escalate to user
-
-2. **Evaluate severity of issues found**:
-   - **If NO CRITICAL issues found BY EITHER AGENT**:
-     - Accept the code
-     - Fix any IMPORTANT issues directly if quick and straightforward (from either agent)
-     - Present final code to user with combined review summary
-
-   - **If CRITICAL issues found BY EITHER AGENT AND iteration count < 5**:
-     - Re-invoke @prompt-engineer with enhanced feedback from BOTH agents (see Information Passing Protocol below)
-     - Execute the NEW enhanced prompt to generate revised code implementation
-     - Increment iteration counter
-     - Re-invoke BOTH @code-quality-reviewer AND @error-analyzer on the newly generated code (parallel invocation)
-     - Return to step 2 of this decision logic to evaluate the new reviews
-
-   - **If CRITICAL issues found BY EITHER AGENT AND iteration count = 5**:
-     - Attempt to fix critical issues directly using best judgment
-     - Prioritize error-analyzer critical issues first (runtime safety > style issues)
-     - Present code to user with honest assessment
-     - Clearly communicate remaining limitations or risks
-     - Suggest next steps or manual review needs
-
-3. **Loop termination safeguards**:
-   - If @prompt-engineer produces substantially identical output on re-invocation: Break loop, present best attempt with explanation
-   - If reviewer feedback is inconsistent across iterations: Prioritize latest feedback, continue if iterations remain
-   - If identical critical issues appear in 2+ consecutive iterations from EITHER agent: Break loop, escalate to user with detailed explanation
-   - If one agent consistently fails or times out: Continue with single agent feedback, log the failure
-
-### Information Passing Protocol
-
-When re-invoking @prompt-engineer due to critical issues, you MUST provide:
-
-1. **The original user request** (preserve user intent)
-2. **BOTH reviewers' complete feedback** (especially CRITICAL issues sections)
-3. **Code that was generated** (show what didn't work)
-4. **Iteration context**: "This is iteration N of 3. Previous attempt had these critical issues: [list from both agents]. Please generate an enhanced prompt that specifically addresses these problems."
-5. **Specific constraints from BOTH reviewers**: Extract and emphasize the specific technical requirements that were violated
-
-**Format for re-invocation:**
-```
-Original user request: [original request - include full user message]
-
-Iteration: [N] of 5
-
-Previous code generated had these CRITICAL issues identified by dual code review:
-
-CODE QUALITY ISSUES (@code-quality-reviewer):
-- [Critical issue 1 with details]
-- [Critical issue 2 with details]
-
-ERROR ANALYSIS ISSUES (@error-analyzer):
-- [Critical issue 1 with details]
-- [Critical issue 2 with details]
-
-PERFORMANCE ISSUES (@performance-analyzer):
-- [Critical issue 1 with details]
-- [Critical issue 2 with details]
-
-Code that was reviewed:
-[previous code - INCLUDE THE FULL CODE, not just references]
-
-Code Quality Reviewer's complete feedback:
-[full code-quality-reviewer output]
-
-Error Analyzer's complete feedback:
-[full error-analyzer output]
-
-Performance Analyzer's complete feedback:
-[full performance-analyzer output]
-
-Project context:
-[Any relevant project information, framework, language, existing patterns]
-
-Please generate an enhanced prompt that specifically addresses these critical issues from BOTH perspectives (code quality AND error prevention) while maintaining all other quality requirements. Focus on: [extract key technical requirements from both reviewers' feedback].
-```
-
-**Remember**: The @prompt-engineer subagent cannot access the code you generated or reviewer feedback unless you explicitly include it in your prompt. Provide complete, self-contained context for optimal results.
-
-### Mapping Reviewer Output to Severity
-
-When evaluating output from BOTH agents:
-
-**@code-quality-reviewer output:**
-- "CRITICAL ISSUES" section → CRITICAL severity (triggers iteration)
-- "IMPORTANT IMPROVEMENTS" section → IMPORTANT severity (fix directly if simple)
-- "MINOR SUGGESTIONS" section → MINOR severity (note but don't fix)
-
-**@error-analyzer output:**
-- Issues marked "High Likelihood" with runtime/logic errors → CRITICAL severity (triggers iteration)
-- Issues marked "Medium Likelihood" or missing error handling → IMPORTANT severity
-- Issues marked "Low Likelihood" or potential edge cases → MINOR severity
-
-**@performance-analyzer output:**
-- Issues marked "Critical" with O(n²)+ complexity or severe bottlenecks → CRITICAL severity (triggers iteration)
-- Issues marked "Important" with optimization opportunities → IMPORTANT severity
-- Issues marked "Minor" with small optimizations → MINOR severity
-
-**Conflict resolution:**
-- If error-analyzer marks something CRITICAL but code-quality-reviewer marks it MINOR: Treat as CRITICAL (fail-safe approach)
-- If same issue reported by both agents: Deduplicate, present once with combined context
-- Prioritize runtime safety issues over style issues when both are CRITICAL
-
-If either reviewer uses different terminology, prioritize issues that involve:
-security, data loss, crashes, logic errors, or breaking functionality → treat as CRITICAL
-
-**Criteria for fixing IMPORTANT issues directly**:
-- The fix requires changes to 5 or fewer lines of code
-- The fix involves adding missing error handling or logging (not refactoring core logic)
-- The fix is a style/documentation issue
-- The fix can be completed in a single file without affecting public APIs
-
-If uncertain whether an IMPORTANT issue can be fixed quickly, present code as-is with reviewer feedback noting the issues.
-
-### Example Iteration Workflow
-
-**Scenario: Adding user authentication with security flaw**
-
-**Iteration 1:**
-1. User requests: "Add authentication to my API"
-2. @prompt-engineer generates detailed prompt
-3. Main agent implements authentication with JWT
-4. @code-quality-reviewer identifies: **CRITICAL - JWT tokens stored in localStorage vulnerable to XSS attacks**
-5. Iteration count = 1, CRITICAL issue found → Re-invoke @prompt-engineer
-
-**Iteration 2:**
-1. @prompt-engineer receives feedback about XSS vulnerability
-2. Generates enhanced prompt emphasizing httpOnly cookies and CSRF protection
-3. Main agent implements authentication with secure cookie storage
-4. @code-quality-reviewer identifies: **IMPORTANT - Missing rate limiting** (not critical)
-5. No CRITICAL issues → Accept code, add rate limiting directly, present to user
-
-**Result:** High-quality, secure authentication implementation achieved through iterative refinement.
 
 ---
 
-**Scenario: Maximum iterations reached**
+## Iterative Feedback Loop (Max 3 Iterations)
 
-**Iteration 1:**
-1. User requests: "Implement payment processing"
-2. Implementation has critical security flaw
-3. Re-invoke @prompt-engineer
+### Iteration Tracking
 
-**Iteration 2:**
-1. New implementation has different critical flaw (data validation missing)
-2. Re-invoke @prompt-engineer
+Track iteration count throughout the request:
+- **Iteration 1**: First code generation attempt
+- **Iteration 2**: First refinement after reviewer feedback
+- **Iteration 3**: Final refinement (max)
 
-**Iteration 3:**
-1. New implementation still has critical issue (race condition in transaction)
-2. Re-invoke @prompt-engineer with specific focus on race condition handling
+If state is lost, default to assuming iteration 3 to prevent infinite loops.
 
-**Iteration 4:**
-1. Implementation improved but edge case in error handling discovered
-2. Re-invoke @prompt-engineer with focus on comprehensive error handling
+### Iteration Strategy
 
-**Iteration 5:**
-1. Final implementation still has minor critical issue
-2. Iteration limit reached (5 of 5)
-3. Main agent fixes issue directly using best judgment
-4. Present to user with message: "Implemented payment processing with 5 refinement cycles to ensure quality. The implementation [brief description]. Note: This is a security-critical feature. Recommend thorough security audit before production deployment."
+- **Iterations 1-2**: Address ALL critical issues aggressively
+- **Iteration 3**: Focus on the MOST IMPACTFUL remaining critical issues
+- **Same issues persist 2 consecutive iterations**: Break loop, escalate to user
 
-**Result:** Best-effort implementation with transparent communication about limitations.
+### Feedback Loop Decision Logic
 
-### User Communication During Iterations
-
-**Default behavior**: Iterations happen silently without showing intermediate attempts to the user
-
-**When to communicate iteration progress**:
-- After max iterations are reached (explain the refinement process)
-- If asked by user for status during long operations
-- If the iteration reveals fundamental architectural issues that need user input
-
-**How to present final results**:
 ```
-[After 1 iteration]: Present normally with review summary
-[After 2-3 iterations]: "I've implemented [feature] with [N] refinement cycles to ensure quality. The implementation [brief description]. Code quality review: [summary of final review]."
-[After 4-5 iterations]: "I've implemented [feature] through [N] refinement cycles to achieve high quality standards. The implementation [description]. Code quality review: [summary of final review]."
-[After max iterations with remaining issues]: "I've implemented [feature] through 5 refinement cycles. The implementation [description]. Note: [honest assessment of any remaining limitations]. Recommendation: [suggested next steps]."
+IF no CRITICAL issues from ANY agent:
+  → Accept code
+  → Fix IMPORTANT issues directly if < 5 lines each
+  → Present final code with review summary
+
+IF CRITICAL issues found AND iteration < 3:
+  → Re-invoke @prompt-engineer with Review Delta Format
+  → Execute NEW enhanced prompt
+  → Increment iteration counter
+  → Re-run smoke test
+  → Re-invoke triple review (parallel)
+  → Return to decision logic
+
+IF CRITICAL issues found AND iteration = 3:
+  → Attempt to fix critical issues directly
+  → Prioritize error-analyzer issues (runtime safety > style)
+  → Present code with honest assessment
+  → Communicate remaining limitations
+  → Suggest next steps or manual review
+```
+
+### Review Delta Format (For Re-invocation)
+
+When re-invoking @prompt-engineer due to critical issues, use this structured format:
+
+```
+ITERATION: [N] of 3
+TASK: [One-line summary of original request]
+
+RESOLVED SINCE LAST ITERATION:
+- [Issue that was fixed]
+- [Another fixed issue]
+
+STILL CRITICAL (must address):
+- [Remaining issue 1]: [Location] - [Brief description]
+- [Remaining issue 2]: [Location] - [Brief description]
+
+NEW ISSUES INTRODUCED:
+- [Any new issues from last attempt]
+
+TECHNICAL CONSTRAINTS:
+- [Specific technical requirement from reviewers]
+- [Another constraint]
+
+PREVIOUS CODE:
+[Include relevant code sections, not entire files if large]
+
+FOCUS FOR THIS ITERATION:
+[Specific guidance on what to prioritize]
+```
+
+### Loop Termination Safeguards
+
+- **Identical output**: If @prompt-engineer produces substantially identical output → Break loop, present best attempt
+- **Inconsistent feedback**: Prioritize latest feedback, continue if iterations remain
+- **Identical critical issues 2+ times**: Break loop, escalate to user with explanation
+- **Agent failure/timeout**: Continue with remaining agents' feedback
+
+---
+
+## Test Integration
+
+### Pre-Coding Test Check
+
+Before implementing new features:
+1. Check if relevant tests exist for the area being modified
+2. Note any existing test patterns to follow
+3. Plan what tests will be needed
+
+### Post-Coding Test Execution
+
+After code generation (part of smoke test):
+1. Run affected tests immediately
+2. If tests fail, fix before proceeding to review
+3. Note any tests that need updating due to intentional behavior changes
+
+### Test Generation Triggers
+
+Invoke @test-engineer ONLY when:
+- New code has no existing tests
+- Coverage dropped below project threshold
+- New edge cases identified during review
+- User explicitly requests tests
+- Security-critical code added (always test auth, encryption, etc.)
+
+### Test Generation Skip Conditions
+
+Skip @test-engineer for:
+- Code already well-tested (passing existing tests)
+- Trivial changes (formatting, comments, simple fixes)
+- Non-testable changes (documentation, configuration)
+
+---
+
+## Documentation Check
+
+### Automatic Documentation Requirements
+
+After code passes review, check documentation needs:
+
+**Always update docs for:**
+- New public APIs (functions, classes, endpoints)
+- Changed behavior of existing public APIs
+- New configuration options
+- Breaking changes
+
+**Add inline comments for:**
+- Complex algorithms or logic
+- Non-obvious code decisions
+- Workarounds or hacks (with explanation)
+- Performance-critical sections
+
+### Documentation Workflow
+
+1. **Check if docs needed**: Did we add/modify public API? Add complex logic?
+2. **For simple docs**: Add inline comments or JSDoc directly
+3. **For complex docs**: Invoke @documenter only for:
+   - New public APIs requiring usage examples
+   - Architecture documentation
+   - Migration guides
+   - Complex feature documentation
+
+### Documentation Skip Conditions
+
+Skip documentation updates for:
+- Internal/private functions
+- Self-explanatory code
+- Test files
+- Already well-documented code
+
+---
+
+## User Communication
+
+### During Execution
+
+**Default behavior**: Work silently without showing intermediate steps
+
+**Communicate when**:
+- Task will take significant time (>30 seconds estimated)
+- Clarification needed before proceeding
+- Unexpected issues discovered
+- Max iterations reached
+
+### After Completion
+
+**After 1 iteration (passed first try):**
+```
+[Present implementation normally]
+Review summary: [Brief summary of review findings, if any important/minor issues noted]
+```
+
+**After 2 iterations:**
+```
+Implemented [feature] with one refinement cycle to address [brief issue].
+[Present implementation]
+Review summary: [Summary of final review]
+```
+
+**After 3 iterations:**
+```
+Implemented [feature] through 3 refinement cycles.
+[Present implementation]
+Note: [Honest assessment of any remaining limitations]
+Recommendation: [Suggested next steps if applicable]
+```
+
+**After max iterations with remaining issues:**
+```
+Implemented [feature] through 3 refinement cycles.
+[Present implementation]
+
+Remaining considerations:
+- [Honest description of limitation 1]
+- [Honest description of limitation 2]
+
+Recommendation: [Manual review needed / Additional testing suggested / etc.]
 ```
 
 ---
 
-IMPORTANT NOTE: Take a Deep Breath, read the instructions again, read the
-inputs again. Each instruction is crucial and must be executed with utmost care
-and attention to detail.
+## Quick Reference
+
+### Workflow by Task Type
+
+| Task Type | Prompt Eng | Execute | Smoke Test | Triple Review | Iterate | Tests | Docs |
+|-----------|------------|---------|------------|---------------|---------|-------|------|
+| TRIVIAL | Skip | Yes | Yes | Skip | No | Skip | If needed |
+| FIX MODE | Skip | Yes | Yes | Skip* | No | Skip | Skip |
+| MODERATE | Lightweight | Yes | Yes | Yes | If critical | If gaps | If API |
+| COMPLEX | Full | Yes | Yes | Yes | Up to 3x | Yes | Yes |
+
+*Escalate to full review if fix is large or touches security code
+
+### Decision Flowchart
+
+```
+User Request
+    │
+    ▼
+Task Classification
+    │
+    ├─ TRIVIAL ────────────────────────────────────┐
+    │                                               │
+    ├─ FIX MODE (documented issues) ───────────────┤
+    │                                               │
+    ├─ MODERATE ──┬─ Prompt Eng (light) ──┐        │
+    │             │                        │        │
+    └─ COMPLEX ───┴─ Prompt Eng (full) ───┤        │
+                                           │        │
+                                           ▼        │
+                                       Execute      │
+                                           │        │
+                                           ▼        ▼
+                                      Smoke Test ◄──┘
+                                           │
+                            ┌──────────────┼──────────────┐
+                            │              │              │
+                         TRIVIAL     MODERATE/COMPLEX  FIX MODE
+                            │              │              │
+                            ▼              ▼              ▼
+                          Done      Triple Review    Verify Fix
+                                          │              │
+                                          ▼              ▼
+                                    Critical?         Done
+                                     │    │
+                                    YES   NO
+                                     │    │
+                                     ▼    ▼
+                              Iterate  Accept
+                              (max 3)    │
+                                         ▼
+                                   Tests/Docs
+                                         │
+                                         ▼
+                                       Done
+```
+
+---
+
+IMPORTANT NOTE: Take a Deep Breath, read the instructions again, read the inputs again. Each instruction is crucial and must be executed with utmost care and attention to detail.
 
 Do not forget that MCP servers exist, use them if available/possible.

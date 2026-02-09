@@ -59,15 +59,6 @@ vim.api.nvim_create_autocmd(event.BufReadPost, {
 })
 -- }}}
 
--- skeleton files {{{
--- vim-go already does that
--- vim.api.nvim_create_autocmd(BufNewFile, {
--- desc = "Read skeleton file when opening a new file",
--- pattern = { "*.go" },
--- command = "lua vim.api.nvim_exec('0r ~/workspace/default_files/go/main.go', true)",
--- })
--- }}}
-
 -- Set relativenumber when entering insert mode {{{
 vim.opt.relativenumber = false
 vim.api.nvim_create_autocmd({event.InsertEnter}, {

@@ -120,7 +120,8 @@ local plugins = {
 	-- Debug Adapter Protocol
 	{
 		"mfussenegger/nvim-dap",
-		ft = {"go"}, -- lazy load on filetypes.
+		enabled = false, -- disable until working.
+		ft = { "go" }, -- lazy load on filetypes.
 		keys = {
 		},
 		dependencies = {
@@ -136,11 +137,13 @@ local plugins = {
 	},
 	{                -- Go Delve debugger.
 		"leoluz/nvim-dap-go",
-		ft = {"go"}, -- lazy load on filetypes.
+		enabled = false, -- disable until working.
+		ft = { "go" }, -- lazy load on filetypes.
 	},
 	{
 		"rcarriga/nvim-dap-ui", -- UI for DAP.
-		ft = {"go"}, -- lazy load on filetypes.
+		enabled = false,      -- disable until working.
+		ft = { "go" },        -- lazy load on filetypes.
 		dependencies = { "mfussenegger/nvim-dap" }
 	},
 

@@ -41,15 +41,15 @@ if [ -z "$SSH_AUTH_SOCK" ] ; then
     ssh-add
 fi
 
-if [ "${DISPLAY}" != "" ]; then
-    if [ -f "$HOME/.Xmodmap" ]; then
-        xmodmap "$HOME/.Xmodmap"
-    fi
-    numlockx status | grep --quiet off && numlockx on # Enable numlock
+# if [ "${DISPLAY}" != "" ]; then
+    # if [ -f "$HOME/.Xmodmap" ]; then
+        # xmodmap "$HOME/.Xmodmap"
+    # fi
+    # numlockx status | grep --quiet off && numlockx on # Enable numlock
 
-    feh --bg-scale "${HOME}/workspace/configLoader/background/background.jpg"
-    urxvtd -q -f -o
-    xrdb -merge "${HOME}/.Xresources"
-fi
+    # feh --bg-scale "${HOME}/workspace/configLoader/background/background.jpg"
+    # urxvtd -q -f -o
+    # xrdb -merge "${HOME}/.Xresources"
+# fi
 
 # vim:ft=bash

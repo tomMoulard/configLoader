@@ -242,6 +242,12 @@ bind 'TAB:menu-complete'
 
 # terraform autocomplete
 [ -f "$(command -v terraform)" ] && complete -C "$(command -v terraform)" terraform && complete -C "$(command -v terraform)" t
+
+# task autocomplete
+[ -f "$(command -v task)" ] && eval "$(task --completion bash)"
+
+# ngrok
+[ -f "$(command -v ngrok)" ] && eval "$(ngrok completion)"
 # }}}
 
 # Loggin {{{1
@@ -255,7 +261,18 @@ export CPPFLAGS="-I/opt/homebrew/opt/openjdk/include"
 # }}}
 
 # Reverse History search (<ctrl>-r) {{{1
-[ -f "$(command -v fzf)" ] && source /usr/share/doc/fzf/examples/key-bindings.bash
+[ -f "$(command -v fzf)" ] && source /opt/homebrew/Cellar/fzf/**/shell/key-bindings.bash
+# if [ -f "$(command -v atuin)" ]; then
+	# export ATUIN_NOBIND="true"
+	# eval "$(atuin init bash)"
+
+	# # bind to ctrl-r, add any other bindings you want here too
+	# bind -x '"\C-r": __atuin_history'
+
+	# # bind to the up key, which depends on terminal mode
+	# # bind -x '"\e[A": __atuin_history --shell-up-key-binding'
+	# # bind -x '"\eOA": __atuin_history --shell-up-key-binding'
+# fi
 # }}}
 
 # Custom ENV var {{{1
@@ -272,18 +289,21 @@ fi
 [ -d "${HOME}/.scripts" ] && PATH="$PATH:${HOME}/.scripts" # github.com/tommoulard/scripts
 [ -d "${HOME}/go/bin" ] && PATH="$PATH:${HOME}/go/bin"     # https://golang.org/doc/code.html#Command
 [ -d "${HOME}/.local/bin" ] && PATH="$PATH:${HOME}/.local/bin"
-[ -d "/usr/local/go/bin" ] && PATH=$PATH:/usr/local/go/bin
-[ -d "${HOME}/.local/opt/go/bin" ] && PATH=$PATH:${HOME}/.local/opt/go/bin
+[ -d "/usr/local/go/bin" ] && PATH="$PATH:/usr/local/go/bin"
+[ -d "${HOME}/.local/opt/go/bin" ] && PATH="$PATH:${HOME}/.local/opt/go/bin"
+[ -d "${HOME}/.npm/bin" ] && PATH="$PATH:${HOME}/.npm/bin"
+[ -d "${HOME}/.tfenv/bin" ] && PATH="$PATH:${HOME}/.tfenv/bin"
 
 # Cargo stuff {{{2
 if [[ -d "${HOME}/.cargo/bin" ]]; then
 	PATH="$PATH:${HOME}/.cargo/bin"
 	[ -f "${HOME}/.cargo/env" ] && source "${HOME}/.cargo/env"
 	# Zoxide https://github.com/ajeetdsouza/zoxide can be replaced by CDPATH
-	[[ "${CDPATH}" == "" && -f "${HOME}/.cargo/bin/zoxide" ]] && eval "$(zoxide init bash)" && alias cd='z' && export _ZO_DATA_DIR="${HOME}/.local/share/zoxide.db"
-	# Exa https://github.com/ogham/exa
-	[ -f "$(command -v exa)" ] && alias ls='exa'
+	# eza https://github.com/eza-community/eza
+	[ -f "$(command -v eza)" ] && alias ls='eza'
 fi
+eval "$(zoxide init bash)" 2>/dev/null; alias cd='z' && export _ZO_DATA_DIR="${HOME}/.local/share/zoxide.db"
+export PATH="/opt/homebrew/opt/rustup/bin:$PATH"
 # }}}
 # }}}
 
