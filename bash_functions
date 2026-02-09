@@ -74,7 +74,7 @@ function _cleanup_tem_set_x() {
 function upgrade_OSx() {
 	set -x
 	sudo rm -rf /opt/homebrew/lib/node_modules/corepack # to properly install node
-	brew upgrade
+	brew upgrade --greedy-latest
 	brew upgrade --cask --greedy
 	rustup update stable # update rust version
 	cargo install-update -a
@@ -104,7 +104,7 @@ function notify() {
 
 # usage: go-download-version <version>
 # example: go-download-version go1.19rc1
-function go-download-version() {
+function go_download_version() {
 	[[ -d "${HOME}/.local/opt/${1}" || -f "$(command -v "${1}")" ]] && echo "${1} already exists" && return
 	mkdir -p "${HOME}/.local/opt/${1}"
 	aria2c "https://go.dev/dl/${1}.linux-amd64.tar.gz" \
@@ -159,5 +159,68 @@ function merge_back() {
 
 	git stash apply
 }
+
+# This make_ function tryies to wrap multiple build systems
+# mainly make, task
+# TODO: replace the make command with this function
+function make_() {
+	if [ -f "$(command -v make)" ]; then
+		if [ -f "$(find . -d 1 -type f -name 'akefile')" ]; then
+			make "$@"
+
+			return
+		fi
+	fi
+
+	if [ -f "$(command -v task)" ]; then
+		if [ -f "$(find . -d 1 -type f -name '*askfile.yml')" ]; then
+			task "$@"
+
+			return
+		fi
+	fi
+
+	if [ -f "$(command -v yarn)" ]; then
+		if [ -f "$(find . -d 1 -type f -name 'package.json')" ]; then
+			yarn "$@"
+
+			return
+		fi
+	fi
+
+	# default with make
+	make "$@"
+}
+
+# git_rename_tag renames a git tag
+# how to use: git_rename_tag x.y.z vX.Y.Z
+# To push the new tag, and remove the old one: git push origin x.y.z :x.y.z
+function git_rename_tag() {
+  local old="$1"
+  local new="$2"
+
+  if [ -z "$old" ] || [ -z "$new" ]; then
+    echo "Usage: git_rename_tag <old-tag> <new-tag>" >&2
+    return 1
+  fi
+
+  # Extract message from the old annotated tag
+  local msg
+  msg="$(git cat-file -p "$old" 2>/dev/null | tail -n +6)" || {
+    echo "Error: cannot read tag '$old'" >&2
+    return 1
+  }
+
+  # Create new annotated tag with same message, pointing to the same commit
+  git tag -a "$new" "$old^{}" -m "$msg" || return 1
+
+  # Delete old tag locally
+  git tag -d "$old" || return 1
+
+  echo "Renamed tag '$old' → '$new' (message preserved)."
+}
+
+# Allow auto complete for the make_ function (see complete -p make)
+[ -f "$(command -v make)" ] && complete -p make 2> /dev/null && complete -o nospace -F "$(complete -p make)" make_
 
 # vim:ft=bash noet
