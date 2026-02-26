@@ -1130,7 +1130,7 @@ split-divider-color =
 # arguments. For example, `ghostty -e fish --with --custom --args`.
 # This flag sets the `initial-command` configuration, see that for more
 # information.
-command =
+command = /bin/bash
 
 # This is the same as "command", but only applies to the first terminal
 # surface created when Ghostty starts. Subsequent terminal surfaces will use
@@ -1632,7 +1632,7 @@ working-directory =
 #  - Notably, global shortcuts have not been implemented on wlroots-based
 #    compositors like Sway (see [upstream issue](https://github.com/emersion/xdg-desktop-portal-wlr/issues/240)).
 keybind = super+shift+d=new_split:down
-keybind = super+enter=toggle_fullscreen
+keybind = super+enter=new_split:right
 keybind = super+alt+shift+j=write_screen_file:open
 keybind = super+2=goto_tab:2
 keybind = super+digit_6=goto_tab:6
@@ -1671,6 +1671,7 @@ keybind = super+alt+arrow_right=goto_split:right
 keybind = super+ctrl+equal=equalize_splits
 keybind = super+digit_7=goto_tab:7
 keybind = super+ctrl+f=toggle_fullscreen
+keybind = super+f=toggle_fullscreen
 keybind = super+backspace=text:\\x15
 keybind = super+6=goto_tab:6
 keybind = super+page_up=scroll_page_up
