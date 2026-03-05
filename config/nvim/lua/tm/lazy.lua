@@ -47,10 +47,8 @@ local plugins = {
 
 	{ -- parser generator tool and an incremental parsing library.
 		"nvim-treesitter/nvim-treesitter",
-		build = function()
-			vim.notify("Building treesitter", vim.log.levels.INFO)
-			require("nvim-treesitter.install").update({ with_sync = true })
-		end,
+		build = ":TSUpdate",
+		lazy = false,
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter-textobjects",
 			"nvim-treesitter/nvim-treesitter-context",

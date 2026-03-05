@@ -1,5 +1,7 @@
 [user]
 	name = Tom Moulard
+	#signingkey = 20E4E2219305D1CD
+	email = tom.moulard@synthflow.ai
 [push]
 	; https://git-scm.com/docs/git-config#Documentation/git-config.txt-pushdefault
 	default = current
@@ -49,7 +51,7 @@
 [merge]
 	tool = vimdiff
 [core]
-	excludesfile = /home/tm/workspace/configLoader/gitignore
+	excludesfile = /Users/tommoulard/workspace/configLoader/gitignore
 [init]
 	defaultBranch = main
 [blame]
@@ -64,5 +66,23 @@
 	lineNumber = true
 [format]
 	signOff = true
+
+[url "ssh://git@github.com/"]
+    insteadOf = https://github.com/
+
+[coderabbit]
+	machineId = cli/c98e6b8a49d34661a54ce385f6436664
+
+[user]
+  signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMtrAKKhfARh/V7BSCnbB5ZXcrSBOmKoquP2k4TUE23J
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+[commit]
+  gpgsign = true
 
 ; vim: set ft=gitconfig:

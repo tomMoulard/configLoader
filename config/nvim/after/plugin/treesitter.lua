@@ -1,56 +1,25 @@
 -- cargo install tree-sitter-cli
-if not pcall(require, "nvim-treesitter.configs") then return end
-local ts_setup = {
-	ensure_installed = {
-		"dockerfile",
-		"go",
-		"html",
-		"javascript",
-		"java",
-		"json",
-		"latex",
-		"lua",
-		"make",
-		"markdown",
-		"markdown_inline",
-		"rust",
-		"scss",
-		"toml",
-		"vim",
-		"yaml",
-	},
+if not pcall(require, "nvim-treesitter") then return end
 
-	-- Automatically install missing parsers when entering buffer
-	auto_install = true,
+require("nvim-treesitter").setup({
+    install_dir = vim.fn.stdpath('data') .. '/site',
+})
+-- Install parsers (async, no-op if already installed)
+require("nvim-treesitter").install({
+    "dockerfile", "go", "html", "javascript", "java",
+    "json", "latex", "lua", "make", "markdown",
+    "markdown_inline", "rust", "scss", "toml", "vim", "yaml",
+})
 
-	highlight = {
-		-- `false` will disable the whole extension
-		enable = true,
-	},
-
-	-- see p00f/nvim-ts-rainbow
-	rainbow = {
-		enable = true,
-		-- disable = { "jsx", "cpp" }, list of languages you want to disable the plugin for
-		extended_mode = true, -- Also highlight non-bracket delimiters like html tags, boolean or table: lang -> boolean
-		max_file_lines = nil, -- Do not enable for files with more than n lines, int
-		-- colors = {}, -- table of hex strings
-		-- termcolors = {} -- table of colour name strings
-	},
-
-	-- Indentation based on treesitter for the = operator.
-	-- NOTE: This is an experimental feature.
-	indent = {
-		enable = true
-	},
-
-	-- https://github.com/andymass/vim-matchup?tab=readme-ov-file#tree-sitter-integration
-	matchup = {
-		enable = true, -- mandatory, false will disable the whole extension
-	},
-}
-
-require("nvim-treesitter.configs").setup(ts_setup)
+-- Enable treesitter-based syntax highlighting for every buffer.
+-- The new nvim-treesitter API no longer has a "highlight" module; highlighting
+-- is now done via the built-in vim.treesitter API. Telescope's preview does
+-- this automatically, which is why it showed more colours than the editor.
+vim.api.nvim_create_autocmd("FileType", {
+    callback = function(args)
+        pcall(vim.treesitter.start, args.buf)
+    end,
+})
 
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 
