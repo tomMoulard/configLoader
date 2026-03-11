@@ -1,0 +1,15 @@
+worktree-path = ".worktrees/{{ branch | sanitize }}"
+
+[list]
+summary = false
+
+[commit.generation]
+command = "CLAUDECODE= MAX_THINKING_TOKENS=0 claude -p --model=haiku --tools='' --disable-slash-commands --setting-sources='' --system-prompt=''"
+
+[post-switch]
+# post-create is a list of commands to run after creating a worktree
+zoxide = "zoxide add {worktree_path}"
+
+[post-remove]
+# post-remove is a list of commands to run after removing a worktree
+zoxide = "zoxide remove {worktree_path}"
