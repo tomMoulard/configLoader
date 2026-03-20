@@ -25,6 +25,8 @@ Agents are invoked using the `@agent-name` syntax, which corresponds to files in
 - `@performance-analyzer` → `agent/performance-analyzer.md`
 - `@test-engineer` → `agent/test-engineer.md`
 - `@documenter` → `agent/documenter.md`
+- `@cr` → `agent/cr.md`
+- `@review` → `agent/review.md` (orchestrates @review-claude, @review-openai, @review-gemini + CodeRabbit + Makefile checks)
 
 ---
 
@@ -610,13 +612,13 @@ User Request
     ▼
 Task Classification
     │
-    ├─ TRIVIAL ────────────────────────────────────┐
+    ├─ TRIVIAL ─────────────────────────────────────┐
     │                                               │
-    ├─ FIX MODE (documented issues) ───────────────┤
+    ├─ FIX MODE (documented issues) ────────────────┤
     │                                               │
-    ├─ MODERATE ──┬─ Prompt Eng (light) ──┐        │
+    ├─ MODERATE ──┬─ Prompt Eng (light) ───┐        │
     │             │                        │        │
-    └─ COMPLEX ───┴─ Prompt Eng (full) ───┤        │
+    └─ COMPLEX ───┴─ Prompt Eng (full) ────┤        │
                                            │        │
                                            ▼        │
                                        Execute      │
