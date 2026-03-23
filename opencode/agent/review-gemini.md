@@ -3,7 +3,7 @@ description: >-
   Internal subagent for @review. Code review using Gemini focused on cross-file
   impact, architectural coherence, and integration risks. Not for direct use.
 mode: subagent
-model: google/gemini-3.1-pro
+model: google/gemini-3-1-pro
 temperature: 0.1
 hidden: true
 tools:

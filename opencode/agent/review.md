@@ -36,6 +36,7 @@ tools:
   read: true
   grep: true
   glob: true
+  task: true
 ---
 
 You are a multi-source code review orchestrator. You coordinate parallel reviews from
@@ -273,7 +274,7 @@ After applying fixes:
 ## Multi-Source Review Complete
 
 Iterations: N of 3
-Sources used: Claude, OpenAI, Gemini, Grok, DeepSeek, CodeRabbit, Makefile targets (list which)
+Sources used: Claude, OpenAI, Gemini, CodeRabbit, Makefile targets (list which)
 
 ### Issues Found → Fixed
 - CRITICAL: X found, Y fixed

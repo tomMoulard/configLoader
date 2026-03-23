@@ -3,7 +3,7 @@ description: >-
   Internal subagent for @review. Code review using OpenAI focused on patterns,
   idioms, and common bug detection. Not for direct use.
 mode: subagent
-model: openai/gpt-5.3-codex
+model: openai/gpt-5-3-codex
 temperature: 0.1
 hidden: true
 tools:

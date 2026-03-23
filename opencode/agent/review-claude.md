@@ -3,7 +3,7 @@ description: >-
   Internal subagent for @review. Code review using Claude focused on correctness,
   security, and edge case analysis. Not for direct use.
 mode: subagent
-model: anthropic/claude-opus-4.6
+model: anthropic/claude-opus-4-6
 temperature: 0.1
 hidden: true
 tools:
