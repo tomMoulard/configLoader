@@ -26,7 +26,6 @@ description: >-
     User: "This code will handle high traffic"
     Assistant: "I'll use the performance-analyzer agent to ensure it can scale efficiently"
 mode: subagent
-model: anthropic/claude-opus-4-6
 tools:
   write: false
   edit: false

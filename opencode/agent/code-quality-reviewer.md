@@ -30,7 +30,6 @@ description: >-
     User: "Here's the new payment processing service I wrote"
     Assistant: "Let me use the code-quality-reviewer agent to review this critical payment service for quality and security"
 mode: subagent
-model: anthropic/claude-opus-4-6
 tools:
   write: false
   edit: false
