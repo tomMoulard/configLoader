@@ -21,7 +21,7 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 if not pcall(require, "treesitter-context") then return end
 
