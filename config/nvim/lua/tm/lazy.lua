@@ -1,5 +1,5 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
 	vim.notify("Installing lazy.nvim: " .. lazypath, vim.log.levels.INFO)
 	vim.fn.system({
 		"git",
@@ -17,23 +17,11 @@ if not pcall(require, "lazy") then
 	return
 end
 
-local const = require("tm.const")
-local event = const.autocmd.event
-
 local plugins = {
 	{ -- color scheme.
 		"tanvirtin/monokai.nvim",
 		lazy = false,
 		priority = 1000, -- load colorscheme before other plugins.
-	},
-
-	{ "preservim/nerdcommenter" }, -- comment input.
-	{
-		"preservim/nerdtree",
-		keys = {
-			-- vim.keymap.set("n", "<F1>", ":NERDTreeToggle<CR>", { silent = true })
-			{ "<F1>", ":NERDTreeToggle<CR>", mode = "n", desc = "Toggle NERDTree", silent = true },
-		},
 	},
 
 	{ "tpope/vim-fugitive" },
@@ -55,11 +43,6 @@ local plugins = {
 		},
 	},
 
-	{ -- AI powered completion.
-		"github/copilot.vim",
-		event = event.InsertEnter, -- load cmp on InsertEnter.
-	},
-
 	{ -- shows git status.
 		"lewis6991/gitsigns.nvim",
 		cond = function()
@@ -71,18 +54,15 @@ local plugins = {
 	{ -- autocomplete
 		"hrsh7th/nvim-cmp",
 		lazy = false,
-		-- event = event.InsertEnter, -- load cmp on InsertEnter.
 		dependencies = {
-			"folke/lazydev.nvim",                -- docs and completion for the nvim lua API.
-			"hrsh7th/cmp-buffer",               -- autocomplete strings in buffer.
-			"hrsh7th/cmp-cmdline",              -- nvim-cmp source for vim's cmdline.
-			"hrsh7th/cmp-nvim-lsp",             -- nvim-cmp source for neovim's built-in language server client.
-			"hrsh7th/cmp-nvim-lsp-signature-help", -- nvim-cmp source for displaying function signatures with the current parameter emphasized.
-			"hrsh7th/cmp-nvim-lua",             -- nvim-cmp source for neovim Lua API.
-			"hrsh7th/cmp-path",                 -- autocomplete file paths.
-			"quangnguyen30192/cmp-nvim-ultisnips", -- use snippets from UltiSnips in nvim-cmp.
-			"ray-x/cmp-treesitter",             -- nvim-cmp source for treesitter nodes.
-			"sirver/UltiSnips",                 -- snippets
+			"folke/lazydev.nvim",                   -- docs and completion for the nvim lua API.
+			"hrsh7th/cmp-buffer",                   -- autocomplete strings in buffer.
+			"hrsh7th/cmp-cmdline",                  -- nvim-cmp source for vim's cmdline.
+			"hrsh7th/cmp-nvim-lsp",                 -- nvim-cmp source for neovim's built-in language server client.
+			"hrsh7th/cmp-nvim-lsp-signature-help",  -- nvim-cmp source for displaying function signatures with the current parameter emphasized.
+			"hrsh7th/cmp-nvim-lua",                 -- nvim-cmp source for neovim Lua API.
+			"hrsh7th/cmp-path",                     -- autocomplete file paths.
+			"ray-x/cmp-treesitter",                 -- nvim-cmp source for treesitter nodes.
 		},
 	},
 

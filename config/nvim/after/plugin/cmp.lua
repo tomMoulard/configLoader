@@ -15,7 +15,7 @@ local cmp = require("cmp")
 cmp.setup({
 	snippet = {
 		expand = function(args)
-			vim.fn["UltiSnips#Anon"](args.body)
+			vim.snippet.expand(args.body)
 		end,
 	},
 	window = {
@@ -39,7 +39,6 @@ cmp.setup({
 				name = "lazydev",
 				group_index = 0, -- set group index to 0 to skip loading LuaLS completions
 			},
-			{ name = "ultisnips" },
 			{
 				name = "path",
 				options = {

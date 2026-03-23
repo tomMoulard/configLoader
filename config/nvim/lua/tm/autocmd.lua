@@ -18,16 +18,6 @@ ft_autocmd({ "markdown" }, vim.opt.makeprg, "pandoc % $* -o %.pdf")
 ft_autocmd({ "css" }, vim.opt.makeprg, "npx prettier --write %")
 -- }}}
 
--- Proper comments {{{
-ft_autocmd({ "python", "sh" }, vim.opt.commentstring, "# %s")
--- ft_autocmd({"html"}, vim.opt.commentstring, "<!-- %s -->")
-ft_autocmd({ "c" }, vim.opt.commentstring, "/* %s */")
-ft_autocmd({ "typescriptreact" }, vim.opt.commentstring, "{/* %s */}")
-ft_autocmd({ "go" }, vim.opt.commentstring, "// %s")
-ft_autocmd({ "xdefaults" }, vim.opt.commentstring, "! %s")
-ft_autocmd({ "vim" }, vim.opt.commentstring, "\" %s")
-ft_autocmd({ "sql" }, vim.opt.commentstring, "-- %s")
--- }}}
 
 -- Linting {{{
 -- vim.api.nvim_create_autocmd(BufWritePre, {

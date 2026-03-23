@@ -12,14 +12,6 @@ end
 
 require("bufferline").setup {
 	options = {
-		offsets = {
-			{
-				filetype = "NERDTree",
-				text = "File Explorer",
-				highlight = "Directory",
-				text_align = "left"
-			}
-		},
 		diagnostics_indicator = diagnostics_indicator,
 	}
 }

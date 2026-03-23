@@ -51,7 +51,11 @@ vim.keymap.set(mode.visual, ">", ">gv", { silent = true })
 vim.keymap.set(mode.all, "gf", ":e <cfile><CR>", { silent = true })
 -- }}}
 
-vim.keymap.set(mode.normal, "gcc", ":GoCoverageToggle" .. mapping.cr, {})
+-- File explorer {{{
+vim.keymap.set(mode.normal, mapping.f1, ":Explore" .. mapping.cr, { silent = true })
+-- }}}
+
+vim.keymap.set(mode.normal, mapping.leader .. "gc", ":GoCoverageToggle" .. mapping.cr, {})
 vim.keymap.set(mode.normal, "gtt", ":GoTest" .. mapping.cr, {})
 vim.keymap.set(mode.normal, "gtf", ":GoTestFunc" .. mapping.cr, {})
 if pcall(require, "dap-go") then

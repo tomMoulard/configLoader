@@ -79,13 +79,14 @@ vim.opt.rulerformat = "%15(%c%V %p%%%)"
 vim.opt.scrolloff = 5
 vim.opt.sidescroll = 5
 vim.opt.sidescrolloff = 5
-vim.opt.statusline = "%<%f (%{&ft})%=%-19(%3l,%02c-0x%02B%)"
+vim.opt.statusline = "%<%f (%{&ft}) %{v:lua.DiagnosticStatus()}%=%-19(%3l,%02c-0x%02B%)"
 vim.opt.termguicolors = true
 vim.opt.title = true
 -- }}}
 
 -- Complete {{{
 vim.opt.infercase = true
+vim.opt.completeopt = { "menu", "menuone", "noselect" }
 -- }}}
 
 

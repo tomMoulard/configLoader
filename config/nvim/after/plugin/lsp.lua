@@ -1,49 +1,41 @@
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
--- local opts = { noremap=true, silent=true }
--- vim.keymap.set("n", "<space>q", vim.diagnostic.open_float, opts)
--- vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
--- vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
--- vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
+local const = require("tm.const")
+local event = const.autocmd.event
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	callback = function(args)
 		local bufnr = args.buf
 		vim.lsp.inlay_hint.enable(true)
 
-		local const = require("tm.const")
-		local event = const.autocmd.event
-
-		vim.api.nvim_create_autocmd(event.BufReadPost, {
-			desc = "run ':lua vim.lsp.buf.format' on file save",
-			pattern = { "%" },
-			callback = vim.lsp.buf.format,
+		vim.api.nvim_create_autocmd(event.BufWritePre, {
+			desc = "Format file on save via LSP",
+			buffer = bufnr,
+			callback = function()
+				local clients = vim.lsp.get_clients({
+					bufnr = bufnr,
+					method = vim.lsp.protocol.Methods.textDocument_formatting,
+				})
+				if #clients > 0 then
+					vim.lsp.buf.format({ bufnr = bufnr })
+				end
+			end,
 		})
 
-		-- Enable completion triggered by <c-x><c-o>
-		vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
-
 		-- Mappings.
-		-- See `:help vim.lsp.*` for documentation on any of the below functions
+		-- Built-in defaults in 0.12: K (hover), gra (code_action), grn (rename),
+		-- grr (references), gri (implementation), grt (type_definition),
 		local bufopts = { noremap = true, silent = true, buffer = bufnr }
 		vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
-		vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
-		-- vim.keymap.set("n", "<space>f", vim.lsp.buf.formatting, bufopts)
-		vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
 		vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
 		vim.keymap.set("n", "<space>wl", function()
 			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 		end, bufopts)
 		vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
 		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
 		vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-		vim.keymap.set("n", "gt", vim.lsp.buf.type_definition, bufopts)
+		vim.keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1, float = true }) end, bufopts)
+		vim.keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1, float = true }) end, bufopts)
 		vim.keymap.set("n", "<space>D", vim.diagnostic.open_float, bufopts)
 		vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, bufopts)
-		vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, bufopts)
-		vim.keymap.set("n", "]d", vim.diagnostic.goto_next, bufopts)
 	end
 })
 
@@ -284,16 +276,15 @@ vim.lsp.config["eslint"] = {
 		vim.api.nvim_create_autocmd("BufWritePre", {
 			buffer = bufnr,
 			callback = function()
-			client:request_sync('workspace/executeCommand', {
-				command = 'eslint.applyAllFixes',
-				arguments = {
-					{
-						uri = vim.uri_from_bufnr(bufnr),
-						version = vim.lsp.util.buf_versions[bufnr],
+				client:request_sync('workspace/executeCommand', {
+					command = 'eslint.applyAllFixes',
+					arguments = {
+						{
+							uri = vim.uri_from_bufnr(bufnr),
+						},
 					},
-				},
-			}, nil, bufnr)
-		end,
+				}, nil, bufnr)
+			end,
 		})
 	end,
 	settings = {
@@ -464,3 +455,50 @@ vim.lsp.config["rust_analyzer"] = {
 	}
 }
 vim.lsp.enable("rust_analyzer")
+
+-- GitHub Copilot language server (inline completion)
+-- Install: npm install -g @github/copilot-language-server
+-- https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#copilot
+if (vim.fn.executable("copilot-language-server") == 0) then
+	vim.notify("Installing copilot-language-server", vim.log.levels.INFO)
+	vim.notify(
+		vim.fn.system({ "npm", "install", "--global", "--prefix", vim.fn.stdpath("data"), "@github/copilot-language-server" }),
+		vim.log.levels.DEBUG)
+end
+vim.lsp.config["copilot"] = {
+	cmd = { "copilot-language-server", "--stdio" },
+	capabilities = capabilities,
+	root_markers = { ".git" },
+	init_options = {
+		editorInfo = {
+			name = "neovim",
+			version = vim.version().major .. "." .. vim.version().minor .. "." .. vim.version().patch,
+		},
+		editorPluginInfo = {
+			name = "copilot-lsp",
+			version = "0.1.0",
+		},
+	},
+	settings = {},
+}
+vim.lsp.enable("copilot")
+
+vim.api.nvim_create_autocmd('LspAttach', {
+	callback = function(args)
+		local bufnr = args.buf
+		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+
+		if client.name == "copilot" or client:supports_method(vim.lsp.protocol.Methods.textDocument_inlineCompletion, bufnr) then
+			vim.lsp.inline_completion.enable(true, { bufnr = bufnr })
+
+			vim.keymap.set(const.key.mode.insert, '<C-J>',
+				vim.lsp.inline_completion.get,
+				{ desc = 'LSP: accept inline completion', buffer = bufnr }
+			)
+			vim.keymap.set(const.key.mode.insert, '<C-L>',
+				vim.lsp.inline_completion.select,
+				{ desc = 'LSP: switch inline completion', buffer = bufnr }
+			)
+		end
+	end
+})

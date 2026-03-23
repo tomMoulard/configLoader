@@ -98,5 +98,26 @@ end
 vim.api.nvim_create_user_command("Update", Update, {})
 -- }}}
 
+-- Diagnostic status for statusline {{{
+function DiagnosticStatus()
+	local counts = vim.diagnostic.count(0)
+	local parts = {}
+	if (counts[vim.diagnostic.severity.ERROR] or 0) > 0 then
+		table.insert(parts, "E:" .. counts[vim.diagnostic.severity.ERROR])
+	end
+	if (counts[vim.diagnostic.severity.WARN] or 0) > 0 then
+		table.insert(parts, "W:" .. counts[vim.diagnostic.severity.WARN])
+	end
+	if (counts[vim.diagnostic.severity.INFO] or 0) > 0 then
+		table.insert(parts, "I:" .. counts[vim.diagnostic.severity.INFO])
+	end
+	if (counts[vim.diagnostic.severity.HINT] or 0) > 0 then
+		table.insert(parts, "H:" .. counts[vim.diagnostic.severity.HINT])
+	end
+	if #parts == 0 then return "" end
+	return "[" .. table.concat(parts, " ") .. "] "
+end
+-- }}}
+
 return M
 -- vim: foldmethod=marker
