@@ -2,13 +2,13 @@
 if not pcall(require, "nvim-treesitter") then return end
 
 require("nvim-treesitter").setup({
-    install_dir = vim.fn.stdpath('data') .. '/site',
+	install_dir = vim.fn.stdpath('data') .. '/site',
 })
 -- Install parsers (async, no-op if already installed)
 require("nvim-treesitter").install({
-    "dockerfile", "go", "html", "javascript", "java",
-    "json", "latex", "lua", "make", "markdown",
-    "markdown_inline", "rust", "scss", "toml", "vim", "yaml",
+	"dockerfile", "go", "html", "javascript", "java",
+	"json", "latex", "lua", "make", "markdown",
+	"markdown_inline", "rust", "scss", "toml", "vim", "yaml",
 })
 
 -- Enable treesitter-based syntax highlighting for every buffer.
@@ -16,9 +16,9 @@ require("nvim-treesitter").install({
 -- is now done via the built-in vim.treesitter API. Telescope's preview does
 -- this automatically, which is why it showed more colours than the editor.
 vim.api.nvim_create_autocmd("FileType", {
-    callback = function(args)
-        pcall(vim.treesitter.start, args.buf)
-    end,
+	callback = function(args)
+		pcall(vim.treesitter.start, args.buf)
+	end,
 })
 
 vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
@@ -26,10 +26,10 @@ vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 if not pcall(require, "treesitter-context") then return end
 
 require("treesitter-context").setup({
-	enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
-	max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+	enable = true,       -- Enable this plugin (Can be enabled/disabled later via commands)
+	max_lines = 0,       -- How many lines the window should span. Values <= 0 mean no limit.
 	trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
-	patterns = { -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
+	patterns = {         -- Match patterns for TS nodes. These get wrapped to match at word boundaries.
 		-- For all filetypes
 		-- Note that setting an entry here replaces all other patterns for this entry.
 		-- By setting the 'default' entry below, you can control which nodes you want to
@@ -60,6 +60,6 @@ require("treesitter-context").setup({
 	-- [!] The options below are exposed but shouldn't require your attention,
 	--     you can safely ignore them.
 
-	zindex = 20, -- The Z-index of the context window
+	zindex = 20,    -- The Z-index of the context window
 	mode = 'cursor', -- Line used to calculate context. Choices: 'cursor', 'topline'
 })

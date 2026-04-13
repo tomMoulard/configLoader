@@ -402,7 +402,8 @@ if (vim.fn.executable("terraform-ls") == 0) then
 end
 vim.lsp.config["terraformls"] = {
 	cmd = { "terraform-ls", "serve" },
-	filetypes = { "terraform", "tf", "tfvars" },
+	filetypes = { "terraform", "tf", "tfvars", "terraform-vars" },
+	root_markers = { ".terraform", ".git" },
 	capabilities = capabilities,
 	init_options = {
 		ignoreSingleFileWarning = true,
