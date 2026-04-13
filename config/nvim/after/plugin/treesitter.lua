@@ -18,10 +18,18 @@ require("nvim-treesitter").install({
 vim.api.nvim_create_autocmd("FileType", {
 	callback = function(args)
 		pcall(vim.treesitter.start, args.buf)
+
+		-- Indentation still comes from nvim-treesitter, but the legacy
+		-- `nvim-treesitter.configs` module was removed in the rewrite.
+		vim.bo[args.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
+		vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+		vim.wo.foldmethod = "expr"
 	end,
 })
 
-vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+-- Injections are now handled by Neovim's built-in tree-sitter runtime.
+-- No extra setup is needed here for embedded bash in GitHub Actions YAML.
 
 if not pcall(require, "treesitter-context") then return end
 
