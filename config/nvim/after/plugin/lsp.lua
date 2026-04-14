@@ -270,7 +270,7 @@ end
 
 vim.lsp.config["eslint"] = {
 	cmd = { "vscode-eslint-language-server", "--stdio" },
-	filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte" },
+	filetypes = { "javascript", "javascriptreact", "mdx", "typescript", "typescriptreact", "vue", "svelte" },
 	capabilities = capabilities,
 	on_attach = function(client, bufnr)
 		vim.api.nvim_create_autocmd("BufWritePre", {
@@ -306,6 +306,34 @@ vim.lsp.config["ts_ls"] = {
 }
 vim.lsp.enable("ts_ls")
 
+-- MDX language server configuration
+-- https://github.com/mdx-js/mdx-analyzer
+if (vim.fn.executable("mdx-language-server") == 0) then
+	vim.notify("Installing mdx-language-server", vim.log.levels.INFO)
+	vim.notify(
+		vim.fn.system({ "npm", "install", "--global", "@mdx-js/language-server" }),
+		vim.log.levels.DEBUG)
+end
+local function get_tsdk()
+	-- Prefer workspace-local TypeScript
+	local local_tsdk = vim.fn.getcwd() .. "/node_modules/typescript/lib"
+	if vim.uv.fs_stat(local_tsdk) then return local_tsdk end
+	-- Fall back to the global npm root (where tsc lives)
+	local global_root = vim.trim(vim.fn.system({ "npm", "root", "--global" }))
+	return global_root .. "/typescript/lib"
+end
+vim.lsp.config["mdx_analyzer"] = {
+	cmd = { "mdx-language-server", "--stdio" },
+	filetypes = { "mdx" },
+	capabilities = capabilities,
+	init_options = {
+		typescript = {
+			tsdk = get_tsdk(),
+		},
+	},
+}
+vim.lsp.enable("mdx_analyzer")
+
 -- TailwindCSS language server configuration
 if (vim.fn.executable("tailwindcss-language-server") == 0) then
 	vim.notify("Installing tailwindcss", vim.log.levels.INFO)
@@ -315,7 +343,7 @@ if (vim.fn.executable("tailwindcss-language-server") == 0) then
 end
 vim.lsp.config["tailwindcss"] = {
 	cmd = { "tailwindcss-language-server", "--stdio" },
-	filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte" },
+	filetypes = { "html", "css", "scss", "javascript", "javascriptreact", "mdx", "typescript", "typescriptreact", "vue", "svelte" },
 	capabilities = capabilities,
 }
 vim.lsp.enable("tailwindcss")

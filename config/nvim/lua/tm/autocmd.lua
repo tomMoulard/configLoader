@@ -84,6 +84,11 @@ vim.api.nvim_create_autocmd(event.BufEnter, {
     pattern = "*.mod",
     command = "set filetype=gomod"
 })
+
+vim.api.nvim_create_autocmd({event.BufEnter, event.BufNewFile}, {
+    pattern = "*.mdx",
+    command = "set filetype=mdx"
+})
 -- }}}
 
 -- vim: fdm=marker

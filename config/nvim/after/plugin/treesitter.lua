@@ -11,6 +11,9 @@ require("nvim-treesitter").install({
 	"markdown_inline", "rust", "scss", "toml", "vim", "yaml",
 })
 
+-- MDX is a Markdown superset; reuse the markdown parser for highlighting.
+vim.treesitter.language.register("markdown", "mdx")
+
 -- Enable treesitter-based syntax highlighting for every buffer.
 -- The new nvim-treesitter API no longer has a "highlight" module; highlighting
 -- is now done via the built-in vim.treesitter API. Telescope's preview does
