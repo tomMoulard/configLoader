@@ -52,6 +52,7 @@
 	tool = vimdiff
 [core]
 	excludesfile = /Users/tommoulard/workspace/configLoader/gitignore
+	hooksPath = /Users/tommoulard/workspace/configLoader/githooks
 [init]
 	defaultBranch = main
 [blame]

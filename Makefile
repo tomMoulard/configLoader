@@ -7,7 +7,8 @@ test:
 	shellcheck -e  SC1073,SC1072,SC1009 install.sh
 	shellcheck -x -e SC2034,SC1090,SC1091 bashrc
 	shellcheck demo/entrypoint.sh
-	shfmt -l -d bash* *.sh **/*.sh
+	shellcheck githooks/post-commit
+	shfmt -l -d bash* *.sh **/*.sh githooks/post-commit
 
 
 BIN = docker-compose -f demo/docker-compose.yml

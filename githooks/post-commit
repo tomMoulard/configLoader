@@ -1,0 +1,70 @@
+#!/bin/bash
+
+# Remove Co-authored-by trailers after Git creates a commit.
+#
+# This intentionally runs post-commit so tools may write their default commit
+# message first, then the hook rewrites only the commit message. The amend uses
+# --only so any staged-but-uncommitted changes stay out of the amended commit.
+
+if [[ "${CONFIGLOADER_STRIP_COAUTHORS_RUNNING:-}" == "1" ]]; then
+	exit 0
+fi
+
+original_message="$(mktemp "${TMPDIR:-/tmp}/configloader-post-commit-original.XXXXXX")" || exit 0
+filtered_message="$(mktemp "${TMPDIR:-/tmp}/configloader-post-commit-filtered.XXXXXX")" || {
+	rm -f "${original_message}"
+	exit 0
+}
+
+function cleanup() {
+	rm -f "${original_message}" "${filtered_message}"
+}
+trap cleanup EXIT
+
+git log -1 --format=%B >"${original_message}" || exit 0
+
+if ! grep -Eiq '^[[:space:]]*co-authored-by:[[:space:]]*' "${original_message}"; then
+	exit 0
+fi
+
+awk '
+	tolower($0) ~ /^[[:space:]]*co-authored-by:[[:space:]]*/ {
+		removed = 1
+		next
+	}
+	{
+		lines[++line_count] = $0
+	}
+	END {
+		while (line_count > 0 && lines[line_count] ~ /^[[:space:]]*$/) {
+			line_count--
+		}
+		for (line_number = 1; line_number <= line_count; line_number++) {
+			print lines[line_number]
+		}
+		if (!removed || line_count == 0) {
+			exit 1
+		}
+	}
+' "${original_message}" >"${filtered_message}" || {
+	echo "post-commit: skipped removing Co-authored-by trailers; filtered message was empty" >&2
+	exit 0
+}
+
+if cmp -s "${original_message}" "${filtered_message}"; then
+	exit 0
+fi
+
+if ! CONFIGLOADER_STRIP_COAUTHORS_RUNNING=1 git commit \
+	--amend \
+	--only \
+	--no-verify \
+	--cleanup=verbatim \
+	-F "${filtered_message}" >/dev/null; then
+	echo "post-commit: failed to remove Co-authored-by trailers; commit was left unchanged" >&2
+	exit 0
+fi
+
+echo "post-commit: removed Co-authored-by trailers from the commit message" >&2
+
+# vim:ft=bash
