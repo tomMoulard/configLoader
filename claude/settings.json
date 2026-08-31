@@ -5,12 +5,6 @@
   },
   "permissions": {
     "allow": [
-      "mcp__claude_ai_Honeycomb__find_columns",
-      "mcp__claude_ai_Honeycomb__get_environment",
-      "mcp__claude_ai_Honeycomb__get_span_details",
-      "mcp__claude_ai_Honeycomb__get_trace",
-      "mcp__claude_ai_Honeycomb__get_workspace_context",
-      "mcp__claude_ai_Honeycomb__run_query",
       "mcp__claude_ai_Linear__get_issue",
       "Bash(curl *)",
       "Bash(echo *)",
