@@ -1,0 +1,130 @@
+{
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "permissions": {
+    "allow": [
+      "mcp__claude_ai_Honeycomb__find_columns",
+      "mcp__claude_ai_Honeycomb__get_environment",
+      "mcp__claude_ai_Honeycomb__get_span_details",
+      "mcp__claude_ai_Honeycomb__get_trace",
+      "mcp__claude_ai_Honeycomb__get_workspace_context",
+      "mcp__claude_ai_Honeycomb__run_query",
+      "mcp__claude_ai_Linear__get_issue",
+      "Bash(curl *)",
+      "Bash(echo *)",
+      "Bash(find *)",
+      "Bash(gcloud *)",
+      "Bash(gh *)",
+      "Bash(git *)",
+      "Bash(go *)",
+      "Bash(grep *)",
+      "Bash(kubectl *)",
+      "Bash(make *)",
+      "Bash(python3 *)",
+      "Bash(sort *)",
+      "Bash(terraform fmt *)",
+      "Bash(terraform init *)",
+      "Bash(terraform plan *)",
+      "Bash(wait *)",
+      "Read(//Users/tommoulard/go/pkg/mod/github.com/synthflowai/**)",
+      "Read(//tmp/**)"
+    ]
+  },
+  "model": "opus[1m]",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "gh plugin-rm-generated-by claude-hook"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/tommoulard/.claude/hooks/go-post-edit.sh",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "WorktreeCreate": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/tommoulard/.claude/hooks/wt-worktree-create.sh"
+          }
+        ]
+      }
+    ],
+    "WorktreeRemove": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/tommoulard/.claude/hooks/wt-worktree-remove.sh"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/tommoulard/.claude/hooks/session-start-context.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash /Users/tommoulard/.claude/hooks/bash-secret-guard.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "bash /Users/tommoulard/.claude/statusline-command.sh"
+  },
+  "enabledPlugins": {
+    "gopls-lsp@claude-plugins-official": true,
+    "code-review@claude-plugins-official": true,
+    "code-simplifier@claude-plugins-official": true,
+    "skill-creator@claude-plugins-official": true,
+    "coderabbit@claude-plugins-official": true,
+    "typescript-lsp@claude-plugins-official": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
+  },
+  "effortLevel": "xhigh",
+  "tui": "default",
+  "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "theme": "dark-ansi",
+  "mcpServers": {
+    "dash0": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://api.europe-west4.gcp.dash0.com/mcp"
+      ]
+    }
+  }
+}

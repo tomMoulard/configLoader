@@ -157,4 +157,7 @@ git config --global core.hooksPath "${PWD}/githooks"
 # opencode
 createLink opencode -d "${HOME}/.config/opencode"
 
+# claude
+createLink claude -d "${HOME}/.claude"
+
 # vim: noet
