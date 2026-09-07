@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>dev.tommoulard.pr-bot</string>
+
+  <!-- brew bash 5.x: the script is 3.2-safe, but 5.x is what it is tested on -->
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/bash</string>
+    <string>/Users/tommoulard/.claude/scripts/pr-bot.sh</string>
+  </array>
+
+  <!--
+    Replaces dev.tommoulard.pr-sweep AND dev.tommoulard.ci-red-watch.  Install:
+
+      launchctl bootout  gui/$UID/dev.tommoulard.pr-sweep
+      launchctl bootout  gui/$UID/dev.tommoulard.ci-red-watch
+      rm ~/Library/LaunchAgents/dev.tommoulard.{pr-sweep,ci-red-watch}.plist
+      cp ~/.claude/scripts/dev.tommoulard.pr-bot.plist ~/Library/LaunchAgents/
+      launchctl bootstrap gui/$UID ~/Library/LaunchAgents/dev.tommoulard.pr-bot.plist
+
+    One interval, not two schedules: the CI half wants to run often, and the
+    rebase half -- which force-pushes, and so cancels and re-runs a whole
+    workflow every time -- opens only in the windows in $REBASE_WINDOWS inside
+    the script (09:00 and 15:00).  Putting the window in the script rather than
+    in a StartCalendarInterval is what lets a window survive a tick that never
+    ran: the machine was asleep, or the previous tick still held the lock through
+    a 45-minute fix session.  launchd would simply have dropped that sweep.
+  -->
+  <key>StartInterval</key>
+  <integer>1800</integer>
+
+  <!-- no burst at login; the first tick comes 30 minutes after load -->
+  <key>RunAtLoad</key>
+  <false/>
+
+  <key>StandardOutPath</key>
+  <string>/Users/tommoulard/.claude/logs/pr-bot/launchd.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/tommoulard/.claude/logs/pr-bot/launchd.err.log</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>HOME</key><string>/Users/tommoulard</string>
+    <key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/Users/tommoulard/.cargo/bin:/Users/tommoulard/.local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+  </dict>
+
+  <key>ProcessType</key>
+  <string>Background</string>
+</dict>
+</plist>
